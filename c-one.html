@@ -163,10 +163,14 @@ html:not(.js) .slide{position:relative;visibility:visible;padding-inline:0;margi
 .lens[hidden]{display:none}
 
 .databand{position:relative;height:280svh;border-bottom:1px solid var(--line)}
-/* su touch lo scroll inerziale divora i quadri: piu' pista per ciascuno, stesso teatro */
+/* su touch lo scroll inerziale divora i quadri: piu' pista per ciascuno, stesso teatro,
+   e il cambio di quadro avviene in dissolvenza invece che di scatto */
 @media(pointer:coarse){
-  .hero{height:480svh}
-  .databand{height:420svh}
+  .hero{height:520svh}
+  .databand{height:460svh}
+  .slide{visibility:visible;opacity:0;transition:opacity .55s ease;pointer-events:none}
+  .slide.on{opacity:1;pointer-events:auto}
+  .datum{transition:opacity .7s ease,transform 1.05s cubic-bezier(.16,1,.3,1)}
 }
 .dstage{position:sticky;top:0;min-height:100svh;display:flex;flex-direction:column;
   justify-content:center;padding-block:clamp(86px,13vh,150px) clamp(34px,6vh,80px);overflow:hidden}
@@ -1108,7 +1112,7 @@ document.documentElement.classList.add('js');
     var i = Math.floor(prog * slides.length);
     if(i === cur) return;
     if(coarse){
-      var wait = 300 - (performance.now() - swHero);
+      var wait = 550 - (performance.now() - swHero);
       if(wait > 0){ clearTimeout(swHeroT); swHeroT = setTimeout(paint, wait); return; }
       swHero = performance.now();
     }
