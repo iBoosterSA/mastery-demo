@@ -110,14 +110,30 @@ section[id]{scroll-margin-top:clamp(60px,8vh,96px)}
 .ticks{display:flex;gap:12px;align-items:center}
 .ticks button{width:44px;height:2px;background:currentColor;opacity:.28;transition:opacity .45s}
 .ticks button[aria-current="true"]{opacity:1}
+/* posizione nella sequenza + invito a scorrere: i segnali che raccontano il nastro */
+.conta{font-size:var(--t-micro);letter-spacing:.13em;font-variant-numeric:tabular-nums;
+  white-space:nowrap;opacity:.9;margin-left:8px}
+.conta i{font-style:normal;opacity:.45;margin-inline:.3em}
+.conta b{font-weight:600}
+.scrollhint{position:absolute;left:50%;bottom:clamp(10px,1.8vh,22px);transform:translateX(-50%);
+  display:grid;justify-items:center;gap:7px;font-size:var(--t-micro);letter-spacing:.16em;
+  text-transform:uppercase;opacity:.85;transition:opacity .5s ease;pointer-events:none}
+.scrollhint .arw{display:block;width:11px;height:11px;border-right:2px solid currentColor;
+  border-bottom:2px solid currentColor;transform:rotate(45deg);animation:hintnudge 2.6s ease-in-out infinite}
+.scrollhint.via{opacity:0}
+@keyframes hintnudge{0%,100%{translate:0 0}50%{translate:0 7px}}
 .stage{position:relative;flex:1;min-height:0;margin-block:clamp(20px,4vh,48px)}
 .slide{position:absolute;inset:0;display:flex;align-items:center;padding-inline:var(--gutter);
-  visibility:hidden;pointer-events:none}
-.slide.on{visibility:visible;pointer-events:auto}
+  visibility:hidden;pointer-events:none;transform:translateX(106%);
+  transition:transform .85s cubic-bezier(.22,.61,.36,1),visibility 0s .85s}
+.slide.past{transform:translateX(-106%)}
+.slide.on{visibility:visible;pointer-events:auto;transform:none;transition-delay:0s}
 .claim{font-size:var(--t-claim);margin-left:-.05em;line-height:.94}
 .claim.short{font-size:var(--t-claim-short);line-height:.9}
 .slide .mask > span{transform:translateY(108%)}
 .slide.on .mask > span{transform:translateY(0)}
+/* dopo la prima rivelazione i testi sono di scena: si muove il nastro, non le righe */
+.js .hero.rodato .slide .mask > span,.js .hero.rodato .slide .words .w > i{transform:none;transition:none}
 .hero-foot{display:grid;gap:clamp(16px,2.6vw,36px);padding-top:clamp(20px,3vh,38px);
   border-top:1px solid var(--line-inv)}
 @media(min-width:960px){
@@ -125,11 +141,16 @@ section[id]{scroll-margin-top:clamp(60px,8vh,96px)}
   .hero-foot .cta{justify-self:end}
 }
 .leads{position:relative;min-height:calc(var(--t-body) * 6)}
-.leadtext{position:absolute;inset:0;max-width:52ch;font-size:var(--t-lead);line-height:1.34;opacity:0;transform:translateY(22px);
-  transition:opacity .6s ease,transform .8s cubic-bezier(.16,1,.3,1)}
-.leadtext.on{opacity:1;transform:none;position:relative;transition-delay:.28s}
+.leadtext{position:absolute;inset:0;max-width:52ch;font-size:var(--t-lead);line-height:1.34;
+  visibility:hidden;transform:translateX(106%);
+  transition:transform .85s cubic-bezier(.22,.61,.36,1),visibility 0s .85s}
+.leadtext.past{transform:translateX(-106%)}
+.leadtext.on{visibility:visible;transform:none;position:relative;transition-delay:0s}
+.js .hero:not(.rodato) .leadtext.on{animation:leadin .7s ease .35s backwards}
+@keyframes leadin{from{opacity:0;transform:translateY(18px)}}
 html:not(.js) .hero{height:auto}
-html:not(.js) .slide{position:relative;visibility:visible;padding-inline:0;margin-bottom:40px}
+html:not(.js) .slide{position:relative;visibility:visible;padding-inline:0;margin-bottom:40px;transform:none;transition:none}
+html:not(.js) .leadtext{position:relative;visibility:visible;transform:none;transition:none}
 
 /* ---------- per chi ---------- */
 .claimbig{font-size:var(--t-h2);line-height:.94}
@@ -163,40 +184,22 @@ html:not(.js) .slide{position:relative;visibility:visible;padding-inline:0;margi
 .lens[hidden]{display:none}
 
 .databand{position:relative;height:280svh;border-bottom:1px solid var(--line)}
-/* su touch lo scroll inerziale divora i quadri: piu' pista per ciascuno, stesso teatro,
-   e il cambio di quadro avviene in dissolvenza invece che di scatto */
+/* su touch lo scroll inerziale divora i quadri: piu' pista per ciascuno; il nastro
+   (la spinta laterale) e' lo stesso del desktop, qui senza sipari iniziali */
 @media(pointer:coarse){
   .hero{height:520svh}
   .databand{height:460svh}
-  /* quadro uscente svelto, entrante lento */
-  .slide{visibility:visible;opacity:0;transition:opacity .6s ease;pointer-events:none}
-  .slide.on{opacity:1;pointer-events:auto;transition:opacity 1.1s cubic-bezier(.22,.61,.36,1)}
-  /* niente sipari a scatto ne' cascate per parola: dentro i quadri una cascata DOLCE
-     e sfalsata di dissolvenze (titolo, poi testo), con un micro scivolo morbido */
   .hero .mask > span{transform:none;transition:none}
   .hero .words .w > i{transform:none;transition:none}
-  .slide .claim{opacity:0;transform:translateY(14px);
-    transition:opacity .95s ease .12s,transform 1.15s cubic-bezier(.22,.61,.36,1) .12s}
-  .slide.on .claim{opacity:1;transform:none}
-  .leadtext{transform:translateY(10px);
-    transition:opacity .9s ease .3s,transform 1.05s cubic-bezier(.22,.61,.36,1) .3s}
-  .leadtext.on{transform:none}
-  .datum{transform:none;transition:opacity .8s ease}
-  .datum .eco{opacity:0;transform:translateY(10px);
-    transition:opacity .9s ease .1s,transform 1.05s cubic-bezier(.22,.61,.36,1) .1s}
-  .datum .fig{opacity:0;transform:translateY(12px);
-    transition:opacity .95s ease .22s,transform 1.1s cubic-bezier(.22,.61,.36,1) .22s}
-  .datum .under{opacity:0;transform:translateY(10px);
-    transition:opacity .9s ease .34s,transform 1.05s cubic-bezier(.22,.61,.36,1) .34s}
-  .datum.on .eco,.datum.on .fig,.datum.on .under{opacity:1;transform:none}
 }
 .dstage{position:sticky;top:0;min-height:100svh;display:flex;flex-direction:column;
   justify-content:center;padding-block:clamp(86px,13vh,150px) clamp(34px,6vh,80px);overflow:hidden}
 .datawrap{position:relative;flex:1;min-height:0;display:flex;align-items:center}
 .datum{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;
-  opacity:0;transform:translateY(26px);pointer-events:none;
-  transition:opacity .5s ease,transform .85s cubic-bezier(.16,1,.3,1)}
-.datum.on{opacity:1;transform:none;pointer-events:auto}
+  visibility:hidden;pointer-events:none;transform:translateX(106%);
+  transition:transform .85s cubic-bezier(.22,.61,.36,1),visibility 0s .85s}
+.datum.past{transform:translateX(-106%)}
+.datum.on{visibility:visible;transform:none;pointer-events:auto;transition-delay:0s}
 .datum[hidden]{display:flex}
 .datum .eco{font-family:var(--display);text-transform:uppercase;color:var(--klein);font-size:var(--t-h3);
   line-height:.98;max-width:22ch;margin-bottom:clamp(8px,1.6vh,20px)}
@@ -208,7 +211,7 @@ html:not(.js) .slide{position:relative;visibility:visible;padding-inline:0;margi
 @media(min-width:960px){.datum .under{grid-template-columns:7fr 5fr;align-items:start}}
 .datum .src{font-size:var(--t-micro);letter-spacing:.13em;text-transform:uppercase;color:var(--klein);opacity:.8}
 .datum p{max-width:52ch}
-.data-ticks{display:flex;gap:10px;margin-top:clamp(20px,3vw,36px)}
+.data-ticks{display:flex;gap:10px;align-items:center;margin-top:clamp(20px,3vw,36px)}
 .data-ticks button{width:38px;height:2px;background:var(--ink);opacity:.2;transition:opacity .35s}
 .data-ticks button[aria-current="true"]{opacity:1;background:var(--klein)}
 
@@ -482,7 +485,7 @@ html:not(.js) .hero.interna{height:auto}
 
 @media(prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
-  *,*::before,*::after{transition-duration:.01ms!important;animation:none!important}
+  *,*::before,*::after{transition-duration:.01ms!important;transition-delay:0s!important;animation:none!important}
   .js .mask > span{transform:none}
   .js .up{opacity:1;transform:none}
 }
@@ -1124,6 +1127,22 @@ document.documentElement.classList.add('js');
   var ticks = [].slice.call(document.querySelectorAll('.hero .ticks button'));
   var cur = 0, ticking = false, userMoved = reduce, autoDone = false, idle = null;
 
+  /* i segnali del nastro: contatore di posizione e invito a scorrere */
+  var conta = null, hint = null;
+  if(hero && ticks.length){
+    conta = document.createElement('span');
+    conta.className = 'conta'; conta.setAttribute('aria-hidden','true');
+    conta.innerHTML = '<b>01</b><i>/</i>0' + slides.length;
+    ticks[0].parentNode.appendChild(conta);
+  }
+  if(hero && slides.length > 1){
+    hint = document.createElement('div');
+    hint.className = 'scrollhint'; hint.setAttribute('aria-hidden','true');
+    hint.innerHTML = '<span class="parola">Scorri</span><span class="arw"></span>';
+    (hero.querySelector('.hero-stage') || hero).appendChild(hint);
+  }
+  if(hero) setTimeout(function(){ hero.classList.add('rodato'); }, 1600); /* a sipario finito i testi restano di scena */
+
   function step(){ return (hero.offsetHeight - innerHeight) / slides.length; }
 
   var swHero = 0, swHeroT = null; /* smorzatore touch: mai due scatti ravvicinati */
@@ -1145,11 +1164,17 @@ document.documentElement.classList.add('js');
       swHero = performance.now();
     }
     cur = i;
-    slides.forEach(function(sl,k){ sl.classList.toggle('on', k === i); sl.setAttribute('aria-hidden', k === i ? 'false' : 'true'); });
-    leads.forEach(function(l,k){ l.classList.toggle('on', k === i); });
+    hero.classList.add('rodato'); /* dal primo cambio in poi si muove il nastro, non le righe */
+    if(hint){ hint.classList.add('via'); hint = null; }
+    slides.forEach(function(sl,k){ sl.classList.toggle('on', k === i); sl.classList.toggle('past', k < i); sl.setAttribute('aria-hidden', k === i ? 'false' : 'true'); });
+    leads.forEach(function(l,k){ l.classList.toggle('on', k === i); l.classList.toggle('past', k < i); });
     ticks.forEach(function(t,k){ t.setAttribute('aria-current', k === i ? 'true' : 'false'); });
+    if(conta) conta.firstChild.textContent = '0' + (i + 1);
   }
-  addEventListener('scroll', function(){ if(!ticking){ ticking = true; requestAnimationFrame(paint); } },{passive:true});
+  addEventListener('scroll', function(){
+    if(hint && scrollY > 60){ hint.classList.add('via'); hint = null; }
+    if(!ticking){ ticking = true; requestAnimationFrame(paint); }
+  },{passive:true});
   addEventListener('resize', paint);
   paint();
 
