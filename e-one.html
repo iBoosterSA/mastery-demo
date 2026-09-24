@@ -623,6 +623,12 @@ document.documentElement.classList.add('js');
 (function(){
   var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
   var coarse = matchMedia('(pointer: coarse)').matches; /* touch: cambio quadro smorzato */
+  var touchDown = false; /* la calamita agisce solo a dito alzato */
+  if(coarse){
+    ['touchstart','touchend','touchcancel'].forEach(function(ev){
+      addEventListener(ev, function(e){ touchDown = e.touches.length > 0; }, {passive:true});
+    });
+  }
 
   if('IntersectionObserver' in window){
     var io = new IntersectionObserver(function(es){
@@ -656,6 +662,10 @@ document.documentElement.classList.add('js');
     var prog = span > 0 ? (-hero.getBoundingClientRect().top) / span : 0;
     prog = Math.max(0, Math.min(.9999, prog));
     var i = Math.floor(prog * slides.length);
+    if(coarse && i !== cur){ /* isteresi: lo sfioramento al confine non cambia quadro */
+      var z = 1 / slides.length, m = z * .18;
+      if(prog > cur * z - m && prog < (cur + 1) * z + m) i = cur;
+    }
     if(i === cur) return;
     if(coarse){
       var wait = 800 - (performance.now() - swHero);
@@ -671,9 +681,28 @@ document.documentElement.classList.add('js');
   addEventListener('resize', paint);
   paint();
 
+  if(coarse && !reduce && hero){ /* calamita morbida: a inerzia finita la posizione si assesta al centro del quadro (invisibile: il quadro e' sticky) */
+    var mgHeroT = null;
+    addEventListener('scroll', function(){
+      clearTimeout(mgHeroT);
+      mgHeroT = setTimeout(function(){
+        if(touchDown) return;
+        var span = hero.offsetHeight - innerHeight;
+        if(span <= 0) return;
+        var top = hero.getBoundingClientRect().top;
+        var prog = -top / span;
+        if(prog < .02 || prog > .98) return;
+        var n = slides.length, i = Math.floor(prog * n), z = 1 / n, m = z * .18;
+        if(i !== cur && prog > cur * z - m && prog < (cur + 1) * z + m) i = cur;
+        var ideal = (i + .5) * z * span;
+        if(Math.abs(-top - ideal) > 30) window.scrollTo({top: scrollY + top + ideal, behavior:'smooth'});
+      }, 340);
+    }, {passive:true});
+  }
+
   function goTo(i){
     if(!hero) return;
-    var top = hero.offsetTop + Math.min(i * step() + 4, hero.offsetHeight - innerHeight);
+    var top = hero.offsetTop + Math.min(i * step() + step() * .5, hero.offsetHeight - innerHeight); /* centro zona: fuori dal margine dell'isteresi */
     window.scrollTo({top:top, behavior: reduce ? 'auto' : 'smooth'});
   }
   ticks.forEach(function(b,i){
@@ -749,6 +778,10 @@ document.documentElement.classList.add('js');
       var prog = span > 0 ? (-band.getBoundingClientRect().top) / span : 0;
       prog = Math.max(0, Math.min(.9999, prog));
       var i = Math.floor(prog * data.length);
+      if(coarse && i !== cur){ /* isteresi: lo sfioramento al confine non cambia quadro */
+        var z = 1 / data.length, m = z * .18;
+        if(prog > cur * z - m && prog < (cur + 1) * z + m) i = cur;
+      }
       if(i === cur) return;
       if(coarse){
         var wait = 800 - (performance.now() - swBand);
@@ -761,10 +794,29 @@ document.documentElement.classList.add('js');
     addEventListener('resize', paint);
     paint();
 
+    if(coarse && !reduce){ /* calamita morbida: come per l'apertura */
+      var mgBandT = null;
+      addEventListener('scroll', function(){
+        clearTimeout(mgBandT);
+        mgBandT = setTimeout(function(){
+          if(touchDown) return;
+          var span = band.offsetHeight - innerHeight;
+          if(span <= 0 || !band.offsetHeight) return;
+          var top = band.getBoundingClientRect().top;
+          var prog = -top / span;
+          if(prog < .02 || prog > .98) return;
+          var n = data.length, i = Math.floor(prog * n), z = 1 / n, m = z * .18;
+          if(i !== cur && prog > cur * z - m && prog < (cur + 1) * z + m) i = cur;
+          var ideal = (i + .5) * z * span;
+          if(Math.abs(-top - ideal) > 30) window.scrollTo({top: scrollY + top + ideal, behavior:'smooth'});
+        }, 340);
+      }, {passive:true});
+    }
+
     function goTo(i){
       var stepH = (band.offsetHeight - innerHeight) / data.length;
       var top = band.getBoundingClientRect().top + scrollY +
-                Math.min(i * stepH + 4, band.offsetHeight - innerHeight);
+                Math.min(i * stepH + stepH * .5, band.offsetHeight - innerHeight); /* centro zona: fuori dal margine dell'isteresi */
       window.scrollTo({top:top, behavior: reduce ? 'auto' : 'smooth'});
     }
     dt.forEach(function(b,i){
