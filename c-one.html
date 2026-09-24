@@ -1,0 +1,1339 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mastery CLC. · C-One, il percorso che misura e allena il vertice</title>
+<meta name="description" content="C-One, il percorso Mastery per i gruppi dirigenti: misura chi guida, legge il vertice come sistema e lo allena a trasformare le decisioni in esecuzione.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
+<style>
+:root{
+  --klein:#002FA7;
+  --ink:#0E0E0E;
+  --paper:#F7F6F3;
+  --white:#FFFFFF;
+
+  --t-micro:clamp(.8125rem,.75rem + .32vw,1.0625rem);
+  --t-body:clamp(1.0625rem,1rem + .4vw,1.375rem);
+  --t-lead:clamp(1.1875rem,1.05rem + .75vw,1.875rem);
+  --t-h4:clamp(1.375rem,1.1rem + 1.3vw,2.25rem);
+  --t-h3:clamp(1.75rem,1.2rem + 2.8vw,3.75rem);
+  --t-h2:clamp(2.5rem,1.3rem + 6vw,7.5rem);
+  --t-claim:clamp(2.75rem,1.2rem + 7.8vw,9.5rem);
+  --t-claim-short:clamp(3.5rem,1rem + 12.5vw,16rem);
+
+  --gutter:clamp(22px,4.6vw,76px);
+  --max:1560px;
+  --display:"Anton","Haettenschweiler","Arial Narrow",sans-serif;
+  --text:"Helvetica Neue",Helvetica,"Inter",-apple-system,"Segoe UI",Arial,sans-serif;
+  --line:rgba(14,14,14,.15);
+  --line-inv:rgba(247,246,243,.24);
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+body{background:var(--paper);color:var(--ink);font-family:var(--text);
+  font-size:var(--t-body);line-height:1.55;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+::selection{background:var(--klein);color:var(--white)}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+h1,h2,h3,h4,.display{font-family:var(--display);font-weight:400;text-transform:uppercase;
+  line-height:.98;letter-spacing:-.005em}
+p{max-width:64ch}
+.wrap{width:100%;max-width:var(--max);margin-inline:auto;padding-inline:var(--gutter)}
+.section{padding-block:clamp(68px,10vw,150px)}
+section[id]{scroll-margin-top:clamp(60px,8vh,96px)}
+.label{font-size:var(--t-micro);text-transform:uppercase;letter-spacing:.13em;font-weight:500;
+  line-height:1.3;color:var(--klein)}
+.blue .label,.door.klein .label,.contact .label,.hero .label{color:currentColor;opacity:.85}
+.lead{font-size:var(--t-lead);line-height:1.38}
+.white{background:var(--white)}
+.blue{background:var(--klein);color:var(--paper)}
+.ink{background:var(--ink);color:var(--paper)}
+
+.skip{position:absolute;left:-9999px;top:0;background:var(--klein);color:var(--paper);
+  padding:12px 18px;z-index:200;font-size:var(--t-micro);letter-spacing:.14em;text-transform:uppercase}
+.skip:focus{left:var(--gutter);top:10px}
+:focus-visible{outline:2px solid currentColor;outline-offset:3px}
+
+/* ---------- testata ---------- */
+.nav{position:fixed;inset:0 0 auto 0;z-index:100;color:var(--paper);background:var(--klein);transition:color .45s ease,background-color .45s ease}
+.nav[data-theme="light"]{color:var(--ink);background:var(--paper)}
+.nav .bar{display:flex;align-items:center;justify-content:space-between;gap:20px;
+  padding-block:clamp(14px,1.8vw,22px)}
+.nav .brand{font-family:var(--display);font-size:clamp(1rem,.85rem + .6vw,1.5rem);letter-spacing:.09em}
+.nav ul{display:flex;align-items:center;gap:clamp(14px,2vw,30px);list-style:none}
+.nav a{font-size:clamp(.75rem,.7rem + .25vw,.9375rem);text-transform:uppercase;letter-spacing:.15em;
+  white-space:nowrap;border-bottom:1px solid transparent;padding-bottom:2px;transition:border-color .3s}
+.nav a:hover{border-bottom-color:currentColor}
+.nav .pill{border:1px solid currentColor;padding:7px 14px 8px;letter-spacing:.15em}
+.nav .pill:hover{background:var(--paper);color:var(--klein);border-color:var(--paper)}
+.nav[data-theme="light"] .pill:hover{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.nav[data-theme="dark"] .pill:hover{background:var(--paper);color:var(--klein);border-color:var(--paper)}
+/* sugli schermi stretti il menu tiene la sola pillola: le voci tornano da tablet in su
+   (la soluzione mobile definitiva e' del prossimo giro di design) */
+@media(max-width:640px){.nav ul li:not(:last-child){display:none}}
+
+/* ---------- maschere ---------- */
+/* aria sopra il clip: gli accenti delle maiuscole di Anton salgono a 1.1em (misurato) */
+.js .mask{display:block;overflow:hidden;padding-top:.26em;padding-bottom:.06em;margin-top:-.24em;margin-bottom:-.06em}
+.js .mask > span{display:block;transform:translateY(106%);
+  transition:transform .9s cubic-bezier(.16,1,.3,1)}
+.js .in .mask > span,.js .on .mask > span{transform:translateY(0)}
+.js .mask:nth-of-type(2) > span{transition-delay:.06s}
+.js .mask:nth-of-type(3) > span{transition-delay:.12s}
+.js .words .w{display:inline-block;overflow:hidden;vertical-align:top;
+  padding-top:.26em;margin-top:-.26em;padding-bottom:.04em;margin-bottom:-.04em}
+.js .words .w > i{display:inline-block;font-style:normal;transform:translateY(106%);
+  transition:transform .85s cubic-bezier(.16,1,.3,1);transition-delay:calc(var(--i) * 42ms)}
+.js .in .words .w > i{transform:translateY(0)}
+.js .up{opacity:0;transform:translateY(14px);
+  transition:opacity .75s ease .25s,transform .75s cubic-bezier(.16,1,.3,1) .25s}
+.js .in .up{opacity:1;transform:none}
+
+/* ---------- CTA ---------- */
+.cta{display:inline-flex;align-items:center;gap:.5em;font-family:var(--display);
+  text-transform:uppercase;font-size:clamp(1.125rem,.9rem + .9vw,1.875rem);letter-spacing:.02em;
+  border-bottom:2px solid currentColor;padding-bottom:4px}
+.cta .arw{display:inline-block;width:.44em;height:.44em;flex:none;
+  border-top:.085em solid currentColor;border-right:.085em solid currentColor;
+  transform:rotate(45deg);position:relative;top:-.03em;
+  transition:transform .45s cubic-bezier(.16,1,.3,1)}
+.cta:hover .arw{transform:rotate(45deg) translate(.16em,-.16em)}
+
+/* ---------- apertura: 3 schermate in sticky ---------- */
+.hero{position:relative;height:320svh;background:var(--klein);color:var(--paper)}
+.hero-stage{position:sticky;top:0;height:100svh;display:flex;flex-direction:column;
+  justify-content:space-between;padding-block:clamp(88px,13vh,160px) clamp(24px,4vh,52px);overflow:hidden}
+.hero .top{display:flex;align-items:baseline;justify-content:space-between;gap:24px;flex-wrap:wrap}
+.ticks{display:flex;gap:12px;align-items:center}
+.ticks button{width:44px;height:2px;background:currentColor;opacity:.28;transition:opacity .45s}
+.ticks button[aria-current="true"]{opacity:1}
+.stage{position:relative;flex:1;min-height:0;margin-block:clamp(20px,4vh,48px)}
+.slide{position:absolute;inset:0;display:flex;align-items:center;padding-inline:var(--gutter);
+  visibility:hidden;pointer-events:none}
+.slide.on{visibility:visible;pointer-events:auto}
+.claim{font-size:var(--t-claim);margin-left:-.05em;line-height:.94}
+.claim.short{font-size:var(--t-claim-short);line-height:.9}
+.slide .mask > span{transform:translateY(108%)}
+.slide.on .mask > span{transform:translateY(0)}
+.hero-foot{display:grid;gap:clamp(16px,2.6vw,36px);padding-top:clamp(20px,3vh,38px);
+  border-top:1px solid var(--line-inv)}
+@media(min-width:960px){
+  .hero-foot{grid-template-columns:7fr 4fr;align-items:end}
+  .hero-foot .cta{justify-self:end}
+}
+.leads{position:relative;min-height:calc(var(--t-body) * 6)}
+.leadtext{position:absolute;inset:0;max-width:52ch;font-size:var(--t-lead);line-height:1.34;opacity:0;transform:translateY(22px);
+  transition:opacity .6s ease,transform .8s cubic-bezier(.16,1,.3,1)}
+.leadtext.on{opacity:1;transform:none;position:relative;transition-delay:.28s}
+html:not(.js) .hero{height:auto}
+html:not(.js) .slide{position:relative;visibility:visible;padding-inline:0;margin-bottom:40px}
+
+/* ---------- per chi ---------- */
+.claimbig{font-size:var(--t-h2);line-height:.94}
+.door{min-height:min(84svh,760px);display:flex;flex-direction:column;justify-content:center;
+  gap:clamp(26px,5vh,72px);padding-block:clamp(56px,9vh,120px)}
+.door.klein{background:var(--klein);color:var(--paper)}
+.door.nero{background:var(--paper);color:var(--ink)}
+.door.nero .under{border-top-color:var(--line)}
+.door.nero .label{color:var(--klein)}
+.door .name{font-family:var(--display);text-transform:uppercase;line-height:.92;
+  font-size:clamp(3.75rem,17vw,15rem);letter-spacing:-.03em;margin-left:-.05em;
+  margin-top:clamp(14px,2.4vh,32px)}
+.door .under{display:grid;gap:clamp(18px,3vw,44px);padding-top:clamp(22px,3vh,40px);
+  border-top:1px solid var(--line-inv)}
+@media(min-width:960px){
+  .door .under{grid-template-columns:7fr 4fr;align-items:end}
+  .door .under .cta{justify-self:end}
+}
+.door .under p{max-width:58ch}
+
+/* ---------- perche ---------- */
+.lenses{display:grid;grid-template-columns:1fr;margin-top:clamp(24px,4vw,56px);
+  border-top:1px solid var(--line)}
+@media(min-width:800px){.lenses{grid-template-columns:1fr 1fr}}
+.lens-tab{font-family:var(--display);text-transform:uppercase;font-size:clamp(1.5rem,1rem + 2.6vw,3.25rem);
+  line-height:.94;padding:clamp(18px,2.6vw,38px) clamp(16px,2.2vw,32px);
+  border-bottom:1px solid var(--line);text-align:left;transition:background .45s ease,color .45s ease}
+.lens-tab[aria-selected="true"]{background:var(--klein);color:var(--paper)}
+.lens-tab:not([aria-selected="true"]){color:var(--klein)}
+.lens-tab:not([aria-selected="true"]):hover{background:rgba(0,47,167,.1)}
+.lens[hidden]{display:none}
+
+.databand{position:relative;height:280svh;border-bottom:1px solid var(--line)}
+.dstage{position:sticky;top:0;min-height:100svh;display:flex;flex-direction:column;
+  justify-content:center;padding-block:clamp(86px,13vh,150px) clamp(34px,6vh,80px);overflow:hidden}
+.datawrap{position:relative;flex:1;min-height:0;display:flex;align-items:center}
+.datum{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;
+  opacity:0;transform:translateY(26px);pointer-events:none;
+  transition:opacity .5s ease,transform .85s cubic-bezier(.16,1,.3,1)}
+.datum.on{opacity:1;transform:none;pointer-events:auto}
+.datum[hidden]{display:flex}
+.datum .eco{font-family:var(--display);text-transform:uppercase;color:var(--klein);font-size:var(--t-h3);
+  line-height:.98;max-width:22ch;margin-bottom:clamp(8px,1.6vh,20px)}
+.datum .fig{font-family:var(--display);font-size:clamp(4rem,16.5vw,14.5rem);line-height:.88;
+  color:var(--klein);letter-spacing:-.03em;display:block;margin-left:-.04em;
+  margin-block:clamp(10px,2vh,26px)}
+.datum .under{display:grid;gap:clamp(16px,3vw,48px);padding-top:clamp(18px,2.4vh,32px);
+  border-top:1px solid var(--line)}
+@media(min-width:960px){.datum .under{grid-template-columns:7fr 5fr;align-items:start}}
+.datum .src{font-size:var(--t-micro);letter-spacing:.13em;text-transform:uppercase;color:var(--klein);opacity:.8}
+.datum p{max-width:52ch}
+.data-ticks{display:flex;gap:10px;margin-top:clamp(20px,3vw,36px)}
+.data-ticks button{width:38px;height:2px;background:var(--ink);opacity:.2;transition:opacity .35s}
+.data-ticks button[aria-current="true"]{opacity:1;background:var(--klein)}
+
+.mirrors{background:var(--klein);color:var(--paper);margin-inline:calc(50% - 50vw);
+  padding-inline:calc(50vw - 50%)}
+.mirror{border-bottom:1px solid var(--line-inv);transition:background .45s ease}
+.mirror:first-child{border-top:1px solid var(--line-inv)}
+.mirror > button{width:100%;display:flex;align-items:center;gap:clamp(12px,2.6vw,44px);
+  text-align:left;padding:clamp(18px,2.6vw,38px) clamp(8px,1.6vw,22px)}
+.mirror .n{font-family:var(--display);font-size:clamp(1rem,.85rem + .6vw,1.5rem);
+  color:currentColor;opacity:.6;flex:none;letter-spacing:.05em;transition:opacity .45s}
+.mirror h3{flex:1;font-size:clamp(1.5rem,1rem + 2.6vw,3.25rem);line-height:.96}
+.mirror .plus{position:relative;flex:none;font-size:0;line-height:0;
+  width:clamp(20px,1.6vw,28px);height:clamp(20px,1.6vw,28px);align-self:center;
+  transition:transform .55s cubic-bezier(.16,1,.3,1)}
+.mirror .plus::before,.mirror .plus::after{content:"";position:absolute;left:0;right:0;top:50%;
+  height:2px;background:currentColor;transform:translateY(-50%)}
+.mirror .plus::after{transform:translateY(-50%) rotate(90deg)}
+.mirror .body{max-height:0;overflow:hidden;transition:max-height .6s cubic-bezier(.16,1,.3,1)}
+.mirror .body .inner{padding:0 clamp(8px,1.6vw,22px) clamp(28px,3.4vw,52px);
+  margin-left:clamp(0px,7vw,120px);max-width:70ch}
+.mirror .key{display:block;font-family:var(--display);text-transform:uppercase;
+  font-size:var(--t-h3);line-height:1.02;margin-top:clamp(18px,2.4vw,30px);color:var(--klein)}
+.mirror.open{background:var(--white);color:var(--klein)}
+.mirror.open .n{opacity:1}
+.mirror.open .plus{transform:rotate(45deg)}
+.mirror:not(.open):hover{background:rgba(247,246,243,.12)}
+
+.marquee{background:var(--klein);color:var(--paper);padding-block:clamp(14px,2vw,26px);
+  overflow:hidden;white-space:nowrap;border-block:1px solid var(--line-inv)}
+.marquee .track{display:inline-block;font-family:var(--display);text-transform:uppercase;
+  font-size:clamp(1.75rem,1rem + 3.4vw,4.5rem);line-height:1.1;will-change:transform}
+.marquee .track span{padding-inline:.5em}
+.marquee .track i{font-style:normal;opacity:.45}
+
+/* ---------- risultati ---------- */
+.voices{margin-top:clamp(28px,4vw,60px);border-top:1px solid var(--line)}
+@media(min-width:1000px){.voices{columns:2;column-gap:clamp(40px,5vw,96px);border-top:0}}
+/* nei pannelli a lente le voci sono tre: due a sinistra, una a destra, sempre */
+@media(min-width:1000px){.lens .voice:nth-child(2){break-after:column}}
+.voice{border-top:1px solid var(--line);padding-block:clamp(24px,3vw,42px);
+  break-inside:avoid;-webkit-column-break-inside:avoid}
+.voice h3{font-size:clamp(1.5rem,1.05rem + 2.1vw,2.875rem);line-height:1;max-width:20ch;color:var(--klein)}
+/* su qualunque fondo scuro le voci prendono il colore della sezione e il filo invertito */
+.blue .voice h3,.ink .voice h3,.contact .voice h3,.hero .voice h3{color:currentColor}
+.blue .voice,.ink .voice,.contact .voice,.hero .voice{border-color:var(--line-inv)}
+.voice .role{font-size:var(--t-micro);letter-spacing:.13em;text-transform:uppercase;
+  margin-top:14px;opacity:.65}
+.voice blockquote{margin-top:14px;max-width:52ch;opacity:.88}
+
+/* ---------- insights ---------- */
+.cards{margin-top:clamp(26px,4vw,56px);border-top:1px solid var(--line)}
+.card{border-bottom:1px solid var(--line);padding-block:clamp(26px,3.6vw,52px);
+  display:grid;gap:clamp(12px,2vw,26px)}
+@media(min-width:960px){.card{grid-template-columns:3fr 5fr 4fr;gap:clamp(24px,4vw,72px);align-items:baseline}}
+.card h3{font-size:clamp(1.5rem,1rem + 2.4vw,3rem);line-height:.98;max-width:18ch;color:var(--klein)}
+.card p{font-size:var(--t-body);opacity:.85;max-width:46ch}
+.card .tag{font-size:var(--t-micro);letter-spacing:.13em;text-transform:uppercase;color:var(--klein)}
+
+/* ---------- contatto ---------- */
+.contact{background:var(--klein);color:var(--paper);min-height:86svh;display:flex;
+  flex-direction:column;justify-content:center}
+.contact h2{font-size:var(--t-h2);max-width:24ch;line-height:.94;margin-block:clamp(14px,2vw,26px) clamp(20px,3vw,36px)}
+.contact .lead{max-width:56ch}
+.contact .actions{display:flex;flex-wrap:wrap;gap:clamp(20px,3vw,44px);align-items:baseline;
+  margin-top:clamp(28px,3.6vw,52px)}
+.contact .alt{font-size:var(--t-lead);opacity:.85}
+.contact .alt a{border-bottom:1px solid currentColor}
+
+footer{background:var(--klein);color:var(--paper);padding-bottom:clamp(26px,3.6vw,46px)}
+footer .inner{border-top:1px solid var(--line-inv);padding-top:20px;display:flex;flex-wrap:wrap;
+  gap:16px;justify-content:space-between;align-items:baseline}
+footer .mark{font-family:var(--display);font-size:clamp(.8125rem,.75rem + .25vw,1rem);letter-spacing:.09em}
+footer .legal{font-size:var(--t-micro);letter-spacing:.06em;opacity:.75;max-width:70ch}
+
+/* ---------- dialogo ---------- */
+.dlg{position:fixed;inset:0;z-index:300;display:none;width:100%;height:100%;max-width:none;
+  max-height:none;margin:0;padding:0;border:0;background:transparent;overflow:hidden}
+.dlg[open]{display:block}
+.dlg::backdrop{background:rgba(14,14,14,.6)}
+.dlg .panel{position:absolute;right:0;top:0;bottom:0;width:min(560px,100%);background:var(--paper);
+  color:var(--ink);display:flex;flex-direction:column}
+.dlg .head{background:var(--klein);color:var(--paper);display:flex;align-items:center;
+  justify-content:space-between;padding:clamp(16px,2.4vw,26px) clamp(18px,2.6vw,32px)}
+.dlg .head span{font-family:var(--display);text-transform:uppercase;font-size:var(--t-h4)}
+.dlg .head .titolo{display:flex;flex-direction:column;gap:4px;min-width:0}
+.dlg .head .titolo p{font-size:var(--t-micro);letter-spacing:.06em;opacity:.85}
+.dlg .head button{position:relative;flex:none;width:24px;height:24px;font-size:0;line-height:0}
+.dlg .head button::before,.dlg .head button::after{content:"";position:absolute;left:0;right:0;top:50%;
+  height:2px;background:currentColor}
+.dlg .head button::before{transform:rotate(45deg)}
+.dlg .head button::after{transform:rotate(-45deg)}
+.dlg .thread{flex:1;overflow-y:auto;padding:clamp(20px,3vw,34px) clamp(18px,2.6vw,32px);
+  display:flex;flex-direction:column;gap:18px}
+.dlg .say{max-width:44ch}
+.dlg .mine{align-self:flex-end;text-align:right;color:var(--klein);font-weight:500}
+.dlg .opts{display:flex;flex-wrap:wrap;gap:10px;margin-top:4px}
+.dlg .opts button,.dlg .send{border:1px solid var(--klein);color:var(--klein);
+  padding:9px 14px;font-size:var(--t-micro);letter-spacing:.12em;text-transform:uppercase;
+  transition:background .3s,color .3s}
+.dlg .opts button:hover,.dlg .send:hover{background:var(--klein);color:var(--paper)}
+.dlg .field{display:flex;gap:10px;margin-top:6px}
+.dlg .field input{flex:1;border:0;border-bottom:1px solid var(--line);background:none;
+  padding:9px 2px;font:inherit;font-size:var(--t-body)}
+.dlg .field input:focus{outline:0;border-bottom-color:var(--klein)}
+.dlg .err{color:var(--klein);font-size:var(--t-micro);letter-spacing:.06em}
+.dlg .note{font-size:var(--t-micro);letter-spacing:.06em;opacity:.6;max-width:46ch}
+
+/* ---------- la riga degli specchi si accende per intero ---------- */
+/* la fascia arriva ai bordi dello schermo, il testo resta sulla colonna della pagina */
+.mirror{margin-inline:calc(50% - 50vw);padding-inline:calc(50vw - 50%)}
+
+/* ---------- stacco fra due campiture chiare consecutive ---------- */
+.hero.interna + .section,
+.section:not(.blue):not(.contact) + .section:not(.blue):not(.contact){border-top:1px solid var(--line)}
+
+/* ---------- barra compatta sugli schermi stretti ---------- */
+@media(max-width:760px){
+  .nav .bar{gap:12px}
+  .nav ul{gap:13px}
+  .nav a{font-size:.6875rem;letter-spacing:.08em}
+  .nav .pill{padding:6px 9px 7px}
+}
+@media(max-width:480px){
+  .nav a{font-size:.625rem;letter-spacing:.06em}
+  .nav .pill{padding:5px 8px 6px}
+  .section{padding-block:clamp(74px,12vw,118px)}
+}
+
+
+/* ================= PAGINA INTERNA: stessa grammatica della home, colori invertiti =========== */
+img{display:block;max-width:100%;height:auto}
+.nav .mark{display:flex;align-items:baseline;gap:.6em;flex:none;white-space:nowrap}
+.nav .targa{font-size:var(--t-micro);text-transform:uppercase;letter-spacing:.14em;opacity:.7;white-space:nowrap}
+
+
+/* apertura: la stessa della home, guidata dallo scroll, su carta e con il titolo klein */
+.hero.interna{height:420svh;background:var(--paper);color:var(--ink)}
+html:not(.js) .hero.interna{height:auto}
+.js .hero.interna .slide.on .words .w > i{transform:translateY(0)}
+.hero.interna .claim{color:var(--klein);max-width:16ch}
+.hero.interna .ticks button{background:var(--klein);opacity:.25}
+.hero.interna .ticks button[aria-current="true"]{opacity:1}
+.hero.interna .hero-foot{border-top-color:var(--line)}
+.hero.interna .label{color:var(--klein);opacity:1}
+.duecta{display:flex;flex-wrap:wrap;gap:clamp(18px,3vw,40px);align-items:baseline}
+@media(min-width:960px){.duecta{justify-content:flex-end}}
+
+/* la chevron dei comandi: stessa figura della cta, misurata sul corpo dell'etichetta */
+.guarda,.vedi,.apri{font-weight:500}
+.guarda .arw,.vedi .arw,.apri .arw{display:inline-block;width:.62em;height:.62em;flex:none;
+  border-top:.11em solid currentColor;border-right:.11em solid currentColor;
+  transform:rotate(45deg);position:relative;top:-.04em;
+  transition:transform .45s cubic-bezier(.16,1,.3,1)}
+.strum:hover .guarda .arw,.vedi:hover .arw,.mirror:hover .apri .arw,
+.porta:hover .apri .arw{transform:rotate(45deg) translate(.16em,-.16em)}
+
+/* commutatori a quattro e cinque voci: stessa griglia a due colonne della home,
+   con l'ultima voce a tutta riga quando le voci sono dispari */
+.lenses.cinque .lens-tab:last-child{grid-column:1/-1}
+
+/* fascia del dato: identica alla home; qui non ruota perché ogni scenario ha un dato solo */
+.databand{height:auto;border-bottom:1px solid var(--line);
+  padding-block:clamp(86px,13vh,150px) clamp(34px,6vh,80px)}
+.databand .datum{position:static;opacity:1;transform:none;pointer-events:auto;display:block}
+
+/* specchi: quelli della home, senza varianti. Qui in più solo la nostra risposta e il rimando */
+.mirror .risp{font-size:var(--t-micro);text-transform:uppercase;letter-spacing:.14em;
+  font-weight:500;margin-bottom:clamp(10px,1.4vw,18px);opacity:.8}
+.mirror .vedi{margin-top:clamp(16px,2.2vw,28px);font-size:var(--t-micro);text-transform:uppercase;
+  letter-spacing:.14em;display:inline-flex;align-items:center;gap:.6em;
+  border-bottom:1px solid currentColor;padding-bottom:3px}
+
+/* i tre livelli del percorso: stesse righe degli specchi, con l'occhiello del livello */
+.mirrors.livelli{margin-top:clamp(28px,4vw,60px);
+  --colonna-livello:clamp(92px,11vw,168px);--stacco-livello:clamp(12px,2.6vw,44px)}
+.mirrors.livelli .mirror > button{gap:var(--stacco-livello)}
+.mirrors.livelli .n{text-transform:uppercase;flex:none;min-width:var(--colonna-livello)}
+.mirrors.livelli .apri{font-size:var(--t-micro);text-transform:uppercase;letter-spacing:.14em;
+  display:inline-flex;align-items:center;gap:.6em;border-bottom:1px solid currentColor;
+  padding-bottom:3px;flex:none}
+/* il testo parte esattamente sotto il titolo: stessa colonna, stesso stacco */
+.mirrors.livelli .sotto{padding:0 clamp(8px,1.6vw,22px) clamp(22px,3vw,40px);
+  margin-left:calc(var(--colonna-livello) + var(--stacco-livello))}
+.mirrors.livelli .sotto p{max-width:60ch;opacity:.88}
+@media(max-width:700px){
+  .mirrors.livelli .mirror > button{flex-wrap:wrap;row-gap:10px}
+  .mirrors.livelli .n{min-width:0;width:100%}
+  .mirrors.livelli .apri{margin-left:auto}
+  .mirrors.livelli .sotto{margin-left:0}
+}
+
+/* manifesto e tesi */
+.tesi{display:grid;gap:clamp(20px,3vw,48px);margin-top:clamp(28px,4vw,60px);
+  padding-top:clamp(22px,3vw,40px);border-top:1px solid var(--line)}
+@media(min-width:960px){.tesi{grid-template-columns:1fr 1fr}}
+.tesi p{max-width:54ch}
+.tesi .forte{color:var(--klein);font-weight:500}
+
+/* strumenti: la griglia originale, tre colonne e cornici su carta */
+.strum-griglia{display:grid;gap:clamp(14px,1.6vw,24px);margin-top:clamp(28px,4vw,60px);grid-template-columns:1fr}
+@media(min-width:700px){.strum-griglia{grid-template-columns:repeat(2,1fr)}}
+@media(min-width:1040px){.strum-griglia{grid-template-columns:repeat(3,1fr)}}
+.strum{display:flex;flex-direction:column;align-items:stretch;text-align:left;
+  background:var(--klein);color:var(--paper);
+  border:1px solid var(--klein);padding:clamp(14px,1.4vw,20px);
+  transition:transform .5s cubic-bezier(.16,1,.3,1),box-shadow .45s ease}
+.strum:hover{transform:translateY(-6px);box-shadow:0 18px 44px rgba(0,47,167,.26)}
+.strum .shot{position:relative;display:block;width:100%;flex:none;background:var(--paper);padding:10px}
+.strum .shot img{display:block;width:100%;height:clamp(178px,16.5vw,228px);
+  object-fit:cover;object-position:top center}
+.strum .ventaglio{height:clamp(198px,18.5vw,248px)}
+.strum .ventaglio img{position:absolute;top:10px;height:calc(100% - 20px);width:58%;
+  border:1px solid rgba(14,14,14,.28)}
+.strum .ventaglio img:nth-of-type(1){left:10px}
+.strum .ventaglio img:nth-of-type(2){left:21%}
+.strum .ventaglio img:nth-of-type(3){left:38%}
+.strum .mosaico{display:grid;grid-template-columns:repeat(3,1fr);gap:4px}
+.strum .mosaico img{height:clamp(86px,8.2vw,110px)}
+.strum .lastra img{object-fit:contain;background:var(--white)}
+.strum .bollo{position:absolute;top:10px;right:10px;background:var(--klein);color:var(--paper);
+  font-family:var(--display);font-size:clamp(1.25rem,1rem + 1vw,1.875rem);line-height:.9;
+  padding:.3em .4em .24em}
+.strum .segno{height:clamp(198px,18.5vw,248px);display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:clamp(10px,1.1vw,16px);text-align:center;color:var(--ink)}
+.strum .segno .emme{width:clamp(44px,3.6vw,54px);height:clamp(44px,3.6vw,54px);background:var(--klein);
+  color:var(--paper);font-family:var(--display);font-size:clamp(1.5rem,1.2rem + .9vw,2rem);
+  line-height:1;display:flex;align-items:center;justify-content:center}
+.strum .segno .nome{font-family:var(--display);text-transform:uppercase;color:var(--ink);
+  font-size:clamp(1.375rem,1.05rem + 1.2vw,2rem);line-height:1.02}
+.strum .segno .stato{font-size:var(--t-micro);text-transform:uppercase;letter-spacing:.13em;
+  color:var(--klein);border:1px solid var(--klein);padding:.5em .8em .4em}
+.strum .testo{padding:clamp(14px,1.4vw,20px) 2px 2px;display:flex;flex-direction:column;
+  gap:clamp(8px,.9vw,14px);flex:1}
+.strum .occhiello{font-size:var(--t-micro);text-transform:uppercase;letter-spacing:.13em;opacity:.82}
+.strum .h{font-family:var(--display);text-transform:uppercase;color:currentColor;
+  font-size:clamp(1.25rem,1rem + 1.1vw,1.875rem);line-height:1.02}
+.strum .p{font-size:var(--t-body);opacity:.92}
+.strum .guarda{margin-top:auto;font-size:var(--t-micro);text-transform:uppercase;letter-spacing:.14em;
+  color:currentColor;display:inline-flex;align-items:center;gap:.6em;align-self:flex-start;
+  border-bottom:1px solid currentColor;padding-bottom:3px;margin-top:clamp(12px,1.4vw,20px)}
+
+/* chiusura del percorso: una sola campitura klein, nessun riquadro riportato */
+.chiusura{display:grid;gap:clamp(22px,3vw,52px)}
+@media(min-width:960px){.chiusura{grid-template-columns:6fr 6fr;align-items:start}}
+.chiusura .domandona{font-family:var(--display);text-transform:uppercase;color:currentColor;
+  font-size:var(--t-h2);line-height:.98;max-width:16ch}
+.chiusura > p:not(.domandona){font-size:var(--t-lead);max-width:52ch;
+  padding-top:clamp(10px,1.4vw,20px)}
+
+/* finestre di metodo e strumenti: stesso pannello del dialogo della home, più largo */
+.dlg.grande .panel{inset:0;width:100%}
+@media(min-width:900px){.dlg.grande .panel{inset:0 0 0 auto;width:min(1080px,94%)}}
+.dlg .head .tit{display:grid;gap:4px}
+.dlg .head .occhiello{font-size:var(--t-micro);text-transform:uppercase;letter-spacing:.14em;opacity:.8}
+.dlg .head h3{font-family:var(--display);text-transform:uppercase;font-size:var(--t-h4);line-height:1}
+.dlg .corpo{flex:1;overflow-y:auto;padding:clamp(22px,3vw,44px) clamp(18px,2.6vw,42px) clamp(34px,4vw,64px);
+  display:grid;gap:clamp(18px,2.4vw,32px)}
+.dlg .corpo p{max-width:64ch}
+.dlg .blocco{display:grid;gap:clamp(8px,1vw,14px);padding-top:clamp(14px,2vw,24px);
+  border-top:1px solid var(--line)}
+.dlg .blocco h4{font-family:var(--display);text-transform:uppercase;color:var(--klein);
+  font-size:clamp(1.125rem,.95rem + .9vw,1.625rem);line-height:1}
+.dlg .cifrona{font-family:var(--display);color:var(--klein);font-size:clamp(3rem,7vw,6rem);line-height:.9}
+.dlg .sfoglia{display:grid;gap:clamp(14px,1.8vw,26px)}
+.dlg .sfoglia img{width:100%;border:1px solid var(--line);background:var(--white)}
+@media(min-width:800px){.dlg .sfoglia.due{grid-template-columns:1fr 1fr}}
+.dlg .nota{font-size:var(--t-micro);letter-spacing:.06em;opacity:.65;max-width:64ch}
+.dlg .parete{display:grid;grid-template-columns:repeat(auto-fill,minmax(88px,1fr));gap:8px}
+.dlg .parete img{width:100%;border:1px solid var(--line)}
+
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{transition-duration:.01ms!important;animation:none!important}
+  .js .mask > span{transform:none}
+  .js .up{opacity:1;transform:none}
+}
+</style>
+</head>
+<body data-pagina="c-one" data-registro="voi" data-oggetto="Percorso C-One · Richiesta di incontro">
+<a class="skip" href="#contenuto">Vai al contenuto</a>
+
+<header class="nav" data-theme="light">
+  <div class="wrap bar">
+    <span class="mark"><a class="brand" href="index.html">MASTERY CLC.</a><span class="targa">· C-One</span></span>
+    <ul>
+      <li><a href="c-one.html" aria-current="page">C-One</a></li>
+      <li><a href="e-one.html">E-One</a></li>
+      <li><a href="chi-siamo.html">Chi siamo</a></li>
+      <li><a class="pill" href="#contatto">Parliamone</a></li>
+    </ul>
+  </div>
+</header>
+
+<main id="contenuto">
+
+<section class="hero interna" id="inizio" data-nav="light">
+ <div class="hero-stage">
+  <div class="wrap top">
+    <p class="label">C-One · perché decidere non basta</p>
+    <div class="ticks" aria-label="Le quattro domande dell'apertura">
+      <button type="button" aria-current="true" aria-label="Domanda 1 di 4"></button>
+      <button type="button" aria-current="false" aria-label="Domanda 2 di 4"></button>
+      <button type="button" aria-current="false" aria-label="Domanda 3 di 4"></button>
+      <button type="button" aria-current="false" aria-label="Domanda 4 di 4"></button>
+    </div>
+  </div>
+
+  <div class="wrap stage">
+    <div class="slide on" data-i="0">
+      <h1 class="claim words">Il vostro vertice è una squadra o una somma di singoli?</h1>
+    </div>
+    <div class="slide" data-i="1" aria-hidden="true">
+      <p class="claim display words">Quanto di ciò che decidete viene effettivamente realizzato?</p>
+    </div>
+    <div class="slide" data-i="2" aria-hidden="true">
+      <p class="claim display words">Riuscite a misurare i progressi del vostro gruppo dirigente?</p>
+    </div>
+    <div class="slide" data-i="3" aria-hidden="true">
+      <p class="claim display words">Su quante persone si regge il futuro della vostra azienda?</p>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <div class="hero-foot">
+      <div class="leads">
+        <p class="leadtext on" data-i="0">È la differenza tra un gruppo di dirigenti e un gruppo dirigente. L'assessment M-11D legge il gruppo dirigente come sistema, e il percorso lo allena a giocare la stessa partita: priorità comuni, dati condivisi, una sola direzione.</p>
+        <p class="leadtext" data-i="1">È la domanda a cui gli strumenti esistenti rispondono solo in parte. Noi ci abbiamo costruito un metodo: misurare il gruppo dirigente, leggerlo come sistema e allenarlo, passo dopo passo, a trasformare le decisioni in esecuzione.</p>
+        <p class="leadtext" data-i="2">Corsi e coaching si comprano spesso a sensazione, e a sensazione si valutano. Nel percorso C-One i progressi si misurano: verifiche trimestrali, riscontri strutturati del C-Team, numeri che mostrano cosa si muove e cosa no.</p>
+        <p class="leadtext" data-i="3">Quando la crescita dipende solo da poche figure chiave, il vertice non è una squadra: è un equilibrio fragile. Il percorso C-One mappa i colli di bottiglia del vertice, allena la delega e la responsabilità condivisa, e lascia in azienda un metodo che non dipende dai singoli.</p>
+      </div>
+      <div class="duecta">
+        <a class="cta" href="#contatto">Parliamone <span class="arw" aria-hidden="true"></span></a>
+        <a class="cta" href="#metodo">Scopri il percorso <span class="arw" aria-hidden="true"></span></a>
+      </div>
+    </div>
+  </div>
+ </div>
+</section>
+
+<section class="section white anim" id="scenari" data-nav="light">
+  <div class="wrap">
+    <h2 class="display words" style="font-size:var(--t-h2);max-width:20ch;color:var(--klein)">In quale scenario vi riconoscete?</h2>
+
+    <div class="lenses quattro" aria-label="Quattro scenari">
+      <button class="lens-tab" type="button" aria-selected="true" aria-controls="sc-squadra">La squadra</button>
+      <button class="lens-tab" type="button" aria-selected="false" aria-controls="sc-esecuzione">L'esecuzione</button>
+      <button class="lens-tab" type="button" aria-selected="false" aria-controls="sc-misura">La misura</button>
+      <button class="lens-tab" type="button" aria-selected="false" aria-controls="sc-autonomia">L'autonomia</button>
+    </div>
+
+    <div class="lens" id="sc-squadra">
+      <div class="databand">
+        <div class="datum">
+          <div>
+            <span class="fig" data-count="18" data-post="%">18%</span>
+            <div class="under">
+              <p>I dirigenti che considerano molto efficace il proprio team di vertice. E chi risponde ne fa parte.</p>
+              <p class="src">Center for Creative Leadership, 2020</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="mirrors">
+        <div class="mirror">
+          <button type="button" aria-expanded="false"><h3>Ogni dirigente corre forte. Ma ognuno nella sua direzione.</h3><span class="plus" aria-hidden="true">+</span></button>
+          <div class="body"><div class="inner">
+            <p class="risp">La nostra risposta</p>
+            <p>L'assessment M-11D legge il C-Team come sistema: dove il gruppo si somma e dove si annulla. Le priorità di lavoro del percorso nascono da quella lettura, non dalle impressioni.</p>
+            <a class="vedi" href="#metodo">Vedi il percorso <span class="arw" aria-hidden="true"></span></a>
+          </div></div>
+        </div>
+        <div class="mirror">
+          <button type="button" aria-expanded="false"><h3>Presi uno a uno sono tutti bravi. Insieme, qualcosa non torna.</h3><span class="plus" aria-hidden="true">+</span></button>
+          <div class="body"><div class="inner">
+            <p class="risp">La nostra risposta</p>
+            <p>Il report del gruppo dirigente legge proprio questo: forze distintive e leve di crescita del vertice, le dinamiche che aiutano e quelle che frenano. Il focus è sul sistema, non sui singoli.</p>
+            <a class="vedi" href="#metodo">Vedi il percorso <span class="arw" aria-hidden="true"></span></a>
+          </div></div>
+        </div>
+        <div class="mirror">
+          <button type="button" aria-expanded="false"><h3>I temi caldi si discutono nei corridoi, non nelle sedi opportune.</h3><span class="plus" aria-hidden="true">+</span></button>
+          <div class="body"><div class="inner">
+            <p class="risp">La nostra risposta</p>
+            <p>I riscontri trimestrali del vertice sono strutturati e arrivano direttamente al consulente: in questo modo i nodi cruciali entrano in riunione in forma documentata, sostituendo le indiscrezioni e il chiacchiericcio aziendale.</p>
+            <a class="vedi" href="#metodo">Vedi il percorso <span class="arw" aria-hidden="true"></span></a>
+          </div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="lens" id="sc-esecuzione" hidden>
+      <div class="databand">
+        <div class="datum">
+          <div>
+            <span class="fig" data-count="63" data-post="%">63%</span>
+            <div class="under">
+              <p>Il valore che le strategie consegnano in media rispetto all'atteso. E solo un'organizzazione su cinque si dichiara eccellente nel decidere.</p>
+              <p class="src">Harvard Business Review, Mankins e Steele · McKinsey &amp; Company</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="mirrors">
+        <div class="mirror">
+          <button type="button" aria-expanded="false"><h3>Le decisioni dell'ultima riunione sono rimaste sulla carta.</h3><span class="plus" aria-hidden="true">+</span></button>
+          <div class="body"><div class="inner">
+            <p class="risp">La nostra risposta</p>
+            <p>Nel percorso ogni decisione ha un responsabile, un orizzonte e una linea nel cronoprogramma. Alla verifica successiva se ne controlla l'avanzamento: ciò che è stato deciso resta tracciato.</p>
+            <a class="vedi" href="#metodo">Vedi il percorso <span class="arw" aria-hidden="true"></span></a>
+          </div></div>
+        </div>
+        <div class="mirror">
+          <button type="button" aria-expanded="false"><h3>Le decisioni si arenano ai confini dei reparti.</h3><span class="plus" aria-hidden="true">+</span></button>
+          <div class="body"><div class="inner">
+            <p class="risp">La nostra risposta</p>
+            <p>Le priorità del percorso sono del vertice, non dei reparti: sessioni plenarie e un cronoprogramma unico sui temi che attraversano i confini.</p>
+            <a class="vedi" href="#metodo">Vedi il percorso <span class="arw" aria-hidden="true"></span></a>
+          </div></div>
+        </div>
+        <div class="mirror">
+          <button type="button" aria-expanded="false"><h3>Quando una priorità si ferma, nessuno se ne accorge. O se ne accorge tardi.</h3><span class="plus" aria-hidden="true">+</span></button>
+          <div class="body"><div class="inner">
+            <p class="risp">La nostra risposta</p>
+            <p>Nel cronoprogramma ogni attività ha uno stato che tutti vedono: cosa è fatto, cosa è in corso, cosa è fermo. E a ogni trimestre la verifica mette tutto nero su bianco.</p>
+            <a class="vedi" href="#metodo">Vedi il percorso <span class="arw" aria-hidden="true"></span></a>
+          </div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="lens" id="sc-misura" hidden>
+      <div class="databand">
+        <div class="datum">
+          <div>
+            <span class="fig" data-count="77" data-post="%">77%</span>
+            <div class="under">
+              <p>Le aziende che non hanno mai verificato coi numeri se i propri indicatori funzionano. Chi lo fa registra quasi tre punti di redditività in più.</p>
+              <p class="src">Harvard Business Review, Ittner e Larcker</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="mirrors">
+        <div class="mirror">
+          <button type="button" aria-expanded="false"><h3>Come sta il gruppo dirigente lo sapete a sensazione, non coi numeri.</h3><span class="plus" aria-hidden="true">+</span></button>
+          <div class="body"><div class="inner">
+            <p class="risp">La nostra risposta</p>
+            <p>La fotografia si costruisce sui dati: l'assessment M-11D persona per persona, il report del C-Team come sistema. Le percezioni del vertice trovano così una base strutturata con cui confrontarsi.</p>
+            <a class="vedi" href="#metodo">Vedi il percorso <span class="arw" aria-hidden="true"></span></a>
+          </div></div>
+        </div>
+        <div class="mirror">
+          <button type="button" aria-expanded="false"><h3>Di corsi e coach ne avete provati. Nessuno ha mai misurato cosa hanno cambiato.</h3><span class="plus" aria-hidden="true">+</span></button>
+          <div class="body"><div class="inner">
+            <p class="risp">La nostra risposta</p>
+            <p>Niente aule spot: un anno a cicli dentro il calendario dell'impresa, con verifiche trimestrali e ri-misurazioni. Se qualcosa non si muove, si vede. E si corregge.</p>
+            <a class="vedi" href="#metodo">Vedi il percorso <span class="arw" aria-hidden="true"></span></a>
+          </div></div>
+        </div>
+        <div class="mirror">
+          <button type="button" aria-expanded="false"><h3>Si cambiano le persone, senza mai misurare il sistema.</h3><span class="plus" aria-hidden="true">+</span></button>
+          <div class="body"><div class="inner">
+            <p class="risp">La nostra risposta</p>
+            <p>Prima di cambiare le persone, misurate il sistema: l'assessment aiuta a individuare ciò che il gruppo deve sviluppare, non solo le caratteristiche dei singoli. Il punto non è soltanto chi siede al tavolo, ma anche come quel tavolo lavora.</p>
+            <a class="vedi" href="#metodo">Vedi il percorso <span class="arw" aria-hidden="true"></span></a>
+          </div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="lens" id="sc-autonomia" hidden>
+      <div class="databand">
+        <div class="datum">
+          <div>
+            <span class="fig">7 su 10</span>
+            <div class="under">
+              <p>Le medie imprese italiane con una governance chiusa a manager esterni: il vertice coincide con la proprietà, e tutto passa da lì. Anche quello che non dovrebbe.</p>
+              <p class="src">Dalla ricerca «Misurare il vertice», giugno 2026</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="mirrors">
+        <div class="mirror">
+          <button type="button" aria-expanded="false"><h3>Ogni decisione, alla fine, passa comunque da voi.</h3><span class="plus" aria-hidden="true">+</span></button>
+          <div class="body"><div class="inner">
+            <p class="risp">La nostra risposta</p>
+            <p>La delega si misura, è una delle 11 dimensioni, e si allena. Nel percorso ogni decisione ha un responsabile, che non siete necessariamente voi: l'obiettivo è aumentare progressivamente l'autonomia del vertice.</p>
+            <a class="vedi" href="#metodo">Vedi il percorso <span class="arw" aria-hidden="true"></span></a>
+          </div></div>
+        </div>
+        <div class="mirror">
+          <button type="button" aria-expanded="false"><h3>Se una figura chiave si ferma un mese, mezzo vertice si ferma con lei.</h3><span class="plus" aria-hidden="true">+</span></button>
+          <div class="body"><div class="inner">
+            <p class="risp">La nostra risposta</p>
+            <p>Il percorso lavora per ridurre la dipendenza del vertice dalle singole persone: delega, responsabilità condivise e un metodo che resta in azienda anche dopo la fine del percorso.</p>
+            <a class="vedi" href="#metodo">Vedi il percorso <span class="arw" aria-hidden="true"></span></a>
+          </div></div>
+        </div>
+        <div class="mirror">
+          <button type="button" aria-expanded="false"><h3>I migliori si tengono il lavoro e si tengono i dubbi: ve ne accorgete quando se ne vanno.</h3><span class="plus" aria-hidden="true">+</span></button>
+          <div class="body"><div class="inner">
+            <p class="risp">La nostra risposta</p>
+            <p>I riscontri trimestrali sono strutturati e nominali: segnali e criticità vengono raccolti periodicamente e possono entrare nel confronto prima di emergere solo a posteriori.</p>
+            <a class="vedi" href="#metodo">Vedi il percorso <span class="arw" aria-hidden="true"></span></a>
+          </div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section anim" data-nav="light">
+  <div class="wrap">
+    <p class="lead up" style="max-width:56ch">Se vi siete riconosciuti in questi scenari, la diagnosi è una sola: non mancano le competenze, non manca l'impegno, non mancano i dati e non è colpa dei singoli.</p>
+    <h2 class="display words" style="font-size:var(--t-h2);max-width:20ch;color:var(--klein);margin-top:clamp(20px,3vw,44px)">Il vero nodo è il modo in cui il vertice lavora come sistema.</h2>
+    <div class="tesi up">
+      <p>Esistono ottimi strumenti per valutare le prestazioni del singolo dirigente e analisi valide per misurare l'andamento aziendale. Ma fino a oggi mancava un metodo capace di connettere queste due dimensioni, mettendo in relazione i comportamenti di chi guida e i risultati dell'azienda.</p>
+      <p class="forte">Il percorso C-One colma questo vuoto. Allena il gruppo dirigente a lavorare come un sistema sincronizzato, allinea le azioni individuali agli obiettivi strategici e misura i progressi in modo continuo, lungo l'intero percorso.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section white anim" id="metodo" data-nav="light">
+  <div class="wrap">
+    <p class="label">Scenari diversi. Un solo percorso integrato.</p>
+    <h2 class="display words" style="font-size:var(--t-h2);color:var(--klein);margin-top:clamp(16px,2.4vw,32px)">Il percorso C-One.</h2>
+    <p class="lead up" style="max-width:54ch;margin-top:clamp(20px,2.6vw,36px)">Un anno di lavoro col gruppo dirigente, su tre livelli, per trasformare le decisioni in esecuzione e costruire un vertice coeso, capace di guidare l'impresa a una sola voce.</p>
+
+  <div class="mirrors livelli">
+    <div class="mirror">
+      <button type="button" data-finestra="f-mappatura"><span class="n">Livello 1</span><h3>La mappatura</h3><span class="apri">Apri <span class="arw" aria-hidden="true"></span></span></button>
+      <div class="sotto"><p>L'assessment M-11D, i report, l'incontro di allineamento: la fotografia del vertice, persona per persona e come sistema.</p></div>
+    </div>
+    <div class="mirror">
+      <button type="button" data-finestra="f-allenamento"><span class="n">Livello 2</span><h3>L'allenamento</h3><span class="apri">Apri <span class="arw" aria-hidden="true"></span></span></button>
+      <div class="sotto"><p>Coaching individuale e sessioni plenarie sulle priorità emerse dai dati, dentro un cronoprogramma condiviso.</p></div>
+    </div>
+    <div class="mirror">
+      <button type="button" data-finestra="f-rotta"><span class="n">Livello 3</span><h3>La rotta</h3><span class="apri">Apri <span class="arw" aria-hidden="true"></span></span></button>
+      <div class="sotto"><p>Verifiche trimestrali, il Punto Nave con l'imprenditore, il bilancio di chiusura: i progressi si misurano, la rotta si governa.</p></div>
+    </div>
+  </div>
+  </div>
+</section>
+
+<section class="section anim" id="strumenti" data-nav="light">
+  <div class="wrap">
+    <h2 class="display words" style="font-size:var(--t-h2);color:var(--klein)">Gli strumenti C-One</h2>
+    <p class="lead up" style="max-width:58ch;margin-top:clamp(18px,2.4vw,32px)">Le risorse operative a disposizione del gruppo dirigente, progettate per supportare il lavoro del vertice dal primo giorno all'ultimo. Le anteprime usano dati dimostrativi; i documenti dei clienti restano riservati.</p>
+
+    <div class="strum-griglia up">
+      <button class="strum" type="button" data-finestra="f-rind">
+        <span class="shot ventaglio">
+          <img src="assets/strumenti/rind-2.png" alt="" loading="lazy">
+          <img src="assets/strumenti/rind-3.png" alt="" loading="lazy">
+          <img src="assets/strumenti/rind-1.png" alt="I report individuali M-11D, uno per componente" loading="lazy">
+        </span>
+        <span class="testo">
+          <span class="h">I report individuali</span>
+          <span class="p">Il profilo M-11D di ciascun componente traccia le 11 dimensioni chiave, evidenziando forze distintive e leve di crescita. Una mappa d'azione personalizzata per guidare lo sviluppo di ogni singolo manager.</span>
+          <span class="guarda">Guarda <span class="arw" aria-hidden="true"></span></span>
+        </span>
+      </button>
+
+      <button class="strum" type="button" data-finestra="f-rteam">
+        <span class="shot"><img src="assets/strumenti/rteam-f1.png" alt="I report del C-Team: il quadro diagnostico" loading="lazy"></span>
+        <span class="testo">
+          <span class="h">I report del C-Team</span>
+          <span class="p">La lettura del vertice come sistema, misurazione dopo misurazione: il quadro diagnostico del gruppo, il piano di sviluppo e azione, il cronoprogramma delle attivit&agrave;.</span>
+          <span class="guarda">Guarda <span class="arw" aria-hidden="true"></span></span>
+        </span>
+      </button>
+
+      <button class="strum" type="button" data-finestra="f-feedback">
+        <span class="shot"><img src="assets/strumenti/fb-evo-01.png" alt="La linea di feedback: il report di evoluzione" loading="lazy"></span>
+        <span class="testo">
+          <span class="h">La linea di feedback</span>
+          <span class="p">Ogni trimestre il C-Team lascia il proprio riscontro strutturato; le ri-misurazioni permettono di confrontare l'evoluzione nel tempo. I progressi vengono documentati da pi&ugrave; evidenze.</span>
+          <span class="guarda">Guarda <span class="arw" aria-hidden="true"></span></span>
+        </span>
+      </button>
+
+      <button class="strum" type="button" data-finestra="f-library">
+        <span class="shot mosaico">
+          <img src="assets/strumenti/lib-D01.png" alt="" loading="lazy">
+          <img src="assets/strumenti/lib-D06.png" alt="" loading="lazy">
+          <img src="assets/strumenti/lib-PI02.png" alt="" loading="lazy">
+          <img src="assets/strumenti/lib-D09.png" alt="" loading="lazy">
+          <img src="assets/strumenti/lib-PT01.png" alt="" loading="lazy">
+          <img src="assets/strumenti/lib-PI09.png" alt="La C-One Library: le copertine" loading="lazy">
+          <span class="bollo">27</span>
+        </span>
+        <span class="testo">
+          <span class="h">La C-One Library</span>
+          <span class="p">27 e-book proprietari, uno per ogni tema del metodo: si studiano tra una sessione e l'altra e restano all'azienda, anche dopo la chiusura.</span>
+          <span class="guarda">Guarda <span class="arw" aria-hidden="true"></span></span>
+        </span>
+      </button>
+
+      <button class="strum" type="button" data-finestra="f-slide">
+        <span class="shot lastra"><img src="assets/strumenti/slide-01.png" alt="Le slide d'aula: la copertina di una presentazione" loading="lazy"><span class="bollo">60</span></span>
+        <span class="testo">
+          <span class="h">Le slide d'aula</span>
+          <span class="p">60 presentazioni che portano il metodo in plenaria e nel coaching: la stessa lingua visiva dei report, dalla mappatura all'aula.</span>
+          <span class="guarda">Guarda <span class="arw" aria-hidden="true"></span></span>
+        </span>
+      </button>
+
+      <button class="strum" type="button" data-finestra="f-advisor">
+        <span class="shot segno" aria-hidden="true">
+          <span class="emme">M</span>
+          <span class="nome">Mastery Advisor</span>
+          <span class="stato">L'AI del percorso</span>
+        </span>
+        <span class="testo">
+          <span class="h">Il Mastery Advisor</span>
+          <span class="p">L'AI al servizio del C-Team: conosce il metodo e i materiali del percorso, e risponde quando serve, tra una sessione e l'altra.</span>
+          <span class="guarda">Scopri <span class="arw" aria-hidden="true"></span></span>
+        </span>
+      </button>
+    </div>
+  </div>
+</section>
+
+<section class="section blue anim" data-nav="dark">
+  <div class="wrap chiusura">
+    <p class="domandona words">Al termine dell'anno insieme, quale valore si consolida in azienda?</p>
+    <p class="up">Il percorso è progettato per garantire la piena autosufficienza dell'impresa. Al termine l'azienda ha assimilato un metodo di governance strutturato e metriche di controllo chiare, ma ha soprattutto costruito un vertice coeso, capace di guidare lo sviluppo in totale autonomia.</p>
+  </div>
+</section>
+
+<section class="section white anim" id="vantaggi" data-nav="light">
+  <div class="wrap">
+    <p class="label">I vantaggi</p>
+    <h2 class="display words" style="font-size:var(--t-h2);max-width:18ch;color:var(--klein);margin-top:clamp(16px,2.4vw,32px)">Un percorso. Molti beneficiari.</h2>
+
+    <div class="lenses cinque" aria-label="Cinque beneficiari">
+      <button class="lens-tab" type="button" aria-selected="true" aria-controls="v-proprieta">La proprietà</button>
+      <button class="lens-tab" type="button" aria-selected="false" aria-controls="v-executive">I top executive</button>
+      <button class="lens-tab" type="button" aria-selected="false" aria-controls="v-middle">Il middle management</button>
+      <button class="lens-tab" type="button" aria-selected="false" aria-controls="v-persone">Le persone</button>
+      <button class="lens-tab" type="button" aria-selected="false" aria-controls="v-azienda">L'azienda</button>
+    </div>
+
+    <div class="lens" id="v-proprieta">
+      <div class="voices">
+        <article class="voice"><h3>Misurate con certezza l'effettiva esecuzione del vertice.</h3><p>Le verifiche trimestrali e i report di evoluzione indicano con precisione cosa si muove e cosa rallenta il vertice aziendale. Alla proprietà arrivano dati, non impressioni.</p></article>
+        <article class="voice"><h3>Ogni decisione ha un responsabile e una scadenza.</h3><p>Il Punto Nave chiude ogni trimestre con decisioni tracciate: alla verifica successiva si guarda cosa ne è stato.</p></article>
+        <article class="voice"><h3>Garantite la continuità: le responsabilità sono condivise.</h3><p>Il percorso struttura la delega e consolida la responsabilità condivisa a ogni livello del vertice. In questo modo il metodo operativo diventa un patrimonio stabile dell'impresa, capace di assorbire gli imprevisti e tutelare l'operatività.</p></article>
+      </div>
+    </div>
+    <div class="lens" id="v-executive" hidden>
+      <div class="voices">
+        <article class="voice"><h3>Priorità misurate, non urlate.</h3><p>Le priorità di lavoro nascono dall'assessment e valgono per tutto il gruppo: non dall'agenda di chi parla più forte.</p></article>
+        <article class="voice"><h3>Un piano di crescita personale, non l'ennesimo corso.</h3><p>Report individuale, coaching dedicato, materiali propri: ognuno lavora sulle proprie leve di crescita, dentro un percorso comune.</p></article>
+        <article class="voice"><h3>I conflitti si lavorano, non si evitano.</h3><p>Il lavoro d'aula affronta le dinamiche di squadra con i dati sul tavolo: i temi veri entrano nella stanza.</p></article>
+      </div>
+    </div>
+    <div class="lens" id="v-middle" hidden>
+      <div class="voices">
+        <article class="voice"><h3>Deleghe vere, con autonomia reale.</h3><p>Il percorso allena il vertice a distribuire decisioni e responsabilità: chi sta sotto riceve spazio, non solo compiti.</p></article>
+        <article class="voice"><h3>Una direzione leggibile.</h3><p>Un vertice allineato parla con una voce sola: priorità comuni, meno segnali contraddittori da interpretare.</p></article>
+        <article class="voice"><h3>La crescita non si ferma al piano di sopra.</h3><p>Delega e sviluppo dei collaboratori è una delle 11 dimensioni misurate: far crescere chi guida i reparti diventa parte del suo lavoro.</p></article>
+      </div>
+    </div>
+    <div class="lens" id="v-persone" hidden>
+      <div class="voices">
+        <article class="voice"><h3>Una sola direzione, meno attrito.</h3><p>Quando il vertice esegue come sistema, l'organizzazione smette di assorbirne le frizioni.</p></article>
+        <article class="voice"><h3>Quello che si annuncia, poi accade.</h3><p>Il percorso misura quanto le decisioni diventano esecuzione: la coerenza tra il dire e il fare è la prima cosa che le persone notano.</p></article>
+        <article class="voice"><h3>Meno colli di bottiglia, più risposte.</h3><p>Con la delega allenata, le risposte non aspettano tutte la stessa scrivania.</p></article>
+      </div>
+    </div>
+    <div class="lens" id="v-azienda" hidden>
+      <div class="voices">
+        <article class="voice"><h3>Un metodo che resta in casa.</h3><p>Governance strutturata, metriche chiare, abitudini installate: alla chiusura, il metodo è vostro.</p></article>
+        <article class="voice"><h3>Meno dipendenza dai singoli, più continuità.</h3><p>Un vertice che funziona come sistema è più solido davanti agli imprevisti: la crescita dipende meno da chi c'è quel giorno.</p></article>
+        <article class="voice"><h3>Un investimento che rende conto di sé.</h3><p>Progressi misurati a ogni trimestre e un bilancio nero su bianco alla chiusura: si vede cosa è cambiato.</p></article>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section contact anim" id="contatto" data-nav="dark">
+  <div class="wrap">
+    <p class="label">Il primo passo</p>
+    <h2 class="display words">Parliamone. Per anticipare i problemi o per risolverli adesso.</h2>
+    <div class="up">
+      <p class="lead">Un incontro riservato e senza impegno per analizzare la situazione del vostro vertice: voi raccontate gli obiettivi e le complessità attuali dell'impresa, noi vi mostriamo come risponde il metodo C-One. Se il percorso non è la soluzione adatta a voi, ve lo diciamo noi per primi.</p>
+      <div class="actions">
+        <button class="cta" type="button" id="apri-dialogo">Parliamone <span class="arw" aria-hidden="true"></span></button>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap inner">
+    <span class="mark">MASTERY CLC.</span>
+    <span class="legal">C-One è il percorso Mastery per i gruppi dirigenti. · Dati societari in via di pubblicazione.</span>
+  </div>
+</footer>
+
+<dialog class="dlg grande" id="f-mappatura" aria-label="La mappatura">
+  <div class="panel">
+    <div class="head"><div class="tit"><span class="occhiello">Il percorso C-One · livello 1</span><h3>La mappatura</h3></div>
+      <button type="button" data-chiudi aria-label="Chiudi">×</button></div>
+    <div class="corpo">
+      <div class="blocco"><h4>L'assessment M-11D</h4>
+        <p>Scenari decisionali e coppie di affermazioni sulle 11 Dimensioni C-Level, per leggere come ciascuno tende a esercitare il proprio ruolo. Nessun punteggio a schermo: i dati diventano il punto di partenza del lavoro.</p></div>
+      <div class="blocco"><h4>I report individuali</h4>
+        <p>Per ogni componente, il profilo sulle 11 dimensioni. Si leggono insieme, di persona.</p></div>
+      <div class="blocco"><h4>Il report del C-Team</h4>
+        <p>La lettura del gruppo come sistema: dove si somma, dove si annulla, i pattern che aiutano e quelli che frenano. È da qui che nascono le priorità.</p></div>
+      <div class="blocco"><h4>L'incontro di allineamento</h4>
+        <p>Il momento in cui i risultati si condividono e la fotografia diventa un piano: priorità dichiarate, responsabilità chiare, date a calendario.</p></div>
+    </div>
+  </div>
+</dialog>
+<dialog class="dlg grande" id="f-allenamento" aria-label="L'allenamento">
+  <div class="panel">
+    <div class="head"><div class="tit"><span class="occhiello">Il percorso C-One · livello 2</span><h3>L'allenamento</h3></div>
+      <button type="button" data-chiudi aria-label="Chiudi">×</button></div>
+    <div class="corpo">
+      <div class="blocco"><h4>Il coaching individuale</h4>
+        <p>Sessioni sulle leve di crescita emerse dal profilo: ogni manager lavora sul suo, dentro le priorità del gruppo.</p></div>
+      <div class="blocco"><h4>Le sessioni plenarie</h4>
+        <p>Il C-Team al completo sui temi che attraversano i confini dei reparti: si lavora insieme, sulle stesse priorità, con gli stessi dati.</p></div>
+      <div class="blocco"><h4>Le priorità nel cronoprogramma</h4>
+        <p>Ogni attività prevista ha la sua linea, con uno stato che tutti vedono: cosa è fatto, cosa è in corso, cosa è fermo.</p></div>
+    </div>
+  </div>
+</dialog>
+<dialog class="dlg grande" id="f-rotta" aria-label="La rotta">
+  <div class="panel">
+    <div class="head"><div class="tit"><span class="occhiello">Il percorso C-One · livello 3</span><h3>La rotta</h3></div>
+      <button type="button" data-chiudi aria-label="Chiudi">×</button></div>
+    <div class="corpo">
+      <div class="blocco"><h4>Le verifiche trimestrali</h4>
+        <p>A ogni trimestre il C-Team lascia il suo riscontro strutturato: cosa si muove, cosa rallenta, quanta fiducia c'è. I progressi si misurano, non si raccontano.</p></div>
+      <div class="blocco"><h4>Il Punto Nave</h4>
+        <p>L'incontro periodico con l'imprenditore, i dati sul tavolo: la rotta si conferma o si corregge, e le decisioni prese hanno un responsabile e un orizzonte.</p></div>
+      <div class="blocco"><h4>Il bilancio di chiusura</h4>
+        <p>I documenti finali col percorso ricostruito: cosa è cambiato, cosa resta in casa. Il metodo, soprattutto: costruito per reggere da solo.</p></div>
+    </div>
+  </div>
+</dialog>
+<dialog class="dlg grande" id="f-rind" aria-label="I report individuali">
+  <div class="panel">
+    <div class="head"><div class="tit"><span class="occhiello">Gli strumenti C-One</span><h3>I report individuali</h3></div>
+      <button type="button" data-chiudi aria-label="Chiudi">×</button></div>
+    <div class="corpo">
+      <p>Un documento personale per ogni componente del C-Team: il quadro delle 11 dimensioni, la sintesi interpretativa scritta per la persona, le priorità su cui lavorare. Si consegna a mano, si legge insieme.</p>
+      <div class="blocco"><h4>Sfoglia l'esempio integrale</h4></div>
+      <div class="sfoglia due">
+        <img src="assets/strumenti/rind-sf-01.png" alt="Report individuale demo, copertina e guida alla lettura" loading="lazy">
+        <img src="assets/strumenti/rind-sf-02.png" alt="Report individuale demo, le undici dimensioni" loading="lazy">
+        <img src="assets/strumenti/rind-sf-03.png" alt="Report individuale demo, il quadro individuale" loading="lazy">
+        <img src="assets/strumenti/rind-sf-04.png" alt="Report individuale demo, la sintesi interpretativa" loading="lazy">
+        <img src="assets/strumenti/rind-sf-05.png" alt="Report individuale demo, le pagine finali" loading="lazy">
+      </div>
+      <p class="nota">L'esempio completo di un report individuale: persona e azienda dimostrative.</p>
+    </div>
+  </div>
+</dialog>
+<dialog class="dlg grande" id="f-rteam" aria-label="I report del C-Team">
+  <div class="panel">
+    <div class="head"><div class="tit"><span class="occhiello">Gli strumenti C-One</span><h3>I report del C-Team</h3></div>
+      <button type="button" data-chiudi aria-label="Chiudi">×</button></div>
+    <div class="corpo">
+      <p>Il gruppo letto come sistema, in tre pagine che diventano l'agenda del percorso: il quadro diagnostico con la mappa del team, il piano di sviluppo e azione, il cronoprogramma delle attività.</p>
+      <div class="blocco"><h4>Sfoglia l'esempio integrale</h4></div>
+      <div class="sfoglia">
+        <img src="assets/strumenti/rteam-f1.png" alt="Report del C-Team demo, il quadro diagnostico" loading="lazy">
+        <img src="assets/strumenti/rteam-f2.png" alt="Report del C-Team demo, il piano di sviluppo e azione" loading="lazy">
+        <img src="assets/strumenti/rteam-f3.png" alt="Report del C-Team demo, il cronoprogramma delle attività" loading="lazy">
+      </div>
+      <p class="nota">Il report demo di un C-Team di sei persone: nomi e dati dimostrativi.</p>
+    </div>
+  </div>
+</dialog>
+<dialog class="dlg grande" id="f-feedback" aria-label="La linea di feedback">
+  <div class="panel">
+    <div class="head"><div class="tit"><span class="occhiello">Gli strumenti C-One</span><h3>La linea di feedback</h3></div>
+      <button type="button" data-chiudi aria-label="Chiudi">×</button></div>
+    <div class="corpo">
+      <p>Il percorso tiene la rotta con due strumenti: il report di feedback trimestrale, che raccoglie il riscontro del C-Team e prepara il Punto Nave con la proprietà, e il report di evoluzione, che confronta le misurazioni e mostra cosa si è mosso.</p>
+      <div class="blocco"><h4>Il riscontro del trimestre</h4></div>
+      <div class="sfoglia"><img src="assets/strumenti/fb-riscontro-01.png" alt="Report di feedback trimestrale demo" loading="lazy"></div>
+      <div class="blocco"><h4>L'evoluzione tra le misurazioni</h4></div>
+      <div class="sfoglia"><img src="assets/strumenti/fb-evo-01.png" alt="Report di evoluzione del C-Team demo" loading="lazy"></div>
+      <p class="nota">Anteprime con nomi e dati dimostrativi.</p>
+    </div>
+  </div>
+</dialog>
+<dialog class="dlg grande" id="f-library" aria-label="La C-One Library">
+  <div class="panel">
+    <div class="head"><div class="tit"><span class="occhiello">Gli strumenti C-One</span><h3>La C-One Library</h3></div>
+      <button type="button" data-chiudi aria-label="Chiudi">×</button></div>
+    <div class="corpo">
+      <p><span class="cifrona">27</span> e-book proprietari, uno per ogni tema del metodo: 11 dimensioni, 9 pattern individuali, 7 pattern di team.</p>
+      <div class="parete" role="img" aria-label="Le copertine dei ventisette e-book della C-One Library">
+        <img src="assets/strumenti/lib-D01.png" alt="" loading="lazy"><img src="assets/strumenti/lib-D02.png" alt="" loading="lazy"><img src="assets/strumenti/lib-D03.png" alt="" loading="lazy"><img src="assets/strumenti/lib-D04.png" alt="" loading="lazy"><img src="assets/strumenti/lib-D05.png" alt="" loading="lazy"><img src="assets/strumenti/lib-D06.png" alt="" loading="lazy"><img src="assets/strumenti/lib-D07.png" alt="" loading="lazy"><img src="assets/strumenti/lib-D08.png" alt="" loading="lazy"><img src="assets/strumenti/lib-D09.png" alt="" loading="lazy"><img src="assets/strumenti/lib-D10.png" alt="" loading="lazy"><img src="assets/strumenti/lib-D11.png" alt="" loading="lazy"><img src="assets/strumenti/lib-PI01.png" alt="" loading="lazy"><img src="assets/strumenti/lib-PI02.png" alt="" loading="lazy"><img src="assets/strumenti/lib-PI03.png" alt="" loading="lazy"><img src="assets/strumenti/lib-PI04.png" alt="" loading="lazy"><img src="assets/strumenti/lib-PI05.png" alt="" loading="lazy"><img src="assets/strumenti/lib-PI06.png" alt="" loading="lazy"><img src="assets/strumenti/lib-PI07.png" alt="" loading="lazy"><img src="assets/strumenti/lib-PI08.png" alt="" loading="lazy"><img src="assets/strumenti/lib-PI09.png" alt="" loading="lazy"><img src="assets/strumenti/lib-PT01.png" alt="" loading="lazy"><img src="assets/strumenti/lib-PT02.png" alt="" loading="lazy"><img src="assets/strumenti/lib-PT03.png" alt="" loading="lazy"><img src="assets/strumenti/lib-PT04.png" alt="" loading="lazy"><img src="assets/strumenti/lib-PT05.png" alt="" loading="lazy"><img src="assets/strumenti/lib-PT06.png" alt="" loading="lazy"><img src="assets/strumenti/lib-PT07.png" alt="" loading="lazy">
+      </div>
+      <div class="blocco"><h4>Dentro un e-book</h4></div>
+      <div class="sfoglia due">
+        <img src="assets/strumenti/lib-sf-1.png" alt="E-book demo, la copertina" loading="lazy">
+        <img src="assets/strumenti/lib-sf-2.png" alt="E-book demo, l'indice" loading="lazy">
+        <img src="assets/strumenti/lib-sf-3.png" alt="E-book demo, la nota al lettore" loading="lazy">
+        <img src="assets/strumenti/lib-sf-4.png" alt="E-book demo, il primo capitolo" loading="lazy">
+        <img src="assets/strumenti/lib-sf-5.png" alt="E-book demo, il capitolo in anteprima" loading="lazy">
+      </div>
+      <p class="nota">Copertina, indice e un capitolo in anteprima dal volume Leadership e motivazione: le altre 26 pagine si leggono nel percorso.</p>
+    </div>
+  </div>
+</dialog>
+<dialog class="dlg grande" id="f-slide" aria-label="Le slide d'aula">
+  <div class="panel">
+    <div class="head"><div class="tit"><span class="occhiello">Gli strumenti C-One</span><h3>Le slide d'aula</h3></div>
+      <button type="button" data-chiudi aria-label="Chiudi">×</button></div>
+    <div class="corpo">
+      <p><span class="cifrona">60</span> presentazioni d'aula, una per ogni tappa del metodo, nella stessa lingua visiva dei report.</p>
+      <div class="sfoglia due">
+        <img src="assets/strumenti/slide-01.png" alt="Slide d'aula demo, la copertina della presentazione" loading="lazy">
+        <img src="assets/strumenti/slide-02.png" alt="Slide d'aula demo, le domande per l'aula" loading="lazy">
+        <img src="assets/strumenti/slide-03.png" alt="Slide d'aula demo, le tre fasce" loading="lazy">
+        <img src="assets/strumenti/slide-07.png" alt="Slide d'aula demo, la griglia dei ruoli" loading="lazy">
+        <img src="assets/strumenti/slide-09.png" alt="Slide d'aula demo, gli indicatori" loading="lazy">
+        <img src="assets/strumenti/slide-10.png" alt="Slide d'aula demo, il sigillo di chiusura" loading="lazy">
+      </div>
+      <p class="nota">Sei viste dalla presentazione Leadership e motivazione, con contenuti dimostrativi: le altre cinquantanove seguono la stessa struttura.</p>
+    </div>
+  </div>
+</dialog>
+<dialog class="dlg grande" id="f-advisor" aria-label="Il Mastery Advisor">
+  <div class="panel">
+    <div class="head"><div class="tit"><span class="occhiello">Gli strumenti C-One</span><h3>Il Mastery Advisor</h3></div>
+      <button type="button" data-chiudi aria-label="Chiudi">×</button></div>
+    <div class="corpo">
+      <p>Il percorso ha consulenti che stanno nella stanza. Il Mastery Advisor è quello che resta acceso quando la stanza si svuota: l'AI di Mastery, costruita sul metodo C-One, al servizio del C-Team.</p>
+      <div class="blocco"><h4>Conosce il metodo</h4>
+        <p>Le 11 dimensioni, i pattern, gli strumenti: risposte immediate, nella lingua del percorso, senza aspettare la prossima sessione.</p></div>
+      <div class="blocco"><h4>Accompagna il lavoro</h4>
+        <p>Aiuta a rileggere i report, a preparare le sessioni, a tenere il filo delle priorità tra un trimestre e l'altro.</p></div>
+      <div class="blocco"><h4>Riservato al percorso</h4>
+        <p>Non è un chatbot generico: è uno strumento C-One, costruito sul metodo e riservato alle aziende in percorso.</p></div>
+    </div>
+  </div>
+</dialog>
+<dialog class="dlg" id="dialogo" aria-label="Parliamone">
+  <div class="panel">
+    <div class="head">
+      <div class="titolo">
+        <span>Parliamone.</span>
+        <p>Prepariamoci al meglio per il nostro incontro.</p>
+      </div>
+      <button type="button" id="chiudi-dialogo" aria-label="Chiudi il dialogo">&#10005;</button>
+    </div>
+    <div class="thread" id="thread"></div>
+  </div>
+</dialog>
+
+<script>
+document.documentElement.classList.add('js');
+(function(){
+  /* ingresso parola per parola: il testo resta nel suo flusso naturale */
+  document.querySelectorAll('.words').forEach(function(el){
+    var words = el.textContent.trim().split(/\s+/);
+    el.textContent = '';
+    words.forEach(function(w, i){
+      var box = document.createElement('span');
+      box.className = 'w';
+      box.style.setProperty('--i', i);
+      var inner = document.createElement('i');
+      inner.textContent = w;
+      box.appendChild(inner);
+      el.appendChild(box);
+      el.appendChild(document.createTextNode(' '));
+    });
+  });
+})();
+(function(){
+  var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if('IntersectionObserver' in window){
+    var io = new IntersectionObserver(function(es){
+      es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+    },{threshold:0, rootMargin:'0px 0px -12% 0px'});
+    document.querySelectorAll('.anim').forEach(function(el){ io.observe(el); });
+
+    var nav = document.querySelector('.nav');
+    var navIo = new IntersectionObserver(function(es){
+      es.forEach(function(e){ if(e.isIntersecting) nav.setAttribute('data-theme', e.target.dataset.nav || 'light'); });
+    },{rootMargin:'-8% 0px -90% 0px'});
+    document.querySelectorAll('[data-nav]').forEach(function(el){ navIo.observe(el); });
+  } else {
+    document.querySelectorAll('.anim').forEach(function(el){ el.classList.add('in'); });
+  }
+
+  /* apertura: 3 schermate guidate dallo scroll; se nessuno scrolla, avanza da sola */
+  var hero = document.querySelector('.hero');
+  var slides = [].slice.call(document.querySelectorAll('.hero .slide'));
+  var leads = [].slice.call(document.querySelectorAll('.leadtext'));
+  var ticks = [].slice.call(document.querySelectorAll('.hero .ticks button'));
+  var cur = 0, ticking = false, userMoved = reduce, autoDone = false, idle = null;
+
+  function step(){ return (hero.offsetHeight - innerHeight) / slides.length; }
+
+  function paint(){
+    ticking = false;
+    if(!hero) return; /* le pagine con l'apertura statica non hanno l'hero */
+    var span = hero.offsetHeight - innerHeight;
+    var prog = span > 0 ? (-hero.getBoundingClientRect().top) / span : 0;
+    prog = Math.max(0, Math.min(.9999, prog));
+    var i = Math.floor(prog * slides.length);
+    if(i === cur) return;
+    cur = i;
+    slides.forEach(function(sl,k){ sl.classList.toggle('on', k === i); sl.setAttribute('aria-hidden', k === i ? 'false' : 'true'); });
+    leads.forEach(function(l,k){ l.classList.toggle('on', k === i); });
+    ticks.forEach(function(t,k){ t.setAttribute('aria-current', k === i ? 'true' : 'false'); });
+  }
+  addEventListener('scroll', function(){ if(!ticking){ ticking = true; requestAnimationFrame(paint); } },{passive:true});
+  addEventListener('resize', paint);
+  paint();
+
+  function goTo(i){
+    if(!hero) return;
+    var top = hero.offsetTop + Math.min(i * step() + 4, hero.offsetHeight - innerHeight);
+    window.scrollTo({top:top, behavior: reduce ? 'auto' : 'smooth'});
+  }
+  ticks.forEach(function(b,i){
+    b.addEventListener('click', function(){ userMoved = true; clearTimeout(idle); goTo(i); });
+  });
+  function auto(){
+    if(userMoved || autoDone) return;
+    idle = setTimeout(function(){
+      if(userMoved) return;
+      var next = cur + 1;
+      if(next >= slides.length){ autoDone = true; return; }
+      goTo(next);
+      if(next >= slides.length - 1){ autoDone = true; return; }
+      auto();
+    }, 9500);
+  }
+  ['wheel','touchstart','keydown','pointerdown'].forEach(function(ev){
+    addEventListener(ev, function(){ userMoved = true; clearTimeout(idle); }, {passive:true, once:true});
+  });
+  auto();
+
+  /* fascia scorrevole */
+  var track = document.querySelector('.marquee .track');
+  if(track && !reduce){
+    var x = 0, last = scrollY, vel = 0, w = track.scrollWidth / 2;
+    addEventListener('scroll', function(){ vel += (scrollY - last) * .3; last = scrollY; },{passive:true});
+    (function loop(){
+      vel *= .92; x -= (.45 + vel * .05);
+      if(Math.abs(x) > w) x = 0;
+      track.style.transform = 'translate3d(' + x + 'px,0,0)';
+      requestAnimationFrame(loop);
+    })();
+  }
+
+  /* lenti */
+  var tabs = [].slice.call(document.querySelectorAll('.lens-tab'));
+  tabs.forEach(function(t){
+    t.addEventListener('click', function(){
+      tabs.forEach(function(o){
+        var on = o === t;
+        o.setAttribute('aria-selected', on ? 'true' : 'false');
+        document.getElementById(o.getAttribute('aria-controls')).hidden = !on;
+      });
+      countUp(document.getElementById(t.getAttribute('aria-controls')));
+    });
+  });
+
+  /* i dati non ruotano: uno per scenario, il contatore parte quando entra in vista */
+
+  /* contatore sui numeri */
+  function countUp(scope){
+    if(reduce || !scope) return;
+    scope.querySelectorAll('.fig[data-count]').forEach(function(el){
+      var end = parseInt(el.dataset.count,10), pre = el.dataset.pre || '', post = el.dataset.post || '';
+      var t0 = null, dur = 900;
+      function step(t){
+        if(!t0) t0 = t;
+        var p = Math.min(1,(t-t0)/dur);
+        el.textContent = pre + Math.round(end * (1 - Math.pow(1-p,3))).toLocaleString('it-IT') + post;
+        if(p < 1) requestAnimationFrame(step);
+      }
+      requestAnimationFrame(step);
+    });
+  }
+  if('IntersectionObserver' in window){
+    var figIo = new IntersectionObserver(function(es){
+      es.forEach(function(e){ if(e.isIntersecting){ countUp(e.target); figIo.unobserve(e.target); } });
+    },{threshold:.4});
+    document.querySelectorAll('.datum').forEach(function(d){ figIo.observe(d); });
+  }
+
+  /* specchi */
+  document.querySelectorAll('.mirror > button').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      if(btn.dataset.finestra){
+        var f = document.getElementById(btn.dataset.finestra);
+        if(f){ if(f.showModal) f.showModal(); else f.setAttribute('open',''); }
+        return;
+      }
+      var m = btn.parentElement, open = m.classList.contains('open');
+      var scope = m.closest('.mirrors');
+      scope.querySelectorAll('.mirror.open').forEach(function(o){
+        o.classList.remove('open');
+        o.querySelector('.body').style.maxHeight = null;
+        o.querySelector('button').setAttribute('aria-expanded','false');
+      });
+      if(!open){
+        m.classList.add('open');
+        var body = m.querySelector('.body');
+        body.style.maxHeight = body.firstElementChild.scrollHeight + 'px';
+        btn.setAttribute('aria-expanded','true');
+      }
+    });
+  });
+
+  /* finestre di metodo e strumenti */
+  document.querySelectorAll('[data-finestra]').forEach(function(apri){
+    if(apri.closest('.mirror')) return;
+    apri.addEventListener('click', function(){
+      var f = document.getElementById(apri.dataset.finestra);
+      if(!f) return;
+      if(f.showModal) f.showModal(); else f.setAttribute('open','');
+    });
+  });
+  document.querySelectorAll('.dlg [data-chiudi]').forEach(function(b){
+    b.addEventListener('click', function(){
+      var f = b.closest('dialog');
+      if(f.close) f.close(); else f.removeAttribute('open');
+    });
+  });
+
+  /* dialogo di contatto */
+  var dlg = document.getElementById('dialogo'), thread = document.getElementById('thread');
+  var dati = {tema:'', nome:'', email:'', note:''};
+  var voi = false;
+  function say(txt, cls){
+    var p = document.createElement('p');
+    p.className = 'say' + (cls ? ' ' + cls : '');
+    p.textContent = txt; thread.appendChild(p); thread.scrollTop = thread.scrollHeight;
+    return p;
+  }
+  function options(list, cb){
+    var box = document.createElement('div'); box.className = 'opts';
+    list.forEach(function(o){
+      var b = document.createElement('button'); b.type='button'; b.textContent = o.label;
+      b.addEventListener('click', function(){ box.remove(); say(o.label,'mine'); cb(o); });
+      box.appendChild(b);
+    });
+    thread.appendChild(box); thread.scrollTop = thread.scrollHeight;
+  }
+  function ask(placeholder, cb, extra){
+    var box = document.createElement('div'); box.className = 'field';
+    var inp = document.createElement('input'); inp.type='text'; inp.placeholder = placeholder;
+    inp.setAttribute('aria-label', placeholder);
+    var b = document.createElement('button'); b.type='button'; b.className='send'; b.textContent='Invia';
+    box.appendChild(inp); box.appendChild(b);
+    if(extra){
+      var s = document.createElement('button'); s.type='button'; s.className='send'; s.textContent = extra.label;
+      s.addEventListener('click', function(){ box.remove(); say(extra.label,'mine'); cb(''); });
+      box.appendChild(s);
+    }
+    thread.appendChild(box); inp.focus(); thread.scrollTop = thread.scrollHeight;
+    function go(){
+      var v = inp.value.trim(); if(!v) return;
+      box.remove(); say(v,'mine'); cb(v);
+    }
+    b.addEventListener('click', go);
+    inp.addEventListener('keydown', function(e){ if(e.key === 'Enter') go(); });
+  }
+  function start(){
+    thread.innerHTML = '';
+    voi = document.body.dataset.registro === 'voi';
+    var ctx = document.body.dataset.pagina;
+    if(ctx){
+      dati.tema = ctx === 'c-one' ? 'il vertice dell’impresa (C-One)' : 'percorso personale del manager';
+      say(voi
+        ? 'Benvenuti. Vi chiediamo solo due informazioni per focalizzarci e andare subito al punto.'
+        : 'Ciao! Ti chiediamo solo due informazioni per focalizzarci e andare subito al punto.');
+      say(ctx === 'c-one'
+        ? 'Parliamo del vertice della vostra impresa. Per iniziare: con chi abbiamo il piacere di parlare?'
+        : 'Parliamo del tuo percorso. Per iniziare: come ti chiami?');
+      ask('Nome e cognome', function(nome){
+        dati.nome = nome;
+        var grazie = nome ? 'Grazie, ' + nome.split(' ')[0] + '. ' : 'Grazie. ';
+        say(grazie + (voi ? 'A quale email possiamo rispondervi?' : 'A quale email possiamo risponderti?'));
+        chiediEmail();
+      });
+      return;
+    }
+    say('Ciao! Ti chiediamo solo qualche informazione per focalizzarci e andare dritti al punto.');
+    say('Per iniziare: il tuo interesse è rivolto a…');
+    options([
+      {label:'Al vertice della tua azienda', next:'Perfetto. Nel nostro incontro capiremo insieme se C-One fa al caso della tua impresa. Intanto, come ti chiami?', tema:'il vertice dell’impresa (C-One)'},
+      {label:'A te come persona', next:'Bene. Qui la riservatezza è totale: quello che scrivi resta tra noi e i tuoi dati sono al sicuro. Intanto, come ti chiami?', tema:'percorso personale del manager'},
+      {label:'Altro', next:'Va benissimo, ne parliamo a voce. Intanto, come ti chiami?', tema:'da definire insieme'}
+    ], function(o){
+      dati.tema = o.tema;
+      say(o.next);
+      ask('Nome e cognome', function(nome){
+        dati.nome = nome;
+        say(nome ? 'Grazie, ' + nome.split(' ')[0] + '. A quale email possiamo risponderti?' : 'Grazie. A quale email possiamo risponderti?');
+        chiediEmail();
+      });
+    });
+  }
+  function chiediEmail(){
+    ask('Email', function(mail){
+      if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(mail)){
+        var e = say(voi ? 'Manca qualcosa in questo indirizzo: ci date un’occhiata?' : 'Manca qualcosa in questo indirizzo: ci dai un’occhiata?'); e.className = 'say err';
+        chiediEmail(); return;
+      }
+      dati.email = mail;
+      say(voi ? 'E se vi va, lasciateci due righe su cosa sta succedendo, così arriveremo già preparati.' : 'E se ti va, lasciaci due righe su cosa sta succedendo, così arriveremo già preparati.');
+      ask(voi ? 'Raccontateci in due righe cosa sta succedendo…' : 'Raccontaci in due righe cosa sta succedendo…', function(note){
+        dati.note = note; chiudi();
+      }, {label:'Ne parliamo all’incontro'});
+    });
+  }
+  function chiudi(){
+    say('Ci siamo! Ecco il riepilogo: ' + dati.nome + ' · ' + dati.email + ' · ' + dati.tema + (dati.note ? ' · «' + dati.note + '».' : '.'));
+    var box = document.createElement('div'); box.className = 'opts';
+    var b = document.createElement('button'); b.type = 'button'; b.textContent = 'Prepara la mail';
+    b.addEventListener('click', function(){
+      var corpo = 'Nome: ' + dati.nome + '\nEmail: ' + dati.email + '\nTema: ' + dati.tema +
+        (dati.note ? '\nNote: ' + dati.note : '') +
+        '\n\nRichiesta preparata dal dialogo del sito Mastery CLC.';
+      window.location.href = 'mailto:info@masteryclc.it?subject=' +
+        encodeURIComponent(document.body.dataset.oggetto || 'Mastery CLC · Richiesta di incontro') + '&body=' + encodeURIComponent(corpo);
+      say(voi ? 'Fatto! La mail vi aspetta nella vostra posta: un clic e parte. Se non dovesse aprirsi, potete scriverci direttamente a info@masteryclc.it.' : 'Fatto! La mail ti aspetta nella tua posta: un clic e parte. Se non dovesse aprirsi, puoi scriverci direttamente a info@masteryclc.it.');
+    });
+    box.appendChild(b); thread.appendChild(box);
+    var n = document.createElement('p'); n.className = 'note';
+    n.textContent = voi ? 'Questo tasto apre il vostro programma di posta con la mail già pronta: dovrete solo premere invio.' : 'Questo tasto apre il tuo programma di posta con la mail già pronta: dovrai solo premere invio.';
+    thread.appendChild(n); thread.scrollTop = thread.scrollHeight;
+  }
+  document.getElementById('apri-dialogo').addEventListener('click', function(){
+    start(); if(dlg.showModal) dlg.showModal(); else dlg.setAttribute('open','');
+  });
+  document.getElementById('chiudi-dialogo').addEventListener('click', function(){
+    if(dlg.close) dlg.close(); else dlg.removeAttribute('open');
+  });
+})();
+</script>
+</body>
+</html>

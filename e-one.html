@@ -1,0 +1,1126 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mastery CLC. · E-One, il percorso del manager come persona</title>
+<meta name="description" content="E-One, il percorso Mastery per chi guida: costruisci il tuo percorso sulle tue scelte, un consulente lo presenta a voce. Riservato per architettura.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
+<style>
+:root{
+  --klein:#002FA7;
+  --ink:#0E0E0E;
+  --paper:#F7F6F3;
+  --white:#FFFFFF;
+
+  --t-micro:clamp(.8125rem,.75rem + .32vw,1.0625rem);
+  --t-body:clamp(1.0625rem,1rem + .4vw,1.375rem);
+  --t-lead:clamp(1.1875rem,1.05rem + .75vw,1.875rem);
+  --t-h4:clamp(1.375rem,1.1rem + 1.3vw,2.25rem);
+  --t-h3:clamp(1.75rem,1.2rem + 2.8vw,3.75rem);
+  --t-h2:clamp(2.5rem,1.3rem + 6vw,7.5rem);
+  --t-claim:clamp(2.75rem,1.2rem + 7.8vw,9.5rem);
+  --t-claim-short:clamp(3.5rem,1rem + 12.5vw,16rem);
+
+  --gutter:clamp(22px,4.6vw,76px);
+  --max:1560px;
+  --display:"Anton","Haettenschweiler","Arial Narrow",sans-serif;
+  --text:"Helvetica Neue",Helvetica,"Inter",-apple-system,"Segoe UI",Arial,sans-serif;
+  --line:rgba(14,14,14,.15);
+  --line-inv:rgba(247,246,243,.24);
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+body{background:var(--paper);color:var(--ink);font-family:var(--text);
+  font-size:var(--t-body);line-height:1.55;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+::selection{background:var(--klein);color:var(--white)}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+h1,h2,h3,h4,.display{font-family:var(--display);font-weight:400;text-transform:uppercase;
+  line-height:.98;letter-spacing:-.005em}
+p{max-width:64ch}
+.wrap{width:100%;max-width:var(--max);margin-inline:auto;padding-inline:var(--gutter)}
+.section{padding-block:clamp(68px,10vw,150px)}
+section[id]{scroll-margin-top:clamp(60px,8vh,96px)}
+.label{font-size:var(--t-micro);text-transform:uppercase;letter-spacing:.13em;font-weight:500;
+  line-height:1.3;color:var(--klein)}
+.blue .label,.door.klein .label,.contact .label,.hero .label{color:currentColor;opacity:.85}
+.lead{font-size:var(--t-lead);line-height:1.38}
+.white{background:var(--white)}
+.blue{background:var(--klein);color:var(--paper)}
+.ink{background:var(--ink);color:var(--paper)}
+
+.skip{position:absolute;left:-9999px;top:0;background:var(--klein);color:var(--paper);
+  padding:12px 18px;z-index:200;font-size:var(--t-micro);letter-spacing:.14em;text-transform:uppercase}
+.skip:focus{left:var(--gutter);top:10px}
+:focus-visible{outline:2px solid currentColor;outline-offset:3px}
+
+/* ---------- testata ---------- */
+.nav{position:fixed;inset:0 0 auto 0;z-index:100;color:var(--paper);background:var(--klein);transition:color .45s ease,background-color .45s ease}
+.nav[data-theme="light"]{color:var(--ink);background:var(--paper)}
+.nav .bar{display:flex;align-items:center;justify-content:space-between;gap:20px;
+  padding-block:clamp(14px,1.8vw,22px)}
+.nav .brand{font-family:var(--display);font-size:clamp(1rem,.85rem + .6vw,1.5rem);letter-spacing:.09em}
+.nav ul{display:flex;align-items:center;gap:clamp(14px,2vw,30px);list-style:none}
+.nav a{font-size:clamp(.75rem,.7rem + .25vw,.9375rem);text-transform:uppercase;letter-spacing:.15em;
+  white-space:nowrap;border-bottom:1px solid transparent;padding-bottom:2px;transition:border-color .3s}
+.nav a:hover{border-bottom-color:currentColor}
+.nav .pill{border:1px solid currentColor;padding:7px 14px 8px;letter-spacing:.15em}
+.nav .pill:hover{background:var(--paper);color:var(--klein);border-color:var(--paper)}
+.nav[data-theme="light"] .pill:hover{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.nav[data-theme="dark"] .pill:hover{background:var(--paper);color:var(--klein);border-color:var(--paper)}
+/* sugli schermi stretti il menu tiene la sola pillola: le voci tornano da tablet in su
+   (la soluzione mobile definitiva e' del prossimo giro di design) */
+@media(max-width:640px){.nav ul li:not(:last-child){display:none}}
+
+/* ---------- maschere ---------- */
+/* aria sopra il clip: gli accenti delle maiuscole di Anton salgono a 1.1em (misurato) */
+.js .mask{display:block;overflow:hidden;padding-top:.26em;padding-bottom:.06em;margin-top:-.24em;margin-bottom:-.06em}
+.js .mask > span{display:block;transform:translateY(106%);
+  transition:transform .9s cubic-bezier(.16,1,.3,1)}
+.js .in .mask > span,.js .on .mask > span{transform:translateY(0)}
+.js .mask:nth-of-type(2) > span{transition-delay:.06s}
+.js .mask:nth-of-type(3) > span{transition-delay:.12s}
+.js .words .w{display:inline-block;overflow:hidden;vertical-align:top;
+  padding-top:.26em;margin-top:-.26em;padding-bottom:.04em;margin-bottom:-.04em}
+.js .words .w > i{display:inline-block;font-style:normal;transform:translateY(106%);
+  transition:transform .85s cubic-bezier(.16,1,.3,1);transition-delay:calc(var(--i) * 42ms)}
+.js .in .words .w > i{transform:translateY(0)}
+.js .up{opacity:0;transform:translateY(14px);
+  transition:opacity .75s ease .25s,transform .75s cubic-bezier(.16,1,.3,1) .25s}
+.js .in .up{opacity:1;transform:none}
+
+/* ---------- CTA ---------- */
+.cta{display:inline-flex;align-items:center;gap:.5em;font-family:var(--display);
+  text-transform:uppercase;font-size:clamp(1.125rem,.9rem + .9vw,1.875rem);letter-spacing:.02em;
+  border-bottom:2px solid currentColor;padding-bottom:4px}
+.cta .arw{display:inline-block;width:.44em;height:.44em;flex:none;
+  border-top:.085em solid currentColor;border-right:.085em solid currentColor;
+  transform:rotate(45deg);position:relative;top:-.03em;
+  transition:transform .45s cubic-bezier(.16,1,.3,1)}
+.cta:hover .arw{transform:rotate(45deg) translate(.16em,-.16em)}
+
+/* ---------- apertura: 3 schermate in sticky ---------- */
+.hero{position:relative;height:320svh;background:var(--klein);color:var(--paper)}
+.hero-stage{position:sticky;top:0;height:100svh;display:flex;flex-direction:column;
+  justify-content:space-between;padding-block:clamp(88px,13vh,160px) clamp(24px,4vh,52px);overflow:hidden}
+.hero .top{display:flex;align-items:baseline;justify-content:space-between;gap:24px;flex-wrap:wrap}
+.ticks{display:flex;gap:12px;align-items:center}
+.ticks button{width:44px;height:2px;background:currentColor;opacity:.28;transition:opacity .45s}
+.ticks button[aria-current="true"]{opacity:1}
+.stage{position:relative;flex:1;min-height:0;margin-block:clamp(20px,4vh,48px)}
+.slide{position:absolute;inset:0;display:flex;align-items:center;padding-inline:var(--gutter);
+  visibility:hidden;pointer-events:none}
+.slide.on{visibility:visible;pointer-events:auto}
+.claim{font-size:var(--t-claim);margin-left:-.05em;line-height:.94}
+.claim.short{font-size:var(--t-claim-short);line-height:.9}
+.slide .mask > span{transform:translateY(108%)}
+.slide.on .mask > span{transform:translateY(0)}
+.hero-foot{display:grid;gap:clamp(16px,2.6vw,36px);padding-top:clamp(20px,3vh,38px);
+  border-top:1px solid var(--line-inv)}
+@media(min-width:960px){
+  .hero-foot{grid-template-columns:7fr 4fr;align-items:end}
+  .hero-foot .cta{justify-self:end}
+}
+.leads{position:relative;min-height:calc(var(--t-body) * 6)}
+.leadtext{position:absolute;inset:0;max-width:52ch;font-size:var(--t-lead);line-height:1.34;opacity:0;transform:translateY(22px);
+  transition:opacity .6s ease,transform .8s cubic-bezier(.16,1,.3,1)}
+.leadtext.on{opacity:1;transform:none;position:relative;transition-delay:.28s}
+html:not(.js) .hero{height:auto}
+html:not(.js) .slide{position:relative;visibility:visible;padding-inline:0;margin-bottom:40px}
+
+/* ---------- per chi ---------- */
+.claimbig{font-size:var(--t-h2);line-height:.94}
+.door{min-height:min(84svh,760px);display:flex;flex-direction:column;justify-content:center;
+  gap:clamp(26px,5vh,72px);padding-block:clamp(56px,9vh,120px)}
+.door.klein{background:var(--klein);color:var(--paper)}
+.door.nero{background:var(--paper);color:var(--ink)}
+.door.nero .under{border-top-color:var(--line)}
+.door.nero .label{color:var(--klein)}
+.door .name{font-family:var(--display);text-transform:uppercase;line-height:.92;
+  font-size:clamp(3.75rem,17vw,15rem);letter-spacing:-.03em;margin-left:-.05em;
+  margin-top:clamp(14px,2.4vh,32px)}
+.door .under{display:grid;gap:clamp(18px,3vw,44px);padding-top:clamp(22px,3vh,40px);
+  border-top:1px solid var(--line-inv)}
+@media(min-width:960px){
+  .door .under{grid-template-columns:7fr 4fr;align-items:end}
+  .door .under .cta{justify-self:end}
+}
+.door .under p{max-width:58ch}
+
+/* ---------- perche ---------- */
+.lenses{display:grid;grid-template-columns:1fr;margin-top:clamp(24px,4vw,56px);
+  border-top:1px solid var(--line)}
+@media(min-width:800px){.lenses{grid-template-columns:1fr 1fr}}
+.lens-tab{font-family:var(--display);text-transform:uppercase;font-size:clamp(1.5rem,1rem + 2.6vw,3.25rem);
+  line-height:.94;padding:clamp(18px,2.6vw,38px) clamp(16px,2.2vw,32px);
+  border-bottom:1px solid var(--line);text-align:left;transition:background .45s ease,color .45s ease}
+.lens-tab[aria-selected="true"]{background:var(--klein);color:var(--paper)}
+.lens-tab:not([aria-selected="true"]){color:var(--klein)}
+.lens-tab:not([aria-selected="true"]):hover{background:rgba(0,47,167,.1)}
+.lens[hidden]{display:none}
+
+.databand{position:relative;height:280svh;border-bottom:1px solid var(--line)}
+.dstage{position:sticky;top:0;min-height:100svh;display:flex;flex-direction:column;
+  justify-content:center;padding-block:clamp(86px,13vh,150px) clamp(34px,6vh,80px);overflow:hidden}
+.datawrap{position:relative;flex:1;min-height:0;display:flex;align-items:center}
+.datum{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;
+  opacity:0;transform:translateY(26px);pointer-events:none;
+  transition:opacity .5s ease,transform .85s cubic-bezier(.16,1,.3,1)}
+.datum.on{opacity:1;transform:none;pointer-events:auto}
+.datum[hidden]{display:flex}
+.datum .eco{font-family:var(--display);text-transform:uppercase;color:var(--klein);font-size:var(--t-h3);
+  line-height:.98;max-width:22ch;margin-bottom:clamp(8px,1.6vh,20px)}
+.datum .fig{font-family:var(--display);font-size:clamp(4rem,16.5vw,14.5rem);line-height:.88;
+  color:var(--klein);letter-spacing:-.03em;display:block;margin-left:-.04em;
+  margin-block:clamp(10px,2vh,26px)}
+.datum .under{display:grid;gap:clamp(16px,3vw,48px);padding-top:clamp(18px,2.4vh,32px);
+  border-top:1px solid var(--line)}
+@media(min-width:960px){.datum .under{grid-template-columns:7fr 5fr;align-items:start}}
+.datum .src{font-size:var(--t-micro);letter-spacing:.13em;text-transform:uppercase;color:var(--klein);opacity:.8}
+.datum p{max-width:52ch}
+.data-ticks{display:flex;gap:10px;margin-top:clamp(20px,3vw,36px)}
+.data-ticks button{width:38px;height:2px;background:var(--ink);opacity:.2;transition:opacity .35s}
+.data-ticks button[aria-current="true"]{opacity:1;background:var(--klein)}
+
+.mirrors{background:var(--klein);color:var(--paper);margin-inline:calc(50% - 50vw);
+  padding-inline:calc(50vw - 50%)}
+.mirror{border-bottom:1px solid var(--line-inv);transition:background .45s ease}
+.mirror:first-child{border-top:1px solid var(--line-inv)}
+.mirror > button{width:100%;display:flex;align-items:center;gap:clamp(12px,2.6vw,44px);
+  text-align:left;padding:clamp(18px,2.6vw,38px) clamp(8px,1.6vw,22px)}
+.mirror .n{font-family:var(--display);font-size:clamp(1rem,.85rem + .6vw,1.5rem);
+  color:currentColor;opacity:.6;flex:none;letter-spacing:.05em;transition:opacity .45s}
+.mirror h3{flex:1;font-size:clamp(1.5rem,1rem + 2.6vw,3.25rem);line-height:.96}
+.mirror .plus{position:relative;flex:none;font-size:0;line-height:0;
+  width:clamp(20px,1.6vw,28px);height:clamp(20px,1.6vw,28px);align-self:center;
+  transition:transform .55s cubic-bezier(.16,1,.3,1)}
+.mirror .plus::before,.mirror .plus::after{content:"";position:absolute;left:0;right:0;top:50%;
+  height:2px;background:currentColor;transform:translateY(-50%)}
+.mirror .plus::after{transform:translateY(-50%) rotate(90deg)}
+.mirror .body{max-height:0;overflow:hidden;transition:max-height .6s cubic-bezier(.16,1,.3,1)}
+.mirror .body .inner{padding:0 clamp(8px,1.6vw,22px) clamp(28px,3.4vw,52px);
+  margin-left:clamp(0px,7vw,120px);max-width:70ch}
+.mirror .key{display:block;font-family:var(--display);text-transform:uppercase;
+  font-size:var(--t-h3);line-height:1.02;margin-top:clamp(18px,2.4vw,30px);color:var(--klein)}
+.mirror.open{background:var(--white);color:var(--klein)}
+.mirror.open .n{opacity:1}
+.mirror.open .plus{transform:rotate(45deg)}
+.mirror:not(.open):hover{background:rgba(247,246,243,.12)}
+
+.marquee{background:var(--klein);color:var(--paper);padding-block:clamp(14px,2vw,26px);
+  overflow:hidden;white-space:nowrap;border-block:1px solid var(--line-inv)}
+.marquee .track{display:inline-block;font-family:var(--display);text-transform:uppercase;
+  font-size:clamp(1.75rem,1rem + 3.4vw,4.5rem);line-height:1.1;will-change:transform}
+.marquee .track span{padding-inline:.5em}
+.marquee .track i{font-style:normal;opacity:.45}
+
+/* ---------- risultati ---------- */
+.voices{margin-top:clamp(28px,4vw,60px);border-top:1px solid var(--line)}
+@media(min-width:1000px){.voices{columns:2;column-gap:clamp(40px,5vw,96px);border-top:0}}
+/* nei pannelli a lente le voci sono tre: due a sinistra, una a destra, sempre */
+@media(min-width:1000px){.lens .voice:nth-child(2){break-after:column}}
+.voice{border-top:1px solid var(--line);padding-block:clamp(24px,3vw,42px);
+  break-inside:avoid;-webkit-column-break-inside:avoid}
+.voice h3{font-size:clamp(1.5rem,1.05rem + 2.1vw,2.875rem);line-height:1;max-width:20ch;color:var(--klein)}
+/* su qualunque fondo scuro le voci prendono il colore della sezione e il filo invertito */
+.blue .voice h3,.ink .voice h3,.contact .voice h3,.hero .voice h3{color:currentColor}
+.blue .voice,.ink .voice,.contact .voice,.hero .voice{border-color:var(--line-inv)}
+.voice .role{font-size:var(--t-micro);letter-spacing:.13em;text-transform:uppercase;
+  margin-top:14px;opacity:.65}
+.voice blockquote{margin-top:14px;max-width:52ch;opacity:.88}
+
+/* ---------- insights ---------- */
+.cards{margin-top:clamp(26px,4vw,56px);border-top:1px solid var(--line)}
+.card{border-bottom:1px solid var(--line);padding-block:clamp(26px,3.6vw,52px);
+  display:grid;gap:clamp(12px,2vw,26px)}
+@media(min-width:960px){.card{grid-template-columns:3fr 5fr 4fr;gap:clamp(24px,4vw,72px);align-items:baseline}}
+.card h3{font-size:clamp(1.5rem,1rem + 2.4vw,3rem);line-height:.98;max-width:18ch;color:var(--klein)}
+.card p{font-size:var(--t-body);opacity:.85;max-width:46ch}
+.card .tag{font-size:var(--t-micro);letter-spacing:.13em;text-transform:uppercase;color:var(--klein)}
+
+/* ---------- contatto ---------- */
+.contact{background:var(--klein);color:var(--paper);min-height:86svh;display:flex;
+  flex-direction:column;justify-content:center}
+.contact h2{font-size:var(--t-h2);max-width:24ch;line-height:.94;margin-block:clamp(14px,2vw,26px) clamp(20px,3vw,36px)}
+.contact .lead{max-width:56ch}
+.contact .actions{display:flex;flex-wrap:wrap;gap:clamp(20px,3vw,44px);align-items:baseline;
+  margin-top:clamp(28px,3.6vw,52px)}
+.contact .alt{font-size:var(--t-lead);opacity:.85}
+.contact .alt a{border-bottom:1px solid currentColor}
+
+footer{background:var(--klein);color:var(--paper);padding-bottom:clamp(26px,3.6vw,46px)}
+footer .inner{border-top:1px solid var(--line-inv);padding-top:20px;display:flex;flex-wrap:wrap;
+  gap:16px;justify-content:space-between;align-items:baseline}
+footer .mark{font-family:var(--display);font-size:clamp(.8125rem,.75rem + .25vw,1rem);letter-spacing:.09em}
+footer .legal{font-size:var(--t-micro);letter-spacing:.06em;opacity:.75;max-width:70ch}
+
+/* ---------- dialogo ---------- */
+.dlg{position:fixed;inset:0;z-index:300;display:none;width:100%;height:100%;max-width:none;
+  max-height:none;margin:0;padding:0;border:0;background:transparent;overflow:hidden}
+.dlg[open]{display:block}
+.dlg::backdrop{background:rgba(14,14,14,.6)}
+.dlg .panel{position:absolute;right:0;top:0;bottom:0;width:min(560px,100%);background:var(--paper);
+  color:var(--ink);display:flex;flex-direction:column}
+.dlg .head{background:var(--klein);color:var(--paper);display:flex;align-items:center;
+  justify-content:space-between;padding:clamp(16px,2.4vw,26px) clamp(18px,2.6vw,32px)}
+.dlg .head span{font-family:var(--display);text-transform:uppercase;font-size:var(--t-h4)}
+.dlg .head .titolo{display:flex;flex-direction:column;gap:4px;min-width:0}
+.dlg .head .titolo p{font-size:var(--t-micro);letter-spacing:.06em;opacity:.85}
+.dlg .head button{position:relative;flex:none;width:24px;height:24px;font-size:0;line-height:0}
+.dlg .head button::before,.dlg .head button::after{content:"";position:absolute;left:0;right:0;top:50%;
+  height:2px;background:currentColor}
+.dlg .head button::before{transform:rotate(45deg)}
+.dlg .head button::after{transform:rotate(-45deg)}
+.dlg .thread{flex:1;overflow-y:auto;padding:clamp(20px,3vw,34px) clamp(18px,2.6vw,32px);
+  display:flex;flex-direction:column;gap:18px}
+.dlg .say{max-width:44ch}
+.dlg .mine{align-self:flex-end;text-align:right;color:var(--klein);font-weight:500}
+.dlg .opts{display:flex;flex-wrap:wrap;gap:10px;margin-top:4px}
+.dlg .opts button,.dlg .send{border:1px solid var(--klein);color:var(--klein);
+  padding:9px 14px;font-size:var(--t-micro);letter-spacing:.12em;text-transform:uppercase;
+  transition:background .3s,color .3s}
+.dlg .opts button:hover,.dlg .send:hover{background:var(--klein);color:var(--paper)}
+.dlg .field{display:flex;gap:10px;margin-top:6px}
+.dlg .field input{flex:1;border:0;border-bottom:1px solid var(--line);background:none;
+  padding:9px 2px;font:inherit;font-size:var(--t-body)}
+.dlg .field input:focus{outline:0;border-bottom-color:var(--klein)}
+.dlg .err{color:var(--klein);font-size:var(--t-micro);letter-spacing:.06em}
+.dlg .note{font-size:var(--t-micro);letter-spacing:.06em;opacity:.6;max-width:46ch}
+
+/* ---------- la riga degli specchi si accende per intero ---------- */
+/* la fascia arriva ai bordi dello schermo, il testo resta sulla colonna della pagina */
+.mirror{margin-inline:calc(50% - 50vw);padding-inline:calc(50vw - 50%)}
+
+/* ---------- stacco fra due campiture chiare consecutive ---------- */
+.hero.interna + .section,
+.section:not(.blue):not(.contact) + .section:not(.blue):not(.contact){border-top:1px solid var(--line)}
+
+/* ---------- barra compatta sugli schermi stretti ---------- */
+@media(max-width:760px){
+  .nav .bar{gap:12px}
+  .nav ul{gap:13px}
+  .nav a{font-size:.6875rem;letter-spacing:.08em}
+  .nav .pill{padding:6px 9px 7px}
+}
+@media(max-width:480px){
+  .nav a{font-size:.625rem;letter-spacing:.06em}
+  .nav .pill{padding:5px 8px 6px}
+  .section{padding-block:clamp(74px,12vw,118px)}
+}
+
+/* ================= PAGINA INTERNA E-ONE: stessa grammatica della home ================= */
+.nav .mark{display:flex;align-items:baseline;gap:.6em;flex:none;white-space:nowrap}
+.nav .targa{font-size:var(--t-micro);text-transform:uppercase;letter-spacing:.14em;
+  opacity:.7;white-space:nowrap}
+
+/* apertura: quella della home, guidata dallo scroll, su carta col titolo in klein */
+.hero.interna{height:320svh;background:var(--paper);color:var(--ink)}
+html:not(.js) .hero.interna{height:auto}
+.js .hero.interna .slide.on .words .w > i{transform:translateY(0)}
+.hero.interna .claim{color:var(--klein);max-width:16ch}
+.hero.interna .ticks button{background:var(--klein);opacity:.25}
+.hero.interna .ticks button[aria-current="true"]{opacity:1}
+.hero.interna .hero-foot{border-top-color:var(--line)}
+.hero.interna .label{color:var(--klein);opacity:1}
+
+/* la freccia disegnata: quella di destra sta nel foglio condiviso, qui la sinistra
+   e il comando di servizio (stessa figura della cta, misurata sull'etichetta) */
+.cta .arw.sx{transform:rotate(-135deg)}
+.cta:hover .arw.sx{transform:rotate(-135deg) translate(.16em,.16em)}
+.cmd{font-weight:500;font-size:var(--t-micro);text-transform:uppercase;letter-spacing:.14em;
+  display:inline-flex;align-items:center;gap:.6em;
+  border-bottom:1px solid currentColor;padding-bottom:3px}
+.cmd .arw{display:inline-block;width:.62em;height:.62em;flex:none;
+  border-top:.11em solid currentColor;border-right:.11em solid currentColor;
+  transform:rotate(45deg);position:relative;top:-.04em;
+  transition:transform .45s cubic-bezier(.16,1,.3,1)}
+.cmd:hover .arw{transform:rotate(45deg) translate(.16em,-.16em)}
+
+/* ---------- il costruttore ---------- */
+.insegna{max-width:58ch}
+.insegna .lead{margin-top:clamp(18px,2.4vw,32px)}
+.telaio{margin-top:clamp(34px,5vw,72px);border:1px solid var(--line);background:var(--paper)}
+.telaio .barra-passo{display:flex;align-items:center;justify-content:space-between;gap:clamp(16px,3vw,40px);
+  flex-wrap:wrap;padding:clamp(16px,2vw,26px) clamp(18px,2.6vw,38px);
+  border-bottom:1px solid var(--line)}
+.telaio .conta{font-size:var(--t-micro);text-transform:uppercase;letter-spacing:.14em;
+  font-weight:500;color:var(--klein)}
+.telaio .tacche{display:flex;gap:10px;align-items:center;flex:1 1 140px;
+  max-width:286px;justify-content:flex-end}
+.telaio .tacche span{flex:1 1 0;min-width:0;height:2px;background:var(--klein);
+  opacity:.22;transition:opacity .45s}
+.telaio .tacche span.fatta{opacity:1}
+.quadro{padding:clamp(26px,3.6vw,56px) clamp(18px,2.6vw,38px) clamp(22px,3vw,44px)}
+.js .quadro{animation:entra .5s cubic-bezier(.16,1,.3,1) both}
+@keyframes entra{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+.quadro .dom{font-family:var(--display);text-transform:uppercase;color:var(--klein);
+  font-size:var(--t-h3);line-height:1.02;max-width:20ch}
+.quadro .aiuto{font-size:var(--t-lead);margin-top:clamp(12px,1.6vw,20px);max-width:58ch;opacity:.9}
+.quadro fieldset{border:0;padding:0;margin-top:clamp(26px,3.4vw,48px)}
+.quadro legend{font-size:var(--t-micro);text-transform:uppercase;letter-spacing:.14em;
+  font-weight:500;color:var(--klein);padding:0;margin-bottom:clamp(12px,1.6vw,20px)}
+.griglia{display:flex;flex-wrap:wrap;gap:clamp(8px,1vw,14px)}
+.scelta{border:1px solid var(--klein);color:var(--klein);background:none;text-align:left;
+  padding:.62em 1em .56em;font-size:var(--t-body);line-height:1.2;
+  transition:background .3s ease,color .3s ease}
+.scelta:hover{background:rgba(0,47,167,.09)}
+.scelta[aria-pressed="true"]{background:var(--klein);color:var(--paper)}
+.piedi{display:flex;align-items:center;justify-content:space-between;gap:clamp(16px,3vw,40px);
+  flex-wrap:wrap;margin-top:clamp(30px,4vw,60px);padding-top:clamp(20px,2.6vw,32px);
+  border-top:1px solid var(--line)}
+.piedi .destra{display:flex;align-items:center;gap:clamp(18px,3vw,40px);margin-left:auto}
+.piedi .cta[disabled]{opacity:.3;pointer-events:none}
+
+/* ---------- la scheda: ultimo passo del costruttore ---------- */
+.quadro .titolo-scheda{font-family:var(--display);text-transform:uppercase;color:var(--klein);
+  font-size:var(--t-h3);line-height:1.02}
+.voci-scheda{margin-top:clamp(24px,3.2vw,44px);border-top:1px solid var(--line)}
+.voce-s{display:grid;gap:4px;padding-block:clamp(14px,1.8vw,22px);border-bottom:1px solid var(--line)}
+@media(min-width:760px){.voce-s{grid-template-columns:minmax(150px,2fr) 7fr;gap:clamp(16px,3vw,44px);align-items:baseline}}
+.voce-s .k{font-size:var(--t-micro);text-transform:uppercase;letter-spacing:.14em;
+  font-weight:500;color:var(--klein)}
+.voce-s .v{font-size:var(--t-body)}
+.promessa{margin-top:clamp(22px,3vw,38px);font-size:var(--t-lead);max-width:56ch}
+.recapiti{display:grid;gap:clamp(16px,2.4vw,30px);margin-top:clamp(26px,3.4vw,48px)}
+@media(min-width:860px){.recapiti{grid-template-columns:repeat(3,1fr)}}
+.recapiti label{display:block;font-size:var(--t-micro);text-transform:uppercase;
+  letter-spacing:.14em;font-weight:500;color:var(--klein);margin-bottom:8px}
+.recapiti input{width:100%;border:0;border-bottom:1px solid var(--line);background:none;
+  padding:9px 2px;font:inherit;font-size:var(--t-body);color:var(--ink)}
+.recapiti input:focus{outline:0;border-bottom-color:var(--klein)}
+.mail-riga{display:flex;flex-wrap:wrap;align-items:baseline;gap:clamp(16px,2.6vw,36px);
+  margin-top:clamp(26px,3.4vw,46px)}
+.cta[aria-disabled="true"]{opacity:.3;pointer-events:none}
+.trasparenza{font-size:var(--t-micro);letter-spacing:.06em;opacity:.7;max-width:52ch}
+
+/* ---------- il sigillo della riservatezza ---------- */
+.sigillo{display:grid;gap:clamp(18px,2.6vw,40px);margin-top:clamp(34px,4.6vw,72px);
+  padding-top:clamp(26px,3.4vw,48px);border-top:1px solid var(--line-inv)}
+@media(min-width:960px){.sigillo{grid-template-columns:5fr 7fr;align-items:start}}
+.sigillo .nome{font-family:var(--display);text-transform:uppercase;
+  font-size:var(--t-h3);line-height:1.02;max-width:14ch}
+.sigillo p{max-width:56ch;font-size:var(--t-lead)}
+
+/* ---------- la via diretta ---------- */
+.via{display:grid;gap:clamp(20px,3vw,44px)}
+@media(min-width:960px){.via{grid-template-columns:6fr 6fr;align-items:end}}
+.via .alt{font-size:var(--t-body);opacity:.85;margin-top:clamp(14px,2vw,22px)}
+.via .alt a{border-bottom:1px solid currentColor}
+.via .azioni{display:flex;flex-direction:column;align-items:flex-start;gap:clamp(12px,1.6vw,20px)}
+@media(min-width:960px){.via .azioni{align-items:flex-end}}
+
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{transition-duration:.01ms!important;animation:none!important}
+  .js .mask > span{transform:none}
+  .js .up{opacity:1;transform:none}
+}
+</style>
+</head>
+<body data-pagina="e-one" data-oggetto="Percorso E-One · Richiesta di incontro">
+<a class="skip" href="#contenuto">Vai al contenuto</a>
+
+<header class="nav" data-theme="light">
+  <div class="wrap bar">
+    <span class="mark"><a class="brand" href="index.html">MASTERY CLC.</a><span class="targa">· E-One</span></span>
+    <ul>
+      <li><a href="c-one.html">C-One</a></li>
+      <li><a href="e-one.html" aria-current="page">E-One</a></li>
+      <li><a href="chi-siamo.html">Chi siamo</a></li>
+      <li><a class="pill" href="#contatto">Parliamone</a></li>
+    </ul>
+  </div>
+</header>
+
+<main id="contenuto">
+
+<section class="hero interna" id="inizio" data-nav="light">
+ <div class="hero-stage">
+  <div class="wrap top">
+    <p class="label">E-One · il manager come persona</p>
+    <div class="ticks" aria-label="Le tre aperture">
+      <button type="button" aria-current="true" aria-label="Apertura 1 di 3"></button>
+      <button type="button" aria-current="false" aria-label="Apertura 2 di 3"></button>
+      <button type="button" aria-current="false" aria-label="Apertura 3 di 3"></button>
+    </div>
+  </div>
+
+  <div class="wrap stage">
+    <div class="slide on" data-i="0">
+      <h1 class="claim words">Le responsabilità crescono. E tu?</h1>
+    </div>
+    <div class="slide" data-i="1" aria-hidden="true">
+      <p class="claim display words">Chi guida tutti, chi lo allena?</p>
+    </div>
+    <div class="slide" data-i="2" aria-hidden="true">
+      <p class="claim display words">Investire su di sé è una decisione da leader.</p>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <div class="hero-foot">
+      <div class="leads">
+        <p class="leadtext on" data-i="0">Più le responsabilità crescono, più aumenta la solitudine di chi decide. E-One parte da qui: un percorso personale per chi guida, costruito sulla misura e non sulle sensazioni.</p>
+        <p class="leadtext" data-i="1">Un percorso costruito sulla misura: la fotografia di come guidi, il coaching sulle tue leve di crescita, le ri-misure che mostrano i progressi nel tempo.</p>
+        <p class="leadtext" data-i="2">E-One è il percorso di chi investe su di sé, anche indipendentemente dalla propria azienda. E per questo è riservato per architettura: i dati appartengono a chi li genera, e a nessun altro.</p>
+      </div>
+      <a class="cta" href="#contatto">Parliamone <span class="arw" aria-hidden="true"></span></a>
+    </div>
+  </div>
+ </div>
+</section>
+
+<section class="section white anim" id="costruisci" data-nav="light">
+  <div class="wrap">
+    <div class="insegna">
+      <h2 class="display words" style="font-size:var(--t-h2);color:var(--klein)">Costruisci il tuo percorso.</h2>
+      <p class="lead up">Sette scelte, due minuti. Alla fine hai la scheda del tuo percorso, e un consulente Mastery che ti chiama per presentartelo. Qui scegli tu: la misura comincia col percorso.</p>
+    </div>
+
+    <div class="telaio up" id="telaio">
+      <div class="barra-passo">
+        <span class="conta" id="conta-passo">Passo 1 di 7</span>
+        <div class="tacche" id="tacche" aria-hidden="true"></div>
+      </div>
+      <div class="quadro" id="quadro" role="group" aria-live="polite"></div>
+    </div>
+  </div>
+</section>
+
+<section class="section blue anim" id="percorso" data-nav="dark">
+  <div class="wrap">
+    <p class="label">Il percorso E-One</p>
+    <h2 class="display words" style="font-size:var(--t-h2);margin-top:clamp(16px,2.4vw,32px)">Un inizio, un ritmo, una fine.</h2>
+    <p class="lead up" style="max-width:56ch;margin-top:clamp(20px,2.6vw,36px)">Il percorso si dichiara in anticipo: sai come si parte, come si lavora e cosa ti resta quando finisce.</p>
+
+    <div class="mirrors">
+      <div class="mirror">
+        <button type="button" aria-expanded="false"><span class="n">01</span><h3>L'incontro</h3><span class="plus" aria-hidden="true">+</span></button>
+        <div class="body"><div class="inner">
+          <p>Parte dalla tua scheda: un consulente Mastery ti chiama, vi conoscete, capite se c'è la chimica. Senza impegno.</p>
+        </div></div>
+      </div>
+      <div class="mirror">
+        <button type="button" aria-expanded="false"><span class="n">02</span><h3>L'accordo</h3><span class="plus" aria-hidden="true">+</span></button>
+        <div class="body"><div class="inner">
+          <p>Da uno a tre obiettivi, nati dalle tue scelte. Come misureremo il progresso e le regole di riservatezza: tutto scritto, prima di partire.</p>
+        </div></div>
+      </div>
+      <div class="mirror">
+        <button type="button" aria-expanded="false"><span class="n">03</span><h3>La fotografia</h3><span class="plus" aria-hidden="true">+</span></button>
+        <div class="body"><div class="inner">
+          <p>Una lettura di come guidi, all'inizio, con lo strumento del percorso. E i riscontri di poche persone che scegli tu.</p>
+        </div></div>
+      </div>
+      <div class="mirror">
+        <button type="button" aria-expanded="false"><span class="n">04</span><h3>Il percorso</h3><span class="plus" aria-hidden="true">+</span></button>
+        <div class="body"><div class="inner">
+          <p>Un ciclo dichiarato in anticipo: sessioni individuali col tuo consulente dedicato, e un lavoro leggero tra una sessione e l'altra.</p>
+        </div></div>
+      </div>
+      <div class="mirror">
+        <button type="button" aria-expanded="false"><span class="n">05</span><h3>La verifica</h3><span class="plus" aria-hidden="true">+</span></button>
+        <div class="body"><div class="inner">
+          <p>A metà e alla fine, sugli stessi obiettivi dell'accordo: suggerimenti per il futuro, mai pagelle sul passato.</p>
+        </div></div>
+      </div>
+      <div class="mirror">
+        <button type="button" aria-expanded="false"><span class="n">06</span><h3>La chiusura</h3><span class="plus" aria-hidden="true">+</span></button>
+        <div class="body"><div class="inner">
+          <p>Il percorso finisce, e finisce bene: con un piano scritto che resta a te. Da lì in poi cammini con le tue gambe.</p>
+        </div></div>
+      </div>
+    </div>
+    <div class="sigillo up">
+      <p class="nome">Riservato per architettura</p>
+      <p>Quello che emerge dal percorso resta a te: i dati sono tuoi, la lettura è tua, e il piano che ne esce lo porti con te in ogni ruolo che verrà. È la condizione che ti lascia libero di lavorare sul serio, anche sui temi più scomodi.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section anim" id="contatto" data-nav="light">
+  <div class="wrap via">
+    <div>
+      <h2 class="display words" style="font-size:var(--t-h2);color:var(--klein)">Meglio a voce?</h2>
+      <p class="lead up" style="margin-top:clamp(18px,2.4vw,32px)">Lasciaci il tuo contatto e due righe su cosa cerchi: ti richiamiamo noi, e il percorso lo costruiamo insieme.</p>
+    </div>
+    <div class="azioni up">
+      <button class="cta" type="button" id="apri-dialogo">Parliamone <span class="arw" aria-hidden="true"></span></button>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap inner">
+    <span class="mark">MASTERY CLC.</span>
+    <span class="legal">E-One è il percorso Mastery per il manager come persona. · Dati societari in via di pubblicazione.</span>
+  </div>
+</footer>
+
+<dialog class="dlg" id="dialogo" aria-label="Parliamone">
+  <div class="panel">
+    <div class="head">
+      <div class="titolo">
+        <span>Parliamone.</span>
+        <p>Prepariamoci al meglio per il nostro incontro.</p>
+      </div>
+      <button type="button" id="chiudi-dialogo" aria-label="Chiudi il dialogo">&#10005;</button>
+    </div>
+    <div class="thread" id="thread"></div>
+  </div>
+</dialog>
+
+<script>
+document.documentElement.classList.add('js');
+(function(){
+  /* ingresso parola per parola: il testo resta nel suo flusso naturale */
+  document.querySelectorAll('.words').forEach(function(el){
+    var words = el.textContent.trim().split(/\s+/);
+    el.textContent = '';
+    words.forEach(function(w, i){
+      var box = document.createElement('span');
+      box.className = 'w';
+      box.style.setProperty('--i', i);
+      var inner = document.createElement('i');
+      inner.textContent = w;
+      box.appendChild(inner);
+      el.appendChild(box);
+      el.appendChild(document.createTextNode(' '));
+    });
+  });
+})();
+(function(){
+  var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if('IntersectionObserver' in window){
+    var io = new IntersectionObserver(function(es){
+      es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+    },{threshold:0, rootMargin:'0px 0px -12% 0px'});
+    document.querySelectorAll('.anim').forEach(function(el){ io.observe(el); });
+
+    var nav = document.querySelector('.nav');
+    var navIo = new IntersectionObserver(function(es){
+      es.forEach(function(e){ if(e.isIntersecting) nav.setAttribute('data-theme', e.target.dataset.nav || 'light'); });
+    },{rootMargin:'-8% 0px -90% 0px'});
+    document.querySelectorAll('[data-nav]').forEach(function(el){ navIo.observe(el); });
+  } else {
+    document.querySelectorAll('.anim').forEach(function(el){ el.classList.add('in'); });
+  }
+
+  /* apertura: 3 schermate guidate dallo scroll; se nessuno scrolla, avanza da sola */
+  var hero = document.querySelector('.hero');
+  var slides = [].slice.call(document.querySelectorAll('.hero .slide'));
+  var leads = [].slice.call(document.querySelectorAll('.leadtext'));
+  var ticks = [].slice.call(document.querySelectorAll('.hero .ticks button'));
+  var cur = 0, ticking = false, userMoved = reduce, autoDone = false, idle = null;
+
+  function step(){ return (hero.offsetHeight - innerHeight) / slides.length; }
+
+  function paint(){
+    ticking = false;
+    if(!hero) return; /* le pagine con l'apertura statica non hanno l'hero */
+    var span = hero.offsetHeight - innerHeight;
+    var prog = span > 0 ? (-hero.getBoundingClientRect().top) / span : 0;
+    prog = Math.max(0, Math.min(.9999, prog));
+    var i = Math.floor(prog * slides.length);
+    if(i === cur) return;
+    cur = i;
+    slides.forEach(function(sl,k){ sl.classList.toggle('on', k === i); sl.setAttribute('aria-hidden', k === i ? 'false' : 'true'); });
+    leads.forEach(function(l,k){ l.classList.toggle('on', k === i); });
+    ticks.forEach(function(t,k){ t.setAttribute('aria-current', k === i ? 'true' : 'false'); });
+  }
+  addEventListener('scroll', function(){ if(!ticking){ ticking = true; requestAnimationFrame(paint); } },{passive:true});
+  addEventListener('resize', paint);
+  paint();
+
+  function goTo(i){
+    if(!hero) return;
+    var top = hero.offsetTop + Math.min(i * step() + 4, hero.offsetHeight - innerHeight);
+    window.scrollTo({top:top, behavior: reduce ? 'auto' : 'smooth'});
+  }
+  ticks.forEach(function(b,i){
+    b.addEventListener('click', function(){ userMoved = true; clearTimeout(idle); goTo(i); });
+  });
+  function auto(){
+    if(userMoved || autoDone) return;
+    idle = setTimeout(function(){
+      if(userMoved) return;
+      var next = cur + 1;
+      if(next >= slides.length){ autoDone = true; return; }
+      goTo(next);
+      if(next >= slides.length - 1){ autoDone = true; return; }
+      auto();
+    }, 9500);
+  }
+  ['wheel','touchstart','keydown','pointerdown'].forEach(function(ev){
+    addEventListener(ev, function(){ userMoved = true; clearTimeout(idle); }, {passive:true, once:true});
+  });
+  auto();
+
+  /* fascia scorrevole */
+  var track = document.querySelector('.marquee .track');
+  if(track && !reduce){
+    var x = 0, last = scrollY, vel = 0, w = track.scrollWidth / 2;
+    addEventListener('scroll', function(){ vel += (scrollY - last) * .3; last = scrollY; },{passive:true});
+    (function loop(){
+      vel *= .92; x -= (.45 + vel * .05);
+      if(Math.abs(x) > w) x = 0;
+      track.style.transform = 'translate3d(' + x + 'px,0,0)';
+      requestAnimationFrame(loop);
+    })();
+  }
+
+  /* lenti */
+  var tabs = [].slice.call(document.querySelectorAll('.lens-tab'));
+  tabs.forEach(function(t){
+    t.addEventListener('click', function(){
+      tabs.forEach(function(o){
+        var on = o === t;
+        o.setAttribute('aria-selected', on ? 'true' : 'false');
+        document.getElementById(o.getAttribute('aria-controls')).hidden = !on;
+      });
+      countUp(document.getElementById(t.getAttribute('aria-controls')));
+    });
+  });
+
+  /* fascia dei dati: scorre come l'apertura, e avanza da sola se nessuno scrolla */
+  document.querySelectorAll('.databand').forEach(function(band){
+    var st = document.createElement('div');
+    st.className = 'dstage';
+    while(band.firstChild) st.appendChild(band.firstChild);
+    band.appendChild(st);
+
+    var data = [].slice.call(band.querySelectorAll('.datum'));
+    var dt = [].slice.call(band.querySelectorAll('.data-ticks button'));
+    data.forEach(function(d,k){ d.hidden = false; d.classList.toggle('on', k === 0); });
+
+    var cur = 0, ticking = false, moved = reduce, autoDone = false, idle = null;
+
+    function show(i){
+      if(i === cur) return;
+      cur = i;
+      data.forEach(function(d,k){ d.classList.toggle('on', k === i); });
+      dt.forEach(function(t,k){ t.setAttribute('aria-current', k === i ? 'true' : 'false'); });
+      countUp(data[i]);
+    }
+    function paint(){
+      ticking = false;
+      if(!band.offsetHeight) return;
+      var span = band.offsetHeight - innerHeight;
+      var prog = span > 0 ? (-band.getBoundingClientRect().top) / span : 0;
+      prog = Math.max(0, Math.min(.9999, prog));
+      show(Math.floor(prog * data.length));
+    }
+    addEventListener('scroll', function(){ if(!ticking){ ticking = true; requestAnimationFrame(paint); } },{passive:true});
+    addEventListener('resize', paint);
+    paint();
+
+    function goTo(i){
+      var stepH = (band.offsetHeight - innerHeight) / data.length;
+      var top = band.getBoundingClientRect().top + scrollY +
+                Math.min(i * stepH + 4, band.offsetHeight - innerHeight);
+      window.scrollTo({top:top, behavior: reduce ? 'auto' : 'smooth'});
+    }
+    dt.forEach(function(b,i){
+      b.addEventListener('click', function(){ moved = true; clearTimeout(idle); goTo(i); });
+    });
+    function auto(){
+      if(moved || autoDone) return;
+      idle = setTimeout(function(){
+        if(moved) return;
+        var next = cur + 1;
+        if(next >= data.length){ autoDone = true; return; }
+        goTo(next);
+        if(next >= data.length - 1){ autoDone = true; return; }
+        auto();
+      }, 8000);
+    }
+    ['wheel','touchstart','keydown'].forEach(function(ev){
+      band.addEventListener(ev, function(){ moved = true; clearTimeout(idle); }, {passive:true});
+    });
+    if('IntersectionObserver' in window){
+      var seen = new IntersectionObserver(function(es){
+        es.forEach(function(e){ if(e.isIntersecting){ auto(); seen.unobserve(e.target); } });
+      },{threshold:.25});
+      seen.observe(band);
+    }
+  });
+
+  /* contatore sui numeri */
+  function countUp(scope){
+    if(reduce || !scope) return;
+    scope.querySelectorAll('.fig[data-count]').forEach(function(el){
+      var end = parseInt(el.dataset.count,10), pre = el.dataset.pre || '', post = el.dataset.post || '';
+      var t0 = null, dur = 900;
+      function step(t){
+        if(!t0) t0 = t;
+        var p = Math.min(1,(t-t0)/dur);
+        el.textContent = pre + Math.round(end * (1 - Math.pow(1-p,3))).toLocaleString('it-IT') + post;
+        if(p < 1) requestAnimationFrame(step);
+      }
+      requestAnimationFrame(step);
+    });
+  }
+  if('IntersectionObserver' in window){
+    var figIo = new IntersectionObserver(function(es){
+      es.forEach(function(e){ if(e.isIntersecting){ countUp(e.target); figIo.unobserve(e.target); } });
+    },{threshold:.4});
+    document.querySelectorAll('.datum[data-i="0"]').forEach(function(d){ figIo.observe(d); });
+  }
+
+  /* specchi */
+  document.querySelectorAll('.mirror > button').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var m = btn.parentElement, open = m.classList.contains('open');
+      var scope = m.closest('.mirrors');
+      scope.querySelectorAll('.mirror.open').forEach(function(o){
+        o.classList.remove('open');
+        o.querySelector('.body').style.maxHeight = null;
+        o.querySelector('button').setAttribute('aria-expanded','false');
+      });
+      if(!open){
+        m.classList.add('open');
+        var body = m.querySelector('.body');
+        body.style.maxHeight = body.firstElementChild.scrollHeight + 'px';
+        btn.setAttribute('aria-expanded','true');
+      }
+    });
+  });
+
+  /* dialogo di contatto */
+  var dlg = document.getElementById('dialogo'), thread = document.getElementById('thread');
+  var dati = {tema:'', nome:'', email:'', note:''};
+  var voi = false;
+  function say(txt, cls){
+    var p = document.createElement('p');
+    p.className = 'say' + (cls ? ' ' + cls : '');
+    p.textContent = txt; thread.appendChild(p); thread.scrollTop = thread.scrollHeight;
+    return p;
+  }
+  function options(list, cb){
+    var box = document.createElement('div'); box.className = 'opts';
+    list.forEach(function(o){
+      var b = document.createElement('button'); b.type='button'; b.textContent = o.label;
+      b.addEventListener('click', function(){ box.remove(); say(o.label,'mine'); cb(o); });
+      box.appendChild(b);
+    });
+    thread.appendChild(box); thread.scrollTop = thread.scrollHeight;
+  }
+  function ask(placeholder, cb, extra){
+    var box = document.createElement('div'); box.className = 'field';
+    var inp = document.createElement('input'); inp.type='text'; inp.placeholder = placeholder;
+    inp.setAttribute('aria-label', placeholder);
+    var b = document.createElement('button'); b.type='button'; b.className='send'; b.textContent='Invia';
+    box.appendChild(inp); box.appendChild(b);
+    if(extra){
+      var s = document.createElement('button'); s.type='button'; s.className='send'; s.textContent = extra.label;
+      s.addEventListener('click', function(){ box.remove(); say(extra.label,'mine'); cb(''); });
+      box.appendChild(s);
+    }
+    thread.appendChild(box); inp.focus(); thread.scrollTop = thread.scrollHeight;
+    function go(){
+      var v = inp.value.trim(); if(!v) return;
+      box.remove(); say(v,'mine'); cb(v);
+    }
+    b.addEventListener('click', go);
+    inp.addEventListener('keydown', function(e){ if(e.key === 'Enter') go(); });
+  }
+  function start(){
+    thread.innerHTML = '';
+    voi = document.body.dataset.registro === 'voi';
+    var ctx = document.body.dataset.pagina;
+    if(ctx){
+      dati.tema = ctx === 'c-one' ? 'il vertice dell’impresa (C-One)' : 'percorso personale del manager';
+      say(voi
+        ? 'Benvenuti. Vi chiediamo solo due informazioni per focalizzarci e andare subito al punto.'
+        : 'Ciao! Ti chiediamo solo due informazioni per focalizzarci e andare subito al punto.');
+      say(ctx === 'c-one'
+        ? 'Parliamo del vertice della vostra impresa. Per iniziare: con chi abbiamo il piacere di parlare?'
+        : 'Parliamo del tuo percorso. Per iniziare: come ti chiami?');
+      ask('Nome e cognome', function(nome){
+        dati.nome = nome;
+        var grazie = nome ? 'Grazie, ' + nome.split(' ')[0] + '. ' : 'Grazie. ';
+        say(grazie + (voi ? 'A quale email possiamo rispondervi?' : 'A quale email possiamo risponderti?'));
+        chiediEmail();
+      });
+      return;
+    }
+    say('Ciao! Ti chiediamo solo qualche informazione per focalizzarci e andare dritti al punto.');
+    say('Per iniziare: il tuo interesse è rivolto a…');
+    options([
+      {label:'Al vertice della tua azienda', next:'Perfetto. Nel nostro incontro capiremo insieme se C-One fa al caso della tua impresa. Intanto, come ti chiami?', tema:'il vertice dell’impresa (C-One)'},
+      {label:'A te come persona', next:'Bene. Qui la riservatezza è totale: quello che scrivi resta tra noi e i tuoi dati sono al sicuro. Intanto, come ti chiami?', tema:'percorso personale del manager'},
+      {label:'Altro', next:'Va benissimo, ne parliamo a voce. Intanto, come ti chiami?', tema:'da definire insieme'}
+    ], function(o){
+      dati.tema = o.tema;
+      say(o.next);
+      ask('Nome e cognome', function(nome){
+        dati.nome = nome;
+        say(nome ? 'Grazie, ' + nome.split(' ')[0] + '. A quale email possiamo risponderti?' : 'Grazie. A quale email possiamo risponderti?');
+        chiediEmail();
+      });
+    });
+  }
+  function chiediEmail(){
+    ask('Email', function(mail){
+      if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(mail)){
+        var e = say(voi ? 'Manca qualcosa in questo indirizzo: ci date un’occhiata?' : 'Manca qualcosa in questo indirizzo: ci dai un’occhiata?'); e.className = 'say err';
+        chiediEmail(); return;
+      }
+      dati.email = mail;
+      say(voi ? 'E se vi va, lasciateci due righe su cosa sta succedendo, così arriveremo già preparati.' : 'E se ti va, lasciaci due righe su cosa sta succedendo, così arriveremo già preparati.');
+      ask(voi ? 'Raccontateci in due righe cosa sta succedendo…' : 'Raccontaci in due righe cosa sta succedendo…', function(note){
+        dati.note = note; chiudi();
+      }, {label:'Ne parliamo all’incontro'});
+    });
+  }
+  function chiudi(){
+    say('Ci siamo! Ecco il riepilogo: ' + dati.nome + ' · ' + dati.email + ' · ' + dati.tema + (dati.note ? ' · «' + dati.note + '».' : '.'));
+    var box = document.createElement('div'); box.className = 'opts';
+    var b = document.createElement('button'); b.type = 'button'; b.textContent = 'Prepara la mail';
+    b.addEventListener('click', function(){
+      var corpo = 'Nome: ' + dati.nome + '\nEmail: ' + dati.email + '\nTema: ' + dati.tema +
+        (dati.note ? '\nNote: ' + dati.note : '') +
+        '\n\nRichiesta preparata dal dialogo del sito Mastery CLC.';
+      window.location.href = 'mailto:info@masteryclc.it?subject=' +
+        encodeURIComponent(document.body.dataset.oggetto || 'Mastery CLC · Richiesta di incontro') + '&body=' + encodeURIComponent(corpo);
+      say(voi ? 'Fatto! La mail vi aspetta nella vostra posta: un clic e parte. Se non dovesse aprirsi, potete scriverci direttamente a info@masteryclc.it.' : 'Fatto! La mail ti aspetta nella tua posta: un clic e parte. Se non dovesse aprirsi, puoi scriverci direttamente a info@masteryclc.it.');
+    });
+    box.appendChild(b); thread.appendChild(box);
+    var n = document.createElement('p'); n.className = 'note';
+    n.textContent = voi ? 'Questo tasto apre il vostro programma di posta con la mail già pronta: dovrete solo premere invio.' : 'Questo tasto apre il tuo programma di posta con la mail già pronta: dovrai solo premere invio.';
+    thread.appendChild(n); thread.scrollTop = thread.scrollHeight;
+  }
+  document.getElementById('apri-dialogo').addEventListener('click', function(){
+    start(); if(dlg.showModal) dlg.showModal(); else dlg.setAttribute('open','');
+  });
+  document.getElementById('chiudi-dialogo').addEventListener('click', function(){
+    if(dlg.close) dlg.close(); else dlg.removeAttribute('open');
+  });
+})();
+
+/* ---------- il costruttore: sette passi, la scheda, la mail ---------- */
+(function(){
+  var quadro = document.getElementById('quadro');
+  if(!quadro) return;
+  var telaio = document.getElementById('telaio');
+  var tacche = document.getElementById('tacche');
+  var conta = document.getElementById('conta-passo');
+  var riduci = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  var ROSE = {
+    ruolo:['Imprenditore o AD','Direttore generale','Direttore di funzione','Responsabile di un team','Da poco in un ruolo di guida'],
+    anni:['Primo incarico di guida','Qualche anno di guida','Guido da molti anni'],
+    team:['Ho un team diretto','Guido una struttura articolata','Non ho ancora collaboratori'],
+    formati:['Leadership e gestione dei collaboratori','Comunicazione e public speaking','Vendita e negoziazione','Coaching individuale','Executive Master o MBA','Corsi brevi di formazione manageriale','Gestione dei progetti','Formazione interna in azienda','Percorsi online in autonomia','Eventi e convegni di formazione','Finora, poca formazione strutturata'],
+    livello:['Corsi brevi o eventi singoli','Percorsi su più incontri','Master o programmi executive','Formazione ripresa più volte negli anni'],
+    obiettivi:['Delegare senza perdere il controllo','Affrontare un passaggio di carriera','Uscire dalla solitudine di chi decide','Gestire i conflitti al vertice','Far crescere i collaboratori','Ritrovare tempo ed energia','Farmi ascoltare dalla proprietà','Prepararmi a guidare un’impresa'],
+    temi:['Leadership e motivazione','Delega e sviluppo dei collaboratori','Decisioni ed esecuzione','Comunicazione al vertice','Tempo e priorità','Guida del cambiamento','Negoziazione e conflitti','Stato di forma di chi guida'],
+    tempo:['1-2 ore a settimana','Mezza giornata a settimana','Una giornata a settimana','Lo decido strada facendo'],
+    budget:['Ho già un budget definito','Ho un’idea di massima','Prima voglio capire il valore']
+  };
+
+  var PASSI = [
+    {id:'chi',titolo:'Chi sei, oggi?',aiuto:'Tre scelte secche: servono al consulente per parlarti nella tua lingua.',
+     gruppi:[['Il tuo ruolo','ruolo',1],['Da quanto guidi','anni',1],['I collaboratori','team',1]],obbl:true},
+    {id:'formazione',titolo:'Cosa hai già fatto, finora?',aiuto:'La formazione che hai alle spalle conta: il percorso parte da dove sei, senza ripartire da zero.',
+     gruppi:[['La formazione già fatta (anche più di una)','formati',11],['Il livello a cui sei arrivato','livello',1]],obbl:true},
+    {id:'obiettivi',titolo:'Dove vuoi arrivare?',aiuto:'Scegli fino a 3 obiettivi: diventano la spina dorsale del percorso.',
+     gruppi:[['Gli obiettivi (fino a 3)','obiettivi',3]],obbl:true},
+    {id:'temi',titolo:'Su cosa vuoi lavorare?',aiuto:'I temi di formazione e coaching tra cui costruire le tue tappe: fino a 3.',
+     gruppi:[['I temi (fino a 3)','temi',3]],obbl:true},
+    {id:'tempo',titolo:'Quanto tempo hai davvero?',aiuto:'Facoltativo: il percorso si adatta, non il contrario.',
+     gruppi:[['Il tempo che puoi investire','tempo',1]],obbl:false},
+    {id:'budget',titolo:'E l’investimento?',aiuto:'Facoltativo: serve solo a preparare una proposta onesta, senza giri.',
+     gruppi:[['L’investimento','budget',1]],obbl:false},
+    {id:'scheda',obbl:true}
+  ];
+
+  var DATI = {ruolo:null,anni:null,team:null,formati:[],livello:null,obiettivi:[],temi:[],
+              tempo:null,budget:null,nome:'',email:'',telefono:''};
+  var passo = 0, primo = true;
+
+  PASSI.forEach(function(){ tacche.appendChild(document.createElement('span')); });
+
+  function etichette(){
+    conta.textContent = passo < 6 ? 'Passo ' + (passo + 1) + ' di 7' : 'La tua scheda · 7 di 7';
+    [].forEach.call(tacche.children, function(s,i){ s.className = i <= passo ? 'fatta' : ''; });
+  }
+
+  function completo(p){
+    if(p.id === 'chi') return !!(DATI.ruolo && DATI.anni && DATI.team);
+    if(p.id === 'formazione') return DATI.formati.length > 0 && !!DATI.livello;
+    if(p.id === 'obiettivi') return DATI.obiettivi.length > 0;
+    if(p.id === 'temi') return DATI.temi.length > 0;
+    return true;
+  }
+
+  function comando(etichetta, classe, azione, spento, freccia){
+    var b = document.createElement('button');
+    b.type = 'button'; b.className = classe;
+    if(freccia === 'sx'){
+      var s = document.createElement('span'); s.className = 'arw sx'; s.setAttribute('aria-hidden','true');
+      b.appendChild(s); b.appendChild(document.createTextNode(' ' + etichetta));
+    } else if(freccia === 'dx'){
+      b.appendChild(document.createTextNode(etichetta + ' '));
+      var d = document.createElement('span'); d.className = 'arw'; d.setAttribute('aria-hidden','true');
+      b.appendChild(d);
+    } else {
+      b.textContent = etichetta;
+    }
+    if(spento) b.disabled = true;
+    b.addEventListener('click', azione);
+    return b;
+  }
+
+  function scelte(campo, max){
+    var g = document.createElement('div'); g.className = 'griglia';
+    ROSE[campo].forEach(function(voce){
+      var b = document.createElement('button');
+      b.type = 'button'; b.className = 'scelta'; b.textContent = voce;
+      var attiva = max === 1 ? DATI[campo] === voce : DATI[campo].indexOf(voce) >= 0;
+      b.setAttribute('aria-pressed', attiva ? 'true' : 'false');
+      b.addEventListener('click', function(){
+        if(max === 1){
+          DATI[campo] = (DATI[campo] === voce) ? null : voce;
+          [].forEach.call(g.children, function(x){
+            x.setAttribute('aria-pressed', DATI[campo] === x.textContent ? 'true' : 'false');
+          });
+        } else {
+          var i = DATI[campo].indexOf(voce);
+          if(i >= 0){ DATI[campo].splice(i,1); b.setAttribute('aria-pressed','false'); }
+          else if(DATI[campo].length < max){ DATI[campo].push(voce); b.setAttribute('aria-pressed','true'); }
+        }
+        var av = quadro.querySelector('.avanti');
+        if(av) av.disabled = !completo(PASSI[passo]);
+      });
+      g.appendChild(b);
+    });
+    return g;
+  }
+
+  function vai(n){ passo = n; mostra(); }
+
+  function mostra(){
+    var p = PASSI[passo];
+    quadro.innerHTML = '';
+    etichette();
+    if(!primo && !riduci){ telaio.scrollIntoView({behavior:'smooth', block:'start'}); }
+    else if(!primo){ telaio.scrollIntoView({behavior:'auto', block:'start'}); }
+    primo = false;
+
+    if(p.id === 'scheda'){ scheda(); return; }
+
+    var h = document.createElement('h3'); h.className = 'dom'; h.textContent = p.titolo;
+    var a = document.createElement('p'); a.className = 'aiuto'; a.textContent = p.aiuto;
+    quadro.appendChild(h); quadro.appendChild(a);
+
+    p.gruppi.forEach(function(gr){
+      var fs = document.createElement('fieldset');
+      var lg = document.createElement('legend'); lg.textContent = gr[0];
+      fs.appendChild(lg); fs.appendChild(scelte(gr[1], gr[2]));
+      quadro.appendChild(fs);
+    });
+
+    var piedi = document.createElement('div'); piedi.className = 'piedi';
+    var sx = document.createElement('div');
+    if(passo > 0) sx.appendChild(comando('Indietro','cmd', function(){ vai(passo - 1); }, false, 'sx'));
+    piedi.appendChild(sx);
+    var dx = document.createElement('div'); dx.className = 'destra';
+    if(!p.obbl) dx.appendChild(comando('Salta','cmd', function(){ vai(passo + 1); }));
+    dx.appendChild(comando('Avanti','cta avanti', function(){ vai(passo + 1); }, !completo(p), 'dx'));
+    piedi.appendChild(dx);
+    quadro.appendChild(piedi);
+  }
+
+  function riga(k, v){
+    var r = document.createElement('div'); r.className = 'voce-s';
+    var a = document.createElement('span'); a.className = 'k'; a.textContent = k;
+    var b = document.createElement('span'); b.className = 'v'; b.textContent = v;
+    r.appendChild(a); r.appendChild(b);
+    return r;
+  }
+
+  function mail(){
+    var corpo = 'Il mio percorso E-One, costruito sul sito:\n\n' +
+      'Ruolo: ' + DATI.ruolo + ' · ' + DATI.anni + ' · ' + DATI.team + '\n' +
+      'Formazione già fatta: ' + DATI.formati.join(' · ') + ' (livello: ' + DATI.livello + ')\n' +
+      'Obiettivi: ' + DATI.obiettivi.join(' · ') + '\n' +
+      'Temi: ' + DATI.temi.join(' · ') + '\n' +
+      (DATI.tempo ? 'Tempo: ' + DATI.tempo + '\n' : '') +
+      (DATI.budget ? 'Investimento: ' + DATI.budget + '\n' : '') +
+      '\nNome: ' + DATI.nome + '\nTelefono: ' + DATI.telefono + '\n\n' +
+      'Richiesta preparata dal costruttore E-One del sito Mastery CLC.';
+    return 'mailto:info@masteryclc.it?subject=' + encodeURIComponent('E-One · il mio percorso') +
+      '&body=' + encodeURIComponent(corpo);
+  }
+
+  function scheda(){
+    var h = document.createElement('h3');
+    h.className = 'titolo-scheda'; h.textContent = 'La scheda del tuo percorso.';
+    quadro.appendChild(h);
+
+    var box = document.createElement('div'); box.className = 'voci-scheda';
+    box.appendChild(riga('Chi sei', DATI.ruolo + ' · ' + DATI.anni + ' · ' + DATI.team));
+    box.appendChild(riga('Formazione', DATI.formati.join(' · ') + ' · ' + DATI.livello));
+    box.appendChild(riga('Obiettivi', DATI.obiettivi.join(' · ')));
+    box.appendChild(riga('Temi', DATI.temi.join(' · ')));
+    if(DATI.tempo) box.appendChild(riga('Tempo', DATI.tempo));
+    if(DATI.budget) box.appendChild(riga('Investimento', DATI.budget));
+    quadro.appendChild(box);
+
+    var pr = document.createElement('p'); pr.className = 'promessa';
+    pr.textContent = 'Su queste scelte un consulente Mastery costruisce il tuo percorso e ti chiama per presentartelo. Riservato per architettura: i tuoi dati restano tuoi.';
+    quadro.appendChild(pr);
+
+    var rec = document.createElement('div'); rec.className = 'recapiti';
+    [['Il tuo nome','nome','text','Nome e cognome'],
+     ['La tua email','email','email','nome@azienda.it'],
+     ['Il telefono per la chiamata','telefono','tel','+39 ...']].forEach(function(c){
+      var w = document.createElement('div');
+      var l = document.createElement('label'); l.textContent = c[0]; l.setAttribute('for','in-' + c[1]);
+      var i = document.createElement('input');
+      i.id = 'in-' + c[1]; i.type = c[2]; i.placeholder = c[3]; i.value = DATI[c[1]];
+      i.addEventListener('input', function(){ DATI[c[1]] = i.value.trim(); aggiorna(); });
+      w.appendChild(l); w.appendChild(i); rec.appendChild(w);
+    });
+    quadro.appendChild(rec);
+
+    var fila = document.createElement('div'); fila.className = 'mail-riga';
+    var cta = document.createElement('a');
+    cta.className = 'cta'; cta.id = 'mail-cta'; cta.href = '#';
+    cta.setAttribute('aria-disabled','true');
+    cta.appendChild(document.createTextNode('Prepara la mail '));
+    var fr = document.createElement('span'); fr.className = 'arw'; fr.setAttribute('aria-hidden','true');
+    cta.appendChild(fr);
+    var tr = document.createElement('p'); tr.className = 'trasparenza';
+    tr.textContent = 'Questo tasto apre il tuo programma di posta con la mail già pronta: dovrai solo premere invio.';
+    fila.appendChild(cta); fila.appendChild(tr);
+    quadro.appendChild(fila);
+
+    var piedi = document.createElement('div'); piedi.className = 'piedi';
+    var sx = document.createElement('div');
+    sx.appendChild(comando('Torna alle scelte','cmd', function(){ vai(5); }, false, 'sx'));
+    piedi.appendChild(sx);
+    quadro.appendChild(piedi);
+
+    aggiorna();
+  }
+
+  function aggiorna(){
+    var cta = document.getElementById('mail-cta');
+    if(!cta) return;
+    var ok = DATI.nome && DATI.telefono && !!DATI.email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/);
+    cta.setAttribute('aria-disabled', ok ? 'false' : 'true');
+    cta.href = ok ? mail() : '#';
+  }
+
+  mostra();
+})();
+</script>
+</body>
+</html>
