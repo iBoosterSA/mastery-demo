@@ -163,6 +163,11 @@ html:not(.js) .slide{position:relative;visibility:visible;padding-inline:0;margi
 .lens[hidden]{display:none}
 
 .databand{position:relative;height:280svh;border-bottom:1px solid var(--line)}
+/* su touch lo scroll inerziale divora i quadri: piu' pista per ciascuno, stesso teatro */
+@media(pointer:coarse){
+  .hero{height:480svh}
+  .databand{height:420svh}
+}
 .dstage{position:sticky;top:0;min-height:100svh;display:flex;flex-direction:column;
   justify-content:center;padding-block:clamp(86px,13vh,150px) clamp(34px,6vh,80px);overflow:hidden}
 .datawrap{position:relative;flex:1;min-height:0;display:flex;align-items:center}
@@ -698,6 +703,7 @@ document.documentElement.classList.add('js');
 })();
 (function(){
   var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var coarse = matchMedia('(pointer: coarse)').matches; /* touch: cambio quadro smorzato */
 
   if('IntersectionObserver' in window){
     var io = new IntersectionObserver(function(es){
@@ -723,6 +729,7 @@ document.documentElement.classList.add('js');
 
   function step(){ return (hero.offsetHeight - innerHeight) / slides.length; }
 
+  var swHero = 0, swHeroT = null; /* smorzatore touch: mai due scatti ravvicinati */
   function paint(){
     ticking = false;
     if(!hero) return; /* le pagine con l'apertura statica non hanno l'hero */
@@ -731,6 +738,11 @@ document.documentElement.classList.add('js');
     prog = Math.max(0, Math.min(.9999, prog));
     var i = Math.floor(prog * slides.length);
     if(i === cur) return;
+    if(coarse){
+      var wait = 300 - (performance.now() - swHero);
+      if(wait > 0){ clearTimeout(swHeroT); swHeroT = setTimeout(paint, wait); return; }
+      swHero = performance.now();
+    }
     cur = i;
     slides.forEach(function(sl,k){ sl.classList.toggle('on', k === i); sl.setAttribute('aria-hidden', k === i ? 'false' : 'true'); });
     leads.forEach(function(l,k){ l.classList.toggle('on', k === i); });
@@ -810,13 +822,21 @@ document.documentElement.classList.add('js');
       dt.forEach(function(t,k){ t.setAttribute('aria-current', k === i ? 'true' : 'false'); });
       countUp(data[i]);
     }
+    var swBand = 0, swBandT = null; /* smorzatore touch, come per l'apertura */
     function paint(){
       ticking = false;
       if(!band.offsetHeight) return;
       var span = band.offsetHeight - innerHeight;
       var prog = span > 0 ? (-band.getBoundingClientRect().top) / span : 0;
       prog = Math.max(0, Math.min(.9999, prog));
-      show(Math.floor(prog * data.length));
+      var i = Math.floor(prog * data.length);
+      if(i === cur) return;
+      if(coarse){
+        var wait = 300 - (performance.now() - swBand);
+        if(wait > 0){ clearTimeout(swBandT); swBandT = setTimeout(paint, wait); return; }
+        swBand = performance.now();
+      }
+      show(i);
     }
     addEventListener('scroll', function(){ if(!ticking){ ticking = true; requestAnimationFrame(paint); } },{passive:true});
     addEventListener('resize', paint);
