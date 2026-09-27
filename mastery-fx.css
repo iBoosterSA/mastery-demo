@@ -87,20 +87,6 @@ body.fx-on footer {
    l'altro quando la sezione arriva a schermo.
    =========================================================== */
 
-#per-chi .bivio-intro {
-    margin: clamp(18px, 2.4vw, 30px) 0 0;
-    max-width: 62ch;
-    font-size: var(--t-lead);
-    line-height: 1.42;
-    color: var(--ink);
-
-    opacity: 0;
-    transform: translateY(12px);
-    transition: opacity .7s ease .18s, transform .7s cubic-bezier(.22, .61, .36, 1) .18s;
-}
-
-#per-chi.in .bivio-intro { opacity: 1; transform: none; }
-
 #per-chi .bivio {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -159,7 +145,6 @@ body.fx-on footer {
 }
 
 @media (prefers-reduced-motion: reduce) {
-    #per-chi .bivio-intro,
     #per-chi .bivio-col { opacity: 1; transform: none; transition: none; }
 }
 
@@ -179,8 +164,11 @@ body.fx-on footer {
     box-decoration-break: clone;
 }
 
-/* sui fondi pieni si inverte: bianco pieno, testo blu */
-.hero .evid,
+/* Sui fondi pieni si inverte: bianco pieno, testo blu.
+   Attenzione alla testata: quella della home e' blu, quelle delle pagine
+   interne (.hero.interna) sono bianche, e li' l'evidenza va tenuta blu
+   o sparisce nel fondo. */
+.hero:not(.interna) .evid,
 .contact .evid,
 .door.klein .evid,
 .section.blue .evid {
@@ -191,6 +179,7 @@ body.fx-on footer {
 /* I testi che contengono evidenze hanno bisogno di piu' aria fra le righe:
    altrimenti i rettangoli di due righe consecutive si sfiorano. */
 .hero .leadtext { line-height: 1.8; }
+.fx-evidenziato { line-height: 1.8; }
 
 /* ===========================================================
    VELLUTO · una sola curva e una sola scala di tempi
@@ -236,7 +225,6 @@ body.fx-on .data-ticks button {
 }
 
 /* il bivio segue la stessa regola invece di avere la sua */
-#per-chi .bivio-intro,
 #per-chi .bivio-col,
 #per-chi .bivio-cue {
     transition-timing-function: var(--velluto);
@@ -327,24 +315,158 @@ body.fx-on .dstage {
 .fx-lenti button[aria-pressed="false"]:hover { background: rgba(0, 47, 167, .1); }
 
 /* ===========================================================
-   PERCHE · la sezione deve staccarsi da quella sopra
+   RIPARAZIONE · i dati degli scenari erano invisibili
+   ------------------------------------------------------------
+   Il sito nasconde ogni .datum (visibility:hidden) e lo mostra
+   solo quando la fascia lo porta in scena. Su c-one le fasce
+   hanno un dato solo e non ruotano: una regola apposta le
+   rimette a posto, ma reimposta position, opacity, transform e
+   display — non visibility. Risultato: quattro blocchi vuoti,
+   anche online. Qui manca solo quella riga.
+   Il selettore è diretto: i .datum dentro una fascia a scorrimento
+   stanno in .datawrap e devono restare come sono.
    =========================================================== */
 
-body.fx-on #perche {
-    background: var(--white);
-    border-top: 1px solid var(--line);
+.databand > .datum { visibility: visible; }
+
+/* ===========================================================
+   ACCENTI · le maiuscole accentate hanno bisogno di un filo d'aria
+   ------------------------------------------------------------
+   In Anton l'accento di una maiuscola sale sopra l'altezza delle
+   lettere. Con l'interlinea stretta delle testate, se la riga
+   accentata non è la prima, l'accento entra nella riga sopra: su
+   chi-siamo la À di REALTÀ bucava la O di PROPRIE.
+   =========================================================== */
+
+/* Misurato: in Anton la À arriva a 1.10em sopra la linea di base, la A a
+   0.86em. Fra due righe tutte maiuscole servono almeno 1.10em piu' un filo
+   d'aria, da cui 1.16: sotto, l'accento tocca ancora. */
+.fx-accenti { line-height: 1.16; }
+
+/* Il configuratore è il cuore di E-One, ma il suo riquadro aveva lo
+   stesso filo grigio di qualunque altro box: sembrava arredamento.
+   Un bordo Klein basta a dire che è uno strumento, non una scheda. */
+body.fx-on #costruisci .telaio { border-color: var(--klein); }
+
+/* ===========================================================
+   TAPPE · il percorso di E-One
+   ------------------------------------------------------------
+   Erano sei toggle a tutta larghezza per sei righe di testo:
+   un blocco alto quanto una pagina, che toglieva la scena al
+   configuratore — che è il cuore di quella pagina. Qui sono
+   una griglia: si leggono tutte insieme, senza aprire niente.
+   =========================================================== */
+
+.tappe {
+    list-style: none;
+    margin: clamp(30px, 4vw, 56px) 0 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: clamp(20px, 2.6vw, 40px) clamp(22px, 3vw, 48px);
 }
 
-#perche .titolo-sezione {
+.tappe li {
+    min-width: 0;
+    padding-top: clamp(14px, 1.6vw, 20px);
+    border-top: 1px solid var(--line-inv);
+}
+
+.tappa-n {
+    display: block;
     font-family: var(--display);
-    font-size: var(--t-h2);
-    line-height: .94;
-    color: var(--klein);
-    max-width: 18ch;
-    margin: clamp(18px, 2.6vw, 40px) 0 0;
+    font-size: var(--t-micro);
+    letter-spacing: .24em;
+    opacity: .55;
 }
 
-#perche .istruzione {
+.tappe h3 {
+    margin: clamp(8px, 1vw, 12px) 0 0;
+    font-family: var(--display);
+    text-transform: uppercase;
+    font-size: clamp(.95rem, .8rem + .5vw, 1.2rem);
+    line-height: 1.1;
+    letter-spacing: .01em;
+}
+
+.tappe p {
+    margin: 10px 0 0;
+    font-size: var(--t-micro);
+    line-height: 1.5;
+    opacity: .92;
+}
+
+@media (max-width: 980px) { .tappe { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 620px) { .tappe { grid-template-columns: 1fr; } }
+
+/* Due fasce blu di fila (E-One: il percorso e poi l'invito): senza un
+   filo chiaro si leggono come un blocco unico lungo il doppio. */
+body.fx-on .section.blue + .section.contact { border-top: 1px solid var(--line-inv); }
+
+/* ===========================================================
+   TESTIMONIANZE · il racconto è voce di qualcun altro
+   ------------------------------------------------------------
+   Stesso carattere e stesso peso: cambia solo l'inclinazione,
+   che è quanto basta a staccare la citazione dal testo del
+   sito. I caporali restano.
+   =========================================================== */
+
+.voice blockquote,
+.citazione blockquote p { font-style: italic; }
+
+/* ===========================================================
+   TESTATE DI SEZIONE · una misura sola
+   ------------------------------------------------------------
+   Erano scritte a mano una per una: margin-top in tre valori
+   diversi, max-width in quattro, il colore a volte sì e a volte
+   no. Da qui in poi la misura è una e vale per tutte; le
+   eccezioni vere (testata delle pagine, invito finale) hanno
+   classi proprie e non passano di qui.
+   =========================================================== */
+
+body.fx-on .section .wrap h1.display,
+body.fx-on .section .wrap h2.display {
+    font-size: var(--t-h2);
+    max-width: 20ch;
+    margin-top: clamp(20px, 3vw, 44px);
+    color: var(--klein);
+}
+
+/* Il paragrafo che chiude un ragionamento e va staccato dagli altri.
+   Su c-one era .forte dentro .tesi, su chi-siamo un colore scritto a mano
+   nell'attributo style: adesso è la stessa classe in tutto il sito. */
+body.fx-on .forte { color: var(--klein); font-weight: 500; }
+body.fx-on .blue .forte,
+body.fx-on .contact .forte { color: inherit; }
+
+/* Il sommario sotto al titolo: stessa misura ovunque. Prima era scritto
+   a mano sezione per sezione, con quattro max-width e tre margin-top. */
+body.fx-on .section .lead:not(.leadtext) { max-width: 56ch; }
+
+body.fx-on .section h1.display + .lead,
+body.fx-on .section h2.display + .lead,
+body.fx-on .section .domandona + .lead { margin-top: clamp(20px, 2.6vw, 36px); }
+
+/* la chiusura di C-One è a due colonne: l'occhiello le attraversa entrambe */
+.chiusura .label { grid-column: 1 / -1; }
+
+/* sui fondi pieni il Klein sparirebbe: si eredita il colore del testo */
+body.fx-on .section.blue .wrap h2.display,
+body.fx-on .section.contact .wrap h2.display { color: inherit; }
+
+/* senza occhiello sopra non c'è niente da cui staccarsi */
+body.fx-on .section .wrap h1.display:first-child,
+body.fx-on .section .wrap h2.display:first-child { margin-top: 0; }
+
+/* ===========================================================
+   ISTRUZIONE · la riga che dice all'utente che può scegliere
+   ------------------------------------------------------------
+   Serve sopra ogni gruppo di schede e sopra l'accordion: sono
+   comandi, e senza una riga che li annunci sembrano etichette.
+   Stessa forma su tutte le pagine.
+   =========================================================== */
+
+.fx-istruzione {
     margin: clamp(26px, 4vw, 52px) 0 clamp(10px, 1.2vw, 16px);
     font-size: var(--t-micro);
     font-weight: 700;
@@ -353,6 +475,14 @@ body.fx-on #perche {
     color: var(--klein);
     opacity: .6;
 }
+
+/* dentro una sezione blu l'inchiostro Klein non si leggerebbe */
+body.fx-on .section.blue .fx-istruzione,
+body.fx-on .section.contact .fx-istruzione { color: var(--paper); }
+
+/* l'istruzione sta appoggiata alle schede: il margine nativo del
+   gruppo lo raddoppierebbe */
+.fx-istruzione + .lenses { margin-top: 0; }
 
 @media (max-width: 860px) {
     .fx-lenti button { font-size: .8rem; padding: 12px 14px; }
@@ -368,26 +498,9 @@ body.fx-on #perche {
    impilano e diventano un accordion verticale classico.
    =========================================================== */
 
-body.fx-on #perche {
-    background: var(--white);
-    border-top: 1px solid var(--line);
-}
-
-#perche .ha-titolo {
-    font-family: var(--display);
-    font-size: var(--t-h2);
-    line-height: .94;
-    color: var(--klein);
-    margin: 0;
-}
-
-#perche .ha-occhiello {
-    margin: clamp(12px, 1.6vw, 22px) 0 0;
-    font-size: var(--t-lead);
-    line-height: 1.4;
-    max-width: 46ch;
-    color: var(--ink);
-}
+/* il colore della sezione lo ridipinge il canvas: qui serve solo il filo
+   che la stacca da quella sopra */
+body.fx-on #perche { border-top: 1px solid var(--line); }
 
 .ha {
     display: flex;
@@ -551,6 +664,11 @@ body.fx-on #perche {
     font-size: clamp(2rem, 1.2rem + 3vw, 4rem);
     line-height: .9;
     white-space: nowrap;
+    /* stessi dettagli dei numeri grandi delle fasce dati su c-one, così
+       la cifra sembra la stessa famiglia, solo più piccola. Il colore no:
+       qui il pannello aperto è blu, e la cifra eredita il bianco. */
+    letter-spacing: -.03em;
+    margin-left: -.04em;
 }
 
 .ha-dati p {
@@ -561,25 +679,86 @@ body.fx-on #perche {
 
 .ha-src {
     margin-top: 8px !important;
-    letter-spacing: .1em;
+    letter-spacing: .13em;
     text-transform: uppercase;
     opacity: .6;
 }
 
+/* il rimando del pannello e' il collegamento del sito, non un altro:
+   stessa famiglia, stessa freccia disegnata, stesso comportamento.
+   Qui si aggiunge solo la posizione dentro al pannello. */
 .ha-cta {
     align-self: flex-start;
     margin-top: clamp(22px, 3vw, 40px);
-    font-family: var(--display);
-    text-transform: uppercase;
-    font-size: clamp(1rem, .8rem + .6vw, 1.3rem);
-    color: inherit;
-    text-decoration: none;
-    border-bottom: 2px solid currentColor;
-    padding-bottom: 4px;
 }
 
-.ha-cta span { display: inline-block; margin-left: .4em; transition: transform var(--v-breve) var(--velluto); }
-.ha-cta:hover span { transform: translateX(5px); }
+
+/* ===========================================================
+   ACCORDION · le due fasce di C-One
+   ------------------------------------------------------------
+   Stesso componente, ma con quattro e cinque pannelli: le
+   linguette chiuse si stringono, altrimenti al pannello aperto
+   non resta spazio. E dentro c'è un blocco in più, la cifra che
+   regge lo scenario.
+   =========================================================== */
+
+body.fx-on #scenari,
+body.fx-on #vantaggi { border-top: 1px solid var(--line); }
+
+/* Solo da tablet in su: sotto gli 860px i pannelli si impilano e queste
+   misure, che hanno la meglio per specificità sulle regole impilate,
+   schiaccerebbero la linguetta a 46px nascondendo il nome. */
+@media (min-width: 861px) {
+    .ha.molti .ha-p { flex: 0 0 clamp(62px, 5.4vw, 88px); }
+    .ha.molti .ha-p.aperto { flex: 1 1 auto; }
+    .ha.molti .ha-p.aperto .ha-tab { width: clamp(46px, 4.2vw, 62px); }
+    .ha.molti .ha-c { margin-left: clamp(46px, 4.2vw, 62px); }
+    .ha.molti .ha-v { font-size: clamp(.8rem, .6rem + .45vw, 1.05rem); }
+}
+
+/* pannello senza claim: il contenuto sale sotto al titolo, invece di
+   restare appeso in fondo a metà pannello vuoto */
+@media (min-width: 861px) {
+    .ha.compatto { min-height: min(56svh, 520px); }
+    .ha.compatto .ha-dati { margin: clamp(22px, 3vw, 38px) 0 auto; }
+}
+
+/* la cifra dello scenario, con accanto ciò che dimostra */
+.ha-dato {
+    display: flex;
+    align-items: baseline;
+    gap: clamp(18px, 2.6vw, 44px);
+    margin-top: clamp(18px, 2.4vw, 34px);
+}
+
+.ha-cifra {
+    flex: 0 0 auto;
+    font-family: var(--display);
+    font-size: clamp(2.8rem, 1.6rem + 4.4vw, 6.5rem);
+    line-height: .86;
+    letter-spacing: -.03em;
+    margin-left: -.04em;
+}
+
+.ha-dato-t { min-width: 0; }
+.ha-dato-t p { margin: 0; font-size: var(--t-body); line-height: 1.45; max-width: 42ch; }
+.ha-dato-t .ha-src { margin-top: 10px !important; font-size: var(--t-micro); }
+
+/* i sintomi, con sotto la risposta */
+.ha-sintomi h4 {
+    margin: 0;
+    font-family: var(--display);
+    text-transform: uppercase;
+    font-size: clamp(.95rem, .8rem + .5vw, 1.2rem);
+    line-height: 1.1;
+    letter-spacing: .01em;
+}
+
+.ha-sintomi p { margin-top: 9px; opacity: .92; }
+
+@media (max-width: 1100px) {
+    .ha-dato { flex-direction: column; align-items: flex-start; gap: 12px; }
+}
 
 /* --- sotto gli 860px: impilati, niente rotazione --- */
 
@@ -624,6 +803,7 @@ body.fx-on #perche {
     .ha-p.aperto .ha-c { max-height: 1400px; }
 
     .ha-dati { grid-template-columns: 1fr; gap: 20px; }
+    .ha-cifra { font-size: clamp(2.6rem, 2rem + 4vw, 4rem); }
     .ha-testa { display: none; }
 }
 
