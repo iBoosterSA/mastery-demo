@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Mastery CLC. · E-One, il percorso del manager come persona</title>
-<meta name="description" content="E-One, il percorso Mastery per chi guida: costruisci il tuo percorso sulle tue scelte, un consulente lo presenta a voce. Riservato per architettura.">
+<title>Mastery CLC. &middot; Insights</title>
+<meta name="description" content="Ricerche, temi di fondo e appunti brevi su come si misura e si allena chi guida: la sezione Insights di Mastery CLC.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
@@ -341,106 +341,47 @@ footer .legal{font-size:var(--t-micro);letter-spacing:.06em;opacity:.75;max-widt
   .section{padding-block:clamp(74px,12vw,118px)}
 }
 
-/* ================= PAGINA INTERNA E-ONE: stessa grammatica della home ================= */
+/* ================= PAGINA INTERNA CHI SIAMO: stessa grammatica della home ================= */
+/* targa di pagina nella barra (regola D58), come le sorelle */
 .nav .mark{display:flex;align-items:baseline;gap:.6em;flex:none;white-space:nowrap}
 .nav .targa{font-size:var(--t-micro);text-transform:uppercase;letter-spacing:.14em;
   opacity:.7;white-space:nowrap}
+/* «· Chi siamo» e' piu' lunga delle targhe sorelle: sotto i 420px spingeva la pillola
+   fuori dallo schermo. Qui la targa scende sotto il marchio e restano tutti e tre. */
+@media(max-width:420px){
+  .nav .mark{flex-direction:column;align-items:flex-start;gap:.2em}
+  .nav .targa{letter-spacing:.09em}
+}
 
-/* apertura: quella della home, guidata dallo scroll, su carta col titolo in klein */
-.hero.interna{height:320svh;background:var(--paper);color:var(--ink)}
-html:not(.js) .hero.interna{height:auto}
-.js .hero.interna .slide.on .words .w > i{transform:translateY(0)}
-.hero.interna .claim{color:var(--klein);max-width:16ch}
-.hero.interna .ticks button{background:var(--klein);opacity:.25}
-.hero.interna .ticks button[aria-current="true"]{opacity:1}
-.hero.interna .hero-foot{border-top-color:var(--line)}
-.hero.interna .label{color:var(--klein);opacity:1}
+/* L'APERTURA
+   Le sorelle hanno un campo carta a scroll; qui il claim e' uno solo e resta statico.
+   Perche' la pagina apra come le altre e non come una prima sezione qualunque, il campo
+   tiene la sua altezza e il contenuto sta in basso, dove lo scroll delle sorelle lo lascia. */
+#inizio{min-height:min(88svh,880px);display:flex;flex-direction:column;justify-content:flex-end;
+  padding-top:clamp(130px,18vh,210px);padding-bottom:clamp(44px,7vh,92px)}
 
-/* la freccia disegnata: quella di destra sta nel foglio condiviso, qui la sinistra
-   e il comando di servizio (stessa figura della cta, misurata sull'etichetta) */
-.cta .arw.sx{transform:rotate(-135deg)}
-.cta:hover .arw.sx{transform:rotate(-135deg) translate(.16em,.16em)}
-.cmd{font-weight:500;font-size:var(--t-micro);text-transform:uppercase;letter-spacing:.14em;
-  display:inline-flex;align-items:center;gap:.6em;
-  border-bottom:1px solid currentColor;padding-bottom:3px}
-.cmd .arw{display:inline-block;width:.62em;height:.62em;flex:none;
-  border-top:.11em solid currentColor;border-right:.11em solid currentColor;
-  transform:rotate(45deg);position:relative;top:-.04em;
-  transition:transform .45s cubic-bezier(.16,1,.3,1)}
-.cmd:hover .arw{transform:rotate(45deg) translate(.16em,-.16em)}
+/* LA CITAZIONE della ricerca
+   Prima era un lead klein seguito da quattro righe di etichetta maiuscola: la fonte pesava
+   quanto la citazione. Ora la citazione ha il suo filo e la fonte torna una riga di servizio. */
+.citazione{margin:clamp(26px,3.6vw,46px) 0 clamp(6px,1vw,14px);
+  border-top:1px solid var(--line);padding-top:clamp(20px,2.6vw,34px)}
+.citazione blockquote p{color:var(--klein);max-width:46ch;
+  font-size:var(--t-lead);line-height:1.3}
+.citazione .fonte{margin-top:clamp(14px,1.8vw,22px);max-width:74ch;
+  font-size:var(--t-micro);letter-spacing:.02em;line-height:1.5;opacity:.62}
 
-/* ---------- il costruttore ---------- */
-.insegna{max-width:58ch}
-.insegna .lead{margin-top:clamp(18px,2.4vw,32px)}
-.telaio{margin-top:clamp(34px,5vw,72px);border:1px solid var(--line);background:var(--paper)}
-.telaio .barra-passo{display:flex;align-items:center;justify-content:space-between;gap:clamp(16px,3vw,40px);
-  flex-wrap:wrap;padding:clamp(16px,2vw,26px) clamp(18px,2.6vw,38px);
-  border-bottom:1px solid var(--line)}
-.telaio .conta{font-size:var(--t-micro);text-transform:uppercase;letter-spacing:.14em;
-  font-weight:500;color:var(--klein)}
-.telaio .tacche{display:flex;gap:10px;align-items:center;flex:1 1 140px;
-  max-width:286px;justify-content:flex-end}
-.telaio .tacche span{flex:1 1 0;min-width:0;height:2px;background:var(--klein);
-  opacity:.22;transition:opacity .45s}
-.telaio .tacche span.fatta{opacity:1}
-.quadro{padding:clamp(26px,3.6vw,56px) clamp(18px,2.6vw,38px) clamp(22px,3vw,44px)}
-.js .quadro{animation:entra .5s cubic-bezier(.16,1,.3,1) both}
-@keyframes entra{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
-.quadro .dom{font-family:var(--display);text-transform:uppercase;color:var(--klein);
-  font-size:var(--t-h3);line-height:1.02;max-width:20ch}
-.quadro .aiuto{font-size:var(--t-lead);margin-top:clamp(12px,1.6vw,20px);max-width:58ch;opacity:.9}
-.quadro fieldset{border:0;padding:0;margin-top:clamp(26px,3.4vw,48px)}
-.quadro legend{font-size:var(--t-micro);text-transform:uppercase;letter-spacing:.14em;
-  font-weight:500;color:var(--klein);padding:0;margin-bottom:clamp(12px,1.6vw,20px)}
-.griglia{display:flex;flex-wrap:wrap;gap:clamp(8px,1vw,14px)}
-.scelta{border:1px solid var(--klein);color:var(--klein);background:none;text-align:left;
-  padding:.62em 1em .56em;font-size:var(--t-body);line-height:1.2;
-  transition:background .3s ease,color .3s ease}
-.scelta:hover{background:rgba(0,47,167,.09)}
-.scelta[aria-pressed="true"]{background:var(--klein);color:var(--paper)}
-.piedi{display:flex;align-items:center;justify-content:space-between;gap:clamp(16px,3vw,40px);
-  flex-wrap:wrap;margin-top:clamp(30px,4vw,60px);padding-top:clamp(20px,2.6vw,32px);
-  border-top:1px solid var(--line)}
-.piedi .destra{display:flex;align-items:center;gap:clamp(18px,3vw,40px);margin-left:auto}
-.piedi .cta[disabled]{opacity:.3;pointer-events:none}
-
-/* ---------- la scheda: ultimo passo del costruttore ---------- */
-.quadro .titolo-scheda{font-family:var(--display);text-transform:uppercase;color:var(--klein);
-  font-size:var(--t-h3);line-height:1.02}
-.voci-scheda{margin-top:clamp(24px,3.2vw,44px);border-top:1px solid var(--line)}
-.voce-s{display:grid;gap:4px;padding-block:clamp(14px,1.8vw,22px);border-bottom:1px solid var(--line)}
-@media(min-width:760px){.voce-s{grid-template-columns:minmax(150px,2fr) 7fr;gap:clamp(16px,3vw,44px);align-items:baseline}}
-.voce-s .k{font-size:var(--t-micro);text-transform:uppercase;letter-spacing:.14em;
-  font-weight:500;color:var(--klein)}
-.voce-s .v{font-size:var(--t-body)}
-.promessa{margin-top:clamp(22px,3vw,38px);font-size:var(--t-lead);max-width:56ch}
-.recapiti{display:grid;gap:clamp(16px,2.4vw,30px);margin-top:clamp(26px,3.4vw,48px)}
-@media(min-width:860px){.recapiti{grid-template-columns:repeat(3,1fr)}}
-.recapiti label{display:block;font-size:var(--t-micro);text-transform:uppercase;
-  letter-spacing:.14em;font-weight:500;color:var(--klein);margin-bottom:8px}
-.recapiti input{width:100%;border:0;border-bottom:1px solid var(--line);background:none;
-  padding:9px 2px;font:inherit;font-size:var(--t-body);color:var(--ink)}
-.recapiti input:focus{outline:0;border-bottom-color:var(--klein)}
-.mail-riga{display:flex;flex-wrap:wrap;align-items:baseline;gap:clamp(16px,2.6vw,36px);
-  margin-top:clamp(26px,3.4vw,46px)}
-.cta[aria-disabled="true"]{opacity:.3;pointer-events:none}
-.trasparenza{font-size:var(--t-micro);letter-spacing:.06em;opacity:.7;max-width:52ch}
-
-/* ---------- il sigillo della riservatezza ---------- */
-.sigillo{display:grid;gap:clamp(18px,2.6vw,40px);margin-top:clamp(34px,4.6vw,72px);
-  padding-top:clamp(26px,3.4vw,48px);border-top:1px solid var(--line-inv)}
-@media(min-width:960px){.sigillo{grid-template-columns:5fr 7fr;align-items:start}}
-.sigillo .nome{font-family:var(--display);text-transform:uppercase;
-  font-size:var(--t-h3);line-height:1.02;max-width:14ch}
-.sigillo p{max-width:56ch;font-size:var(--t-lead)}
-
-/* ---------- la via diretta ---------- */
-.via{display:grid;gap:clamp(20px,3vw,44px)}
-@media(min-width:960px){.via{grid-template-columns:6fr 6fr;align-items:end}}
-.via .alt{font-size:var(--t-body);opacity:.85;margin-top:clamp(14px,2vw,22px)}
-.via .alt a{border-bottom:1px solid currentColor}
-.via .azioni{display:flex;flex-direction:column;align-items:flex-start;gap:clamp(12px,1.6vw,20px)}
-@media(min-width:960px){.via .azioni{align-items:flex-end}}
+/* I PERCORSI
+   Due porte leggere: prendono il peso tipografico delle porte della home (.door .name)
+   senza la fascia a tutta altezza, che qui spezzerebbe il ritmo dei fondi. */
+.porte{display:grid;gap:clamp(30px,4vw,64px);margin-top:clamp(22px,3.2vw,44px)}
+@media(min-width:860px){.porte{grid-template-columns:1fr 1fr}}
+.porta{border-top:1px solid var(--line);padding-top:clamp(22px,2.8vw,38px);
+  display:flex;flex-direction:column;align-items:flex-start}
+.porta .cta{margin-top:auto}
+.porta .label{color:var(--klein)}
+.porta .nome{font-family:var(--display);text-transform:uppercase;line-height:.92;
+  font-size:clamp(2.75rem,1.4rem + 5.4vw,6rem);letter-spacing:-.03em;margin-left:-.04em;
+  color:var(--klein);margin-block:clamp(10px,1.4vw,18px) clamp(16px,2.2vw,30px)}
 
 @media(prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
@@ -451,36 +392,36 @@ html:not(.js) .hero.interna{height:auto}
 </style>
 
   <!-- anteprima di condivisione -->
-  <link rel="canonical" href="https://mastery-demo.onrender.com/e-one.html">
+  <link rel="canonical" href="https://mastery-demo.onrender.com/insights.html">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Mastery CLC">
   <meta property="og:locale" content="it_IT">
-  <meta property="og:url" content="https://mastery-demo.onrender.com/e-one.html">
-  <meta property="og:title" content="Mastery CLC. · E-One, il percorso del manager come persona">
-  <meta property="og:description" content="E-One, il percorso Mastery per chi guida: costruisci il tuo percorso sulle tue scelte, un consulente lo presenta a voce. Riservato per architettura.">
-  <meta property="og:image" content="https://mastery-demo.onrender.com/assets/social/e-one.png">
+  <meta property="og:url" content="https://mastery-demo.onrender.com/insights.html">
+  <meta property="og:title" content="Mastery CLC. &middot; Insights">
+  <meta property="og:description" content="Ricerche, temi di fondo e appunti brevi su come si misura e si allena chi guida: la sezione Insights di Mastery CLC.">
+  <meta property="og:image" content="https://mastery-demo.onrender.com/assets/social/insights.png">
   <meta property="og:image:type" content="image/png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
-  <meta property="og:image:alt" content="Mastery CLC · E-One, il percorso del manager come persona">
+  <meta property="og:image:alt" content="Mastery CLC · Mastery CLC. &middot; Insights">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Mastery CLC. · E-One, il percorso del manager come persona">
-  <meta name="twitter:description" content="E-One, il percorso Mastery per chi guida: costruisci il tuo percorso sulle tue scelte, un consulente lo presenta a voce. Riservato per architettura.">
-  <meta name="twitter:image" content="https://mastery-demo.onrender.com/assets/social/e-one.png">
+  <meta name="twitter:title" content="Mastery CLC. &middot; Insights">
+  <meta name="twitter:description" content="Ricerche, temi di fondo e appunti brevi su come si misura e si allena chi guida: la sezione Insights di Mastery CLC.">
+  <meta name="twitter:image" content="https://mastery-demo.onrender.com/assets/social/insights.png">
   <meta name="theme-color" content="#002FA7">
   <link rel="icon" href="assets/social/segnaposto.svg" type="image/svg+xml">
 </head>
-<body data-pagina="e-one" data-oggetto="Percorso E-One · Richiesta di incontro">
+<body>
 <a class="skip" href="#contenuto">Vai al contenuto</a>
 
 <header class="nav" data-theme="light">
   <div class="wrap bar">
-    <span class="mark"><a class="brand" href="index.html">MASTERY CLC.</a><span class="targa">· E-One</span></span>
+    <span class="mark"><a class="brand" href="index.html">MASTERY CLC.</a><span class="targa">· Insights</span></span>
     <ul>
       <li><a href="c-one.html">C-One</a></li>
-      <li><a href="e-one.html" aria-current="page">E-One</a></li>
+      <li><a href="e-one.html">E-One</a></li>
       <li><a href="chi-siamo.html">Chi siamo</a></li>
-      <li><a href="insights.html">Insights</a></li>
+      <li><a href="insights.html" aria-current="page">Insights</a></li>
       <li><a class="pill" href="#contatto">Parliamone</a></li>
     </ul>
   </div>
@@ -488,83 +429,102 @@ html:not(.js) .hero.interna{height:auto}
 
 <main id="contenuto">
 
-<section class="hero interna" id="inizio" data-nav="light" data-fx="tipografia" data-fx-i="0.55" data-fx-scrub data-fx-words="IL RUOLO|CHI GUIDA|LA DECISIONE">
- <div class="hero-stage">
-  <div class="wrap top">
-    <p class="label">E-One · il manager come persona</p>
-    <div class="ticks" aria-label="Le tre aperture">
-      <button type="button" aria-current="true" aria-label="Apertura 1 di 3"></button>
-      <button type="button" aria-current="false" aria-label="Apertura 2 di 3"></button>
-      <button type="button" aria-current="false" aria-label="Apertura 3 di 3"></button>
-    </div>
-  </div>
-
-  <div class="wrap stage">
-    <div class="slide on" data-i="0">
-      <h1 class="claim words">Le responsabilità crescono. E tu?</h1>
-    </div>
-    <div class="slide" data-i="1" aria-hidden="true">
-      <p class="claim display words">Chi guida tutti, chi lo allena?</p>
-    </div>
-    <div class="slide" data-i="2" aria-hidden="true">
-      <p class="claim display words">Investire su di sé è una decisione da leader.</p>
-    </div>
-  </div>
-
+<section class="section anim" id="inizio" data-nav="light" data-fx="off">
   <div class="wrap">
-    <div class="hero-foot">
-      <div class="leads">
-        <p class="leadtext on" data-i="0">Più le responsabilità crescono, più aumenta la solitudine di chi decide. E-One parte da qui: <mark class="evid">un percorso personale per chi guida, costruito sulla misura e non sulle sensazioni</mark>.</p>
-        <p class="leadtext" data-i="1">Un percorso costruito sulla misura: <mark class="evid">la fotografia di come guidi</mark>, il coaching sulle tue leve di crescita, le ri-misure che mostrano i progressi nel tempo.</p>
-        <p class="leadtext" data-i="2">E-One è il percorso di chi investe su di sé, anche indipendentemente dalla propria azienda. E per questo è riservato per architettura: <mark class="evid">i dati appartengono a chi li genera, e a nessun altro</mark>.</p>
-      </div>
-      <a class="cta" href="#contatto">Parliamone <span class="arw" aria-hidden="true"></span></a>
+    <p class="label">Per approfondire</p>
+    <h1 class="display words">Insights</h1>
+    <p class="lead up">Quello che vediamo lavorando coi vertici e con chi guida: ricerche,
+    temi di fondo e appunti brevi. Si leggono in due minuti, e servono a decidere se
+    il nostro modo di lavorare è anche il vostro.</p>
+
+    <p class="fx-istruzione">La ricerca e i temi</p>
+    <div class="ins-griglia">
+      <a class="ins-scheda" href="insight-misurare-il-vertice.html">
+        <span class="ins-cop"><img src="assets/social/insight-misurare-il-vertice.png" alt="" loading="lazy" width="1200" height="630"></span>
+        <span class="ins-tag">La ricerca</span>
+        <span class="ins-titolo">Misurare il vertice</span>
+        <span class="ins-sommario">Cosa esiste, cosa funziona, cosa manca: la ricognizione 2026 su strumenti e mercato della misura di chi guida.</span>
+        <span class="ins-vai">Leggi <span class="arw" aria-hidden="true"></span></span>
+      </a>
+      <a class="ins-scheda" href="insight-la-staffetta-generazionale.html">
+        <span class="ins-cop"><img src="assets/social/insight-la-staffetta-generazionale.png" alt="" loading="lazy" width="1200" height="630"></span>
+        <span class="ins-tag">Il tema</span>
+        <span class="ins-titolo">La staffetta generazionale</span>
+        <span class="ins-sommario">Ogni anno 35.000 passaggi generazionali attraversano le imprese italiane: meno della metà arriva preparata.</span>
+        <span class="ins-vai">Leggi <span class="arw" aria-hidden="true"></span></span>
+      </a>
+      <a class="ins-scheda" href="insight-lo-stato-di-forma-di-chi-guida.html">
+        <span class="ins-cop"><img src="assets/social/insight-lo-stato-di-forma-di-chi-guida.png" alt="" loading="lazy" width="1200" height="630"></span>
+        <span class="ins-tag">Il tema</span>
+        <span class="ins-titolo">Lo stato di forma di chi guida</span>
+        <span class="ins-sommario">In un'impresa si misura tutto, tranne chi decide: che cosa vuol dire misurare il vertice, e che cosa cambia quando lo si fa nel tempo.</span>
+        <span class="ins-vai">Leggi <span class="arw" aria-hidden="true"></span></span>
+      </a>
+    </div>
+
+    <p class="fx-istruzione" style="margin-top:clamp(40px,5vw,72px)">Il punto</p>
+    <div class="ins-griglia">
+      <a class="ins-scheda" href="insight-dove-nessuno-ha-guardato.html">
+        <span class="ins-cop"><img src="assets/social/insight-dove-nessuno-ha-guardato.png" alt="" loading="lazy" width="1200" height="630"></span>
+        <span class="ins-tag">Il punto</span>
+        <span class="ins-titolo">Dove nessuno ha guardato</span>
+        <span class="ins-sommario">Le imprese si fanno misurare dappertutto: bilanci, gestionali, certificazioni.</span>
+        <span class="ins-vai">Leggi <span class="arw" aria-hidden="true"></span></span>
+      </a>
+      <a class="ins-scheda" href="insight-il-lunedi-dopo.html">
+        <span class="ins-cop"><img src="assets/social/insight-il-lunedi-dopo.png" alt="" loading="lazy" width="1200" height="630"></span>
+        <span class="ins-tag">Il punto</span>
+        <span class="ins-titolo">Il lunedì dopo</span>
+        <span class="ins-sommario">I corsi finiscono tutti allo stesso modo: due giorni fuori sede, un raccoglitore di slide, il lunedì ognuno alle vecchie abitudini.</span>
+        <span class="ins-vai">Leggi <span class="arw" aria-hidden="true"></span></span>
+      </a>
+      <a class="ins-scheda" href="insight-il-costo-dell-esitazione.html">
+        <span class="ins-cop"><img src="assets/social/insight-il-costo-dell-esitazione.png" alt="" loading="lazy" width="1200" height="630"></span>
+        <span class="ins-tag">Il punto</span>
+        <span class="ins-titolo">Il costo dell'esitazione</span>
+        <span class="ins-sommario">Un vertice che esita o si divide rallenta tutta la struttura: le decisioni si fermano ai confini dei reparti, i tempi si allungano lungo la catena.</span>
+        <span class="ins-vai">Leggi <span class="arw" aria-hidden="true"></span></span>
+      </a>
+      <a class="ins-scheda" href="insight-niente-atti-di-fede.html">
+        <span class="ins-cop"><img src="assets/social/insight-niente-atti-di-fede.png" alt="" loading="lazy" width="1200" height="630"></span>
+        <span class="ins-tag">Il punto</span>
+        <span class="ins-titolo">Niente atti di fede</span>
+        <span class="ins-sommario">Un'impresa non paga un fornitore sulla parola.</span>
+        <span class="ins-vai">Leggi <span class="arw" aria-hidden="true"></span></span>
+      </a>
+      <a class="ins-scheda" href="insight-la-solitudine-di-chi-sale.html">
+        <span class="ins-cop"><img src="assets/social/insight-la-solitudine-di-chi-sale.png" alt="" loading="lazy" width="1200" height="630"></span>
+        <span class="ins-tag">Il punto</span>
+        <span class="ins-titolo">La solitudine di chi sale</span>
+        <span class="ins-sommario">Più si sale, più ci si allena da soli.</span>
+        <span class="ins-vai">Leggi <span class="arw" aria-hidden="true"></span></span>
+      </a>
+      <a class="ins-scheda" href="insight-il-vantaggio-che-non-si-vede.html">
+        <span class="ins-cop"><img src="assets/social/insight-il-vantaggio-che-non-si-vede.png" alt="" loading="lazy" width="1200" height="630"></span>
+        <span class="ins-tag">Il punto</span>
+        <span class="ins-titolo">Il vantaggio che non si vede</span>
+        <span class="ins-sommario">La bravura si presume, lo stato di forma si misura.</span>
+        <span class="ins-vai">Leggi <span class="arw" aria-hidden="true"></span></span>
+      </a>
+      <a class="ins-scheda" href="insight-i-dati-a-chi-li-genera.html">
+        <span class="ins-cop"><img src="assets/social/insight-i-dati-a-chi-li-genera.png" alt="" loading="lazy" width="1200" height="630"></span>
+        <span class="ins-tag">Il punto</span>
+        <span class="ins-titolo">I dati, a chi li genera</span>
+        <span class="ins-sommario">Il manager che sceglie Mastery investe su di sé, in autonomia dalla propria azienda.</span>
+        <span class="ins-vai">Leggi <span class="arw" aria-hidden="true"></span></span>
+      </a>
+      <a class="ins-scheda" href="insight-l-ultimo-giorno.html">
+        <span class="ins-cop"><img src="assets/social/insight-l-ultimo-giorno.png" alt="" loading="lazy" width="1200" height="630"></span>
+        <span class="ins-tag">Il punto</span>
+        <span class="ins-titolo">L'ultimo giorno</span>
+        <span class="ins-sommario">La consulenza classica vive di rinnovi.</span>
+        <span class="ins-vai">Leggi <span class="arw" aria-hidden="true"></span></span>
+      </a>
     </div>
   </div>
- </div>
 </section>
 
-<section class="section blue anim" id="percorso" data-nav="dark" data-fx="off">
-  <div class="wrap">
-    <p class="label">Il percorso E-One</p>
-    <h2 class="display words">Un inizio, un ritmo, una fine.</h2>
-    <p class="lead up">Il percorso si dichiara in anticipo: sai come si parte, come si lavora e cosa ti resta quando finisce.</p>
-
-    <ol class="tappe up">
-        <li><span class="tappa-n">01</span><h3>L'incontro</h3><p>Parte dalla tua scheda: un consulente Mastery ti chiama, vi conoscete, capite se c'è la chimica. Senza impegno.</p></li>
-        <li><span class="tappa-n">02</span><h3>L'accordo</h3><p>Da uno a tre obiettivi, nati dalle tue scelte. Come misureremo il progresso e le regole di riservatezza: tutto scritto, prima di partire.</p></li>
-        <li><span class="tappa-n">03</span><h3>La fotografia</h3><p>Una lettura di come guidi, all'inizio, con lo strumento del percorso. E i riscontri di poche persone che scegli tu.</p></li>
-        <li><span class="tappa-n">04</span><h3>Il percorso</h3><p>Un ciclo dichiarato in anticipo: sessioni individuali col tuo consulente dedicato, e un lavoro leggero tra una sessione e l'altra.</p></li>
-        <li><span class="tappa-n">05</span><h3>La verifica</h3><p>A metà e alla fine, sugli stessi obiettivi dell'accordo: suggerimenti per il futuro, mai pagelle sul passato.</p></li>
-        <li><span class="tappa-n">06</span><h3>La chiusura</h3><p>Il percorso finisce, e finisce bene: con un piano scritto che resta a te. Da lì in poi cammini con le tue gambe.</p></li>
-      </ol>
-    <div class="sigillo up">
-      <p class="nome">Riservato per architettura</p>
-      <p class="fx-evidenziato"><mark class="evid">Quello che emerge dal percorso resta a te</mark>: i dati sono tuoi, la lettura è tua, e il piano che ne esce lo porti con te in ogni ruolo che verrà. È la condizione che ti lascia libero di lavorare sul serio, anche sui temi più scomodi.</p>
-    </div>
-  </div>
-</section>
-
-<section class="section white anim" id="costruisci" data-nav="light" data-fx="off">
-  <div class="wrap">
-    <div class="insegna">
-      <p class="label">Il configuratore</p>
-
-      <h2 class="display words">Costruisci il tuo percorso.</h2>
-      <p class="lead up">Sette scelte, due minuti. Alla fine hai la scheda del tuo percorso, e un consulente Mastery che ti chiama per presentartelo. Qui scegli tu: la misura comincia col percorso.</p>
-    </div>
-
-    <div class="telaio up" id="telaio">
-      <div class="barra-passo">
-        <span class="conta" id="conta-passo">Passo 1 di 7</span>
-        <div class="tacche" id="tacche" aria-hidden="true"></div>
-      </div>
-      <div class="quadro" id="quadro" role="group" aria-live="polite"></div>
-    </div>
-  </div>
-</section>
-
-<section class="section contact anim" id="contatto" data-nav="dark">
+<section class="section contact anim" id="contatto" data-nav="dark" data-fx="off">
   <div class="wrap">
     <p class="label">Il primo passo</p>
     <h2 class="display words">Parliamone. Per anticipare i problemi o per risolverli adesso.</h2>
@@ -576,12 +536,13 @@ html:not(.js) .hero.interna{height:auto}
     </div>
   </div>
 </section>
+
 </main>
 
 <footer data-fx="lettere" data-fx-i="0.5">
   <div class="wrap inner">
     <span class="mark">MASTERY CLC.</span>
-    <span class="legal">E-One è il percorso Mastery per il manager come persona. · Dati societari in via di pubblicazione.</span>
+    <span class="legal">Mastery CLC · strumenti e percorsi per chi guida le imprese. · Dati societari in via di pubblicazione.</span>
   </div>
 </footer>
 
@@ -1023,226 +984,9 @@ document.documentElement.classList.add('js');
     if(dlg.close) dlg.close(); else dlg.removeAttribute('open');
   });
 })();
-
-/* ---------- il costruttore: sette passi, la scheda, la mail ---------- */
-(function(){
-  var quadro = document.getElementById('quadro');
-  if(!quadro) return;
-  var telaio = document.getElementById('telaio');
-  var tacche = document.getElementById('tacche');
-  var conta = document.getElementById('conta-passo');
-  var riduci = matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-  var ROSE = {
-    ruolo:['Imprenditore o AD','Direttore generale','Direttore di funzione','Responsabile di un team','Da poco in un ruolo di guida'],
-    anni:['Primo incarico di guida','Qualche anno di guida','Guido da molti anni'],
-    team:['Ho un team diretto','Guido una struttura articolata','Non ho ancora collaboratori'],
-    formati:['Leadership e gestione dei collaboratori','Comunicazione e public speaking','Vendita e negoziazione','Coaching individuale','Executive Master o MBA','Corsi brevi di formazione manageriale','Gestione dei progetti','Formazione interna in azienda','Percorsi online in autonomia','Eventi e convegni di formazione','Finora, poca formazione strutturata'],
-    livello:['Corsi brevi o eventi singoli','Percorsi su più incontri','Master o programmi executive','Formazione ripresa più volte negli anni'],
-    obiettivi:['Delegare senza perdere il controllo','Affrontare un passaggio di carriera','Uscire dalla solitudine di chi decide','Gestire i conflitti al vertice','Far crescere i collaboratori','Ritrovare tempo ed energia','Farmi ascoltare dalla proprietà','Prepararmi a guidare un’impresa'],
-    temi:['Leadership e motivazione','Delega e sviluppo dei collaboratori','Decisioni ed esecuzione','Comunicazione al vertice','Tempo e priorità','Guida del cambiamento','Negoziazione e conflitti','Stato di forma di chi guida'],
-    tempo:['1-2 ore a settimana','Mezza giornata a settimana','Una giornata a settimana','Lo decido strada facendo'],
-    budget:['Ho già un budget definito','Ho un’idea di massima','Prima voglio capire il valore']
-  };
-
-  var PASSI = [
-    {id:'chi',titolo:'Chi sei, oggi?',aiuto:'Tre scelte secche: servono al consulente per parlarti nella tua lingua.',
-     gruppi:[['Il tuo ruolo','ruolo',1],['Da quanto guidi','anni',1],['I collaboratori','team',1]],obbl:true},
-    {id:'formazione',titolo:'Cosa hai già fatto, finora?',aiuto:'La formazione che hai alle spalle conta: il percorso parte da dove sei, senza ripartire da zero.',
-     gruppi:[['La formazione già fatta (anche più di una)','formati',11],['Il livello a cui sei arrivato','livello',1]],obbl:true},
-    {id:'obiettivi',titolo:'Dove vuoi arrivare?',aiuto:'Scegli fino a 3 obiettivi: diventano la spina dorsale del percorso.',
-     gruppi:[['Gli obiettivi (fino a 3)','obiettivi',3]],obbl:true},
-    {id:'temi',titolo:'Su cosa vuoi lavorare?',aiuto:'I temi di formazione e coaching tra cui costruire le tue tappe: fino a 3.',
-     gruppi:[['I temi (fino a 3)','temi',3]],obbl:true},
-    {id:'tempo',titolo:'Quanto tempo hai davvero?',aiuto:'Facoltativo: il percorso si adatta, non il contrario.',
-     gruppi:[['Il tempo che puoi investire','tempo',1]],obbl:false},
-    {id:'budget',titolo:'E l’investimento?',aiuto:'Facoltativo: serve solo a preparare una proposta onesta, senza giri.',
-     gruppi:[['L’investimento','budget',1]],obbl:false},
-    {id:'scheda',obbl:true}
-  ];
-
-  var DATI = {ruolo:null,anni:null,team:null,formati:[],livello:null,obiettivi:[],temi:[],
-              tempo:null,budget:null,nome:'',email:'',telefono:''};
-  var passo = 0, primo = true;
-
-  PASSI.forEach(function(){ tacche.appendChild(document.createElement('span')); });
-
-  function etichette(){
-    conta.textContent = passo < 6 ? 'Passo ' + (passo + 1) + ' di 7' : 'La tua scheda · 7 di 7';
-    [].forEach.call(tacche.children, function(s,i){ s.className = i <= passo ? 'fatta' : ''; });
-  }
-
-  function completo(p){
-    if(p.id === 'chi') return !!(DATI.ruolo && DATI.anni && DATI.team);
-    if(p.id === 'formazione') return DATI.formati.length > 0 && !!DATI.livello;
-    if(p.id === 'obiettivi') return DATI.obiettivi.length > 0;
-    if(p.id === 'temi') return DATI.temi.length > 0;
-    return true;
-  }
-
-  function comando(etichetta, classe, azione, spento, freccia){
-    var b = document.createElement('button');
-    b.type = 'button'; b.className = classe;
-    if(freccia === 'sx'){
-      var s = document.createElement('span'); s.className = 'arw sx'; s.setAttribute('aria-hidden','true');
-      b.appendChild(s); b.appendChild(document.createTextNode(' ' + etichetta));
-    } else if(freccia === 'dx'){
-      b.appendChild(document.createTextNode(etichetta + ' '));
-      var d = document.createElement('span'); d.className = 'arw'; d.setAttribute('aria-hidden','true');
-      b.appendChild(d);
-    } else {
-      b.textContent = etichetta;
-    }
-    if(spento) b.disabled = true;
-    b.addEventListener('click', azione);
-    return b;
-  }
-
-  function scelte(campo, max){
-    var g = document.createElement('div'); g.className = 'griglia';
-    ROSE[campo].forEach(function(voce){
-      var b = document.createElement('button');
-      b.type = 'button'; b.className = 'scelta'; b.textContent = voce;
-      var attiva = max === 1 ? DATI[campo] === voce : DATI[campo].indexOf(voce) >= 0;
-      b.setAttribute('aria-pressed', attiva ? 'true' : 'false');
-      b.addEventListener('click', function(){
-        if(max === 1){
-          DATI[campo] = (DATI[campo] === voce) ? null : voce;
-          [].forEach.call(g.children, function(x){
-            x.setAttribute('aria-pressed', DATI[campo] === x.textContent ? 'true' : 'false');
-          });
-        } else {
-          var i = DATI[campo].indexOf(voce);
-          if(i >= 0){ DATI[campo].splice(i,1); b.setAttribute('aria-pressed','false'); }
-          else if(DATI[campo].length < max){ DATI[campo].push(voce); b.setAttribute('aria-pressed','true'); }
-        }
-        var av = quadro.querySelector('.avanti');
-        if(av) av.disabled = !completo(PASSI[passo]);
-      });
-      g.appendChild(b);
-    });
-    return g;
-  }
-
-  function vai(n){ passo = n; mostra(); }
-
-  function mostra(){
-    var p = PASSI[passo];
-    quadro.innerHTML = '';
-    etichette();
-    if(!primo && !riduci){ telaio.scrollIntoView({behavior:'smooth', block:'start'}); }
-    else if(!primo){ telaio.scrollIntoView({behavior:'auto', block:'start'}); }
-    primo = false;
-
-    if(p.id === 'scheda'){ scheda(); return; }
-
-    var h = document.createElement('h3'); h.className = 'dom'; h.textContent = p.titolo;
-    var a = document.createElement('p'); a.className = 'aiuto'; a.textContent = p.aiuto;
-    quadro.appendChild(h); quadro.appendChild(a);
-
-    p.gruppi.forEach(function(gr){
-      var fs = document.createElement('fieldset');
-      var lg = document.createElement('legend'); lg.textContent = gr[0];
-      fs.appendChild(lg); fs.appendChild(scelte(gr[1], gr[2]));
-      quadro.appendChild(fs);
-    });
-
-    var piedi = document.createElement('div'); piedi.className = 'piedi';
-    var sx = document.createElement('div');
-    if(passo > 0) sx.appendChild(comando('Indietro','cmd', function(){ vai(passo - 1); }, false, 'sx'));
-    piedi.appendChild(sx);
-    var dx = document.createElement('div'); dx.className = 'destra';
-    if(!p.obbl) dx.appendChild(comando('Salta','cmd', function(){ vai(passo + 1); }));
-    dx.appendChild(comando('Avanti','cta avanti', function(){ vai(passo + 1); }, !completo(p), 'dx'));
-    piedi.appendChild(dx);
-    quadro.appendChild(piedi);
-  }
-
-  function riga(k, v){
-    var r = document.createElement('div'); r.className = 'voce-s';
-    var a = document.createElement('span'); a.className = 'k'; a.textContent = k;
-    var b = document.createElement('span'); b.className = 'v'; b.textContent = v;
-    r.appendChild(a); r.appendChild(b);
-    return r;
-  }
-
-  function mail(){
-    var corpo = 'Il mio percorso E-One, costruito sul sito:\n\n' +
-      'Ruolo: ' + DATI.ruolo + ' · ' + DATI.anni + ' · ' + DATI.team + '\n' +
-      'Formazione già fatta: ' + DATI.formati.join(' · ') + ' (livello: ' + DATI.livello + ')\n' +
-      'Obiettivi: ' + DATI.obiettivi.join(' · ') + '\n' +
-      'Temi: ' + DATI.temi.join(' · ') + '\n' +
-      (DATI.tempo ? 'Tempo: ' + DATI.tempo + '\n' : '') +
-      (DATI.budget ? 'Investimento: ' + DATI.budget + '\n' : '') +
-      '\nNome: ' + DATI.nome + '\nTelefono: ' + DATI.telefono + '\n\n' +
-      'Richiesta preparata dal costruttore E-One del sito Mastery CLC.';
-    return 'mailto:info@masteryclc.it?subject=' + encodeURIComponent('E-One · il mio percorso') +
-      '&body=' + encodeURIComponent(corpo);
-  }
-
-  function scheda(){
-    var h = document.createElement('h3');
-    h.className = 'titolo-scheda'; h.textContent = 'La scheda del tuo percorso.';
-    quadro.appendChild(h);
-
-    var box = document.createElement('div'); box.className = 'voci-scheda';
-    box.appendChild(riga('Chi sei', DATI.ruolo + ' · ' + DATI.anni + ' · ' + DATI.team));
-    box.appendChild(riga('Formazione', DATI.formati.join(' · ') + ' · ' + DATI.livello));
-    box.appendChild(riga('Obiettivi', DATI.obiettivi.join(' · ')));
-    box.appendChild(riga('Temi', DATI.temi.join(' · ')));
-    if(DATI.tempo) box.appendChild(riga('Tempo', DATI.tempo));
-    if(DATI.budget) box.appendChild(riga('Investimento', DATI.budget));
-    quadro.appendChild(box);
-
-    var pr = document.createElement('p'); pr.className = 'promessa';
-    pr.textContent = 'Su queste scelte un consulente Mastery costruisce il tuo percorso e ti chiama per presentartelo. Riservato per architettura: i tuoi dati restano tuoi.';
-    quadro.appendChild(pr);
-
-    var rec = document.createElement('div'); rec.className = 'recapiti';
-    [['Il tuo nome','nome','text','Nome e cognome'],
-     ['La tua email','email','email','nome@azienda.it'],
-     ['Il telefono per la chiamata','telefono','tel','+39 ...']].forEach(function(c){
-      var w = document.createElement('div');
-      var l = document.createElement('label'); l.textContent = c[0]; l.setAttribute('for','in-' + c[1]);
-      var i = document.createElement('input');
-      i.id = 'in-' + c[1]; i.type = c[2]; i.placeholder = c[3]; i.value = DATI[c[1]];
-      i.addEventListener('input', function(){ DATI[c[1]] = i.value.trim(); aggiorna(); });
-      w.appendChild(l); w.appendChild(i); rec.appendChild(w);
-    });
-    quadro.appendChild(rec);
-
-    var fila = document.createElement('div'); fila.className = 'mail-riga';
-    var cta = document.createElement('a');
-    cta.className = 'cta'; cta.id = 'mail-cta'; cta.href = '#';
-    cta.setAttribute('aria-disabled','true');
-    cta.appendChild(document.createTextNode('Prepara la mail '));
-    var fr = document.createElement('span'); fr.className = 'arw'; fr.setAttribute('aria-hidden','true');
-    cta.appendChild(fr);
-    var tr = document.createElement('p'); tr.className = 'trasparenza';
-    tr.textContent = 'Questo tasto apre il tuo programma di posta con la mail già pronta: dovrai solo premere invio.';
-    fila.appendChild(cta); fila.appendChild(tr);
-    quadro.appendChild(fila);
-
-    var piedi = document.createElement('div'); piedi.className = 'piedi';
-    var sx = document.createElement('div');
-    sx.appendChild(comando('Torna alle scelte','cmd', function(){ vai(5); }, false, 'sx'));
-    piedi.appendChild(sx);
-    quadro.appendChild(piedi);
-
-    aggiorna();
-  }
-
-  function aggiorna(){
-    var cta = document.getElementById('mail-cta');
-    if(!cta) return;
-    var ok = DATI.nome && DATI.telefono && !!DATI.email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/);
-    cta.setAttribute('aria-disabled', ok ? 'false' : 'true');
-    cta.href = ok ? mail() : '#';
-  }
-
-  mostra();
-})();
 </script>
+<link rel="stylesheet" href="mastery-fx.css?v=1790532577">
+<script src="mastery-fx.js?v=1790532577"></script>
 <link rel="stylesheet" href="mastery-fx.css?v=1790532577">
 <script src="mastery-fx.js?v=1790532577"></script>
 </body>

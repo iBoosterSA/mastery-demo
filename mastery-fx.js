@@ -105,6 +105,42 @@
         document.body.classList.add('fx-on');
     }
 
+    /* -------------------------------------------------------
+       I claim della testata non devono uscire dal palco.
+
+       Il corpo del titolo cresce con la LARGHEZZA della finestra
+       (clamp su vw), l'altezza del palco dipende dall'ALTEZZA.
+       Su una finestra larga e bassa - 1900x900, un portatile
+       qualunque - le due misure divergono e il titolo viene
+       tagliato sopra e sotto, perche' il palco ha overflow
+       nascosto. Qui il titolo si misura e, se non ci sta, si
+       rimpicciolisce quel tanto che basta.
+       ------------------------------------------------------- */
+    function adattaClaim() {
+        var palchi = document.querySelectorAll('.hero .stage');
+
+        for (var i = 0; i < palchi.length; i++) {
+            var palco = palchi[i];
+            var claims = palco.querySelectorAll('.claim');
+
+            // prima si torna alla misura naturale, altrimenti a ogni
+            // ridimensionamento si rimpicciolirebbe sul gia' rimpicciolito
+            for (var j = 0; j < claims.length; j++) claims[j].style.fontSize = '';
+
+            var spazio = palco.clientHeight;
+            if (!spazio) continue;
+
+            for (var k = 0; k < claims.length; k++) {
+                var c = claims[k];
+                var alto = c.scrollHeight;
+                if (alto <= spazio) continue;
+                var corpo = parseFloat(getComputedStyle(c).fontSize);
+                // 6px di respiro: senza, le lettere rasentano il bordo
+                c.style.fontSize = (corpo * (spazio - 6) / alto).toFixed(1) + 'px';
+            }
+        }
+    }
+
     function measure() {
         dpr = Math.min(window.devicePixelRatio || 1, 2);
         W = window.innerWidth;
@@ -118,6 +154,9 @@
         lettere.build();
         scrub.build();
         scrub.pareggiaLeads();
+        // dopo pareggiaLeads, non prima: e' quella a decidere quanta altezza
+        // resta al palco, e il titolo va misurato sullo spazio definitivo
+        adattaClaim();
         lenti.build();
         accordion.build();
     }

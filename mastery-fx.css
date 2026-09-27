@@ -432,6 +432,207 @@ body.fx-on .section .wrap h2.display {
     color: var(--klein);
 }
 
+/* ===========================================================
+   BARRA · sul telefono si navigava a vuoto
+   ------------------------------------------------------------
+   Il sito nasconde ogni voce tranne "Parliamone" sotto i 640px:
+   da telefono non si poteva passare da una pagina all'altra.
+   Con gli Insights il problema pesa di più, perche' chi arriva
+   da un collegamento condiviso arriva quasi sempre da telefono.
+   Qui le voci restano e vanno a capo sotto al marchio.
+   =========================================================== */
+
+@media (max-width: 640px) {
+    body.fx-on .nav ul li:not(:last-child) { display: block; }
+    body.fx-on .nav .bar { flex-wrap: wrap; row-gap: 10px; }
+    body.fx-on .nav ul {
+        flex-wrap: wrap;
+        width: 100%;
+        justify-content: flex-start;
+        gap: 8px 14px;
+    }
+}
+
+/* ===========================================================
+   INSIGHTS · l'indice, le schede, la pagina del pezzo
+   ------------------------------------------------------------
+   La copertina di ogni pezzo è la stessa immagine che finisce
+   nell'anteprima di condivisione: un solo file, due usi. Per
+   questo ha proporzione 1200×630, che è quella dei social.
+   =========================================================== */
+
+.ins-griglia {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: clamp(26px, 3vw, 52px) clamp(22px, 2.6vw, 44px);
+    margin-top: clamp(16px, 2vw, 26px);
+}
+
+.ins-scheda {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    color: inherit;
+    text-decoration: none;
+}
+
+.ins-cop {
+    display: block;
+    overflow: hidden;
+    border: 1px solid var(--line);
+    background: var(--white);
+}
+
+.ins-cop img {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1200 / 630;
+    object-fit: cover;
+    transition: transform var(--v-lungo) var(--velluto);
+}
+
+.ins-scheda:hover .ins-cop img { transform: scale(1.03); }
+
+.ins-tag {
+    margin-top: clamp(18px, 2vw, 26px);
+    font-size: var(--t-micro);
+    font-weight: 700;
+    letter-spacing: .2em;
+    text-transform: uppercase;
+    color: var(--klein);
+    opacity: .65;
+}
+
+.ins-titolo {
+    margin-top: clamp(10px, 1.1vw, 14px);
+    font-family: var(--display);
+    text-transform: uppercase;
+    font-size: clamp(1.25rem, 1rem + .9vw, 1.9rem);
+    line-height: 1.02;
+    color: var(--klein);
+}
+
+.ins-sommario {
+    margin-top: clamp(12px, 1.3vw, 18px);
+    font-size: var(--t-micro);
+    line-height: 1.6;
+    opacity: .85;
+}
+
+/* La freccia piccola del sito è dichiarata solo nel foglio di c-one.html:
+   qui va ridisegnata, o resterebbe uno span vuoto. Stessa geometria e
+   stessa penna da 2px degli altri segni. */
+.ins-vai .arw {
+    display: inline-block;
+    flex: none;
+    width: .62em;
+    height: .62em;
+    border-top: 2px solid currentColor;
+    border-right: 2px solid currentColor;
+    transform: rotate(45deg);
+    position: relative;
+    top: -.04em;
+    transition: transform var(--v-medio) var(--velluto);
+}
+
+.ins-vai {
+    display: inline-flex;
+    align-items: center;
+    gap: .5em;
+    margin-top: auto;
+    padding-top: clamp(16px, 1.8vw, 24px);
+    font-family: var(--display);
+    text-transform: uppercase;
+    font-size: var(--t-micro);
+    letter-spacing: .06em;
+    color: var(--klein);
+}
+
+/* --- che si capisca che e' un collegamento --- */
+
+.ins-titolo {
+    text-decoration: underline;
+    text-decoration-color: transparent;
+    text-underline-offset: .16em;
+    text-decoration-thickness: 2px;
+    transition: text-decoration-color var(--v-breve) var(--velluto);
+}
+
+.ins-scheda:hover .ins-titolo,
+.ins-scheda:focus-visible .ins-titolo { text-decoration-color: currentColor; }
+
+.ins-scheda:hover .ins-vai .arw,
+.ins-scheda:focus-visible .ins-vai .arw { transform: rotate(45deg) translate(.16em, -.16em); }
+
+.ins-scheda:hover .ins-cop,
+.ins-scheda:focus-visible .ins-cop { border-color: var(--klein); }
+
+.ins-scheda:focus-visible {
+    outline: 2px solid var(--klein);
+    outline-offset: 6px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .ins-cop img, .ins-titolo { transition: none; }
+    .ins-scheda:hover .ins-cop img { transform: none; }
+}
+
+/* --- la pagina del pezzo --- */
+
+.ins-corpo { margin-top: clamp(26px, 3.4vw, 48px); max-width: 62ch; }
+.ins-corpo p { font-size: var(--t-lead); line-height: 1.55; }
+.ins-corpo p + p { margin-top: clamp(16px, 2vw, 26px); }
+
+.ins-avviso {
+    margin-top: clamp(20px, 2.4vw, 32px) !important;
+    padding-left: 18px;
+    border-left: 2px solid var(--klein);
+    font-size: var(--t-micro) !important;
+    line-height: 1.5 !important;
+    opacity: .8;
+}
+
+/* la frase che chiude: è la stessa che sta sulla cartolina */
+.ins-chiusura {
+    margin-top: clamp(34px, 4.4vw, 68px);
+    padding-top: clamp(26px, 3vw, 44px);
+    border-top: 1px solid var(--line);
+    font-family: var(--display);
+    text-transform: uppercase;
+    font-size: clamp(1.6rem, 1.1rem + 2.4vw, 3.4rem);
+    line-height: .98;
+    max-width: 18ch;
+    color: var(--klein);
+}
+
+.ins-cta { margin-top: clamp(28px, 3.4vw, 48px); }
+.ins-tutti { margin-top: clamp(30px, 3.6vw, 52px); }
+
+.section .label a { color: inherit; text-decoration: none; border-bottom: 1px solid currentColor; }
+
+@media (max-width: 980px) { .ins-griglia { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 620px) { .ins-griglia { grid-template-columns: 1fr; } }
+
+/* ===========================================================
+   SEGNI · una penna sola
+   ------------------------------------------------------------
+   Il sito non usa nessuna icona: ogni segno è disegnato coi
+   bordi, e ha lo stesso tratto di 2px — le tacche delle slide,
+   il "+" dei toggle, la freccia dello scorri, la freccia dei
+   collegamenti grandi.
+   Le frecce dei collegamenti piccoli (.guarda, .vedi, .apri)
+   erano dichiarate in em e finivano arrotondate a 1,5px: stesso
+   segno, penna diversa. Qui tornano in famiglia.
+   =========================================================== */
+
+body.fx-on .guarda .arw,
+body.fx-on .vedi .arw,
+body.fx-on .apri .arw {
+    border-top-width: 2px;
+    border-right-width: 2px;
+}
+
 /* Il paragrafo che chiude un ragionamento e va staccato dagli altri.
    Su c-one era .forte dentro .tesi, su chi-siamo un colore scritto a mano
    nell'attributo style: adesso è la stessa classe in tutto il sito. */
