@@ -118,6 +118,8 @@
         lettere.build();
         scrub.build();
         scrub.pareggiaLeads();
+        lenti.build();
+        accordion.build();
     }
 
     /* =======================================================
@@ -501,6 +503,167 @@
 
 
 
+
+
+    /* =======================================================
+       ACCORDION ORIZZONTALE
+       Un pannello alla volta. Il pannello chiuso non deve
+       essere raggiungibile da tastiera: il contenuto c'e'
+       ancora ma e' inerte, altrimenti si tabularebbe dentro
+       a qualcosa che non si vede.
+       ======================================================= */
+    var accordion = {
+        gruppi: [],
+
+        build: function () {
+            this.gruppi = [];
+            var box = document.querySelectorAll('.ha');
+
+            for (var g = 0; g < box.length; g++) {
+                var pannelli = box[g].querySelectorAll('.ha-p');
+                if (pannelli.length < 2) continue;
+
+                for (var i = 0; i < pannelli.length; i++) {
+                    this.collega(pannelli[i], pannelli);
+                }
+                this.sincronizza(pannelli);
+                this.gruppi.push(pannelli);
+            }
+        },
+
+        collega: function (pannello, pannelli) {
+            var self = this;
+            var tab = pannello.querySelector('.ha-tab');
+            if (!tab) return;
+
+            tab.addEventListener('click', function () {
+                if (pannello.classList.contains('aperto')) return;   // gia' aperto: non si richiude
+                for (var k = 0; k < pannelli.length; k++) {
+                    pannelli[k].classList.toggle('aperto', pannelli[k] === pannello);
+                }
+                self.sincronizza(pannelli);
+            });
+        },
+
+        sincronizza: function (pannelli) {
+            for (var i = 0; i < pannelli.length; i++) {
+                var aperto = pannelli[i].classList.contains('aperto');
+                var tab = pannelli[i].querySelector('.ha-tab');
+                var cont = pannelli[i].querySelector('.ha-c');
+
+                if (tab) tab.setAttribute('aria-expanded', aperto ? 'true' : 'false');
+                if (cont) {
+                    cont.setAttribute('aria-hidden', aperto ? 'false' : 'true');
+                    if (aperto) cont.removeAttribute('inert');
+                    else cont.setAttribute('inert', '');
+                }
+            }
+        }
+    };
+
+    /* =======================================================
+       LENTI · il selettore che non scompare
+       ------------------------------------------------------
+       I due tab governano circa 6.000 px di contenuto ma
+       restano a schermo per 800: appena scorrono via, chi
+       legge non sa piu' di essere dentro una delle due
+       versioni, ne' che ne esista un'altra.
+
+       Quando i tab grandi escono dal campo, una barra
+       compatta prende il loro posto e resta. Mostra sempre
+       quale lente e' attiva, e cambiarla riporta all'inizio
+       della fascia: altrimenti si finirebbe a meta' di un
+       racconto che non si e' cominciato.
+       ======================================================= */
+    var lenti = {
+        barre: [],
+        navH: 80,
+
+        build: function () {
+            for (var i = 0; i < this.barre.length; i++) this.barre[i].barra.remove();
+            this.barre = [];
+
+            var nav = document.querySelector('.nav');
+            if (nav) this.navH = Math.round(nav.getBoundingClientRect().height);
+
+            var gruppi = document.querySelectorAll('.lenses');
+            for (var g = 0; g < gruppi.length; g++) {
+                var lenses = gruppi[g];
+                var sezione = lenses.closest('section');
+                var tabs = lenses.querySelectorAll('.lens-tab');
+                if (tabs.length < 2 || !sezione) continue;
+
+                var barra = document.createElement('div');
+                barra.className = 'fx-lenti';
+                barra.style.top = this.navH + 'px';
+                barra.style.gridTemplateColumns = 'repeat(' + tabs.length + ', 1fr)';
+
+                var bottoni = [];
+                for (var k = 0; k < tabs.length; k++) {
+                    bottoni.push(this.creaBottone(tabs[k], sezione, barra));
+                }
+
+                document.body.appendChild(barra);
+                this.barre.push({ barra: barra, bottoni: bottoni, tabs: tabs,
+                                  lenses: lenses, sezione: sezione });
+            }
+        },
+
+        creaBottone: function (tab, sezione, barra) {
+            var self = this;
+            var b = document.createElement('button');
+            b.type = 'button';
+            b.textContent = tab.textContent;
+            b.setAttribute('aria-label', 'Passa alla lente: ' + tab.textContent);
+            b.addEventListener('click', function () {
+                tab.click();                       // il comando vero resta l'originale
+
+                // La lente che si nasconde accorcia la pagina: la posizione
+                // d'arrivo va letta a impaginazione rifatta, non prima.
+                requestAnimationFrame(function () {
+                    requestAnimationFrame(function () {
+                        self.vaiAllInizio(tab, sezione);
+                    });
+                });
+            });
+            barra.appendChild(b);
+            return b;
+        },
+
+        /* Cambiare lente a meta' sezione lascerebbe lo sguardo a meta' di un
+           racconto mai cominciato: si torna all'inizio della fascia. */
+        vaiAllInizio: function (tab, sezione) {
+            var id = tab.getAttribute('aria-controls');
+            var lente = id ? document.getElementById(id) : null;
+            var meta = (lente && lente.querySelector('.databand')) || lente || sezione;
+            var y = meta.getBoundingClientRect().top + window.pageYOffset - this.navH - 8;
+            y = clamp(y, 0, velluto.attivo ? velluto.max()
+                                           : document.documentElement.scrollHeight - H);
+            if (velluto.attivo) velluto.target = y;
+            else window.scrollTo(0, y);
+        },
+
+        update: function () {
+            for (var i = 0; i < this.barre.length; i++) {
+                var b = this.barre[i];
+                var rs = b.sezione.getBoundingClientRect();
+                var rl = b.lenses.getBoundingClientRect();
+
+                // compare quando i tab grandi sono usciti di sopra e la
+                // sezione e' ancora in scena
+                // soglia larga: atterrando al confine dopo un cambio lente, la
+                // barra non deve sparire proprio nell'istante in cui l'hai usata
+                var mostra = rl.bottom <= this.navH + 60 && rs.bottom > H * 0.2;
+                b.barra.classList.toggle('on', mostra);
+
+                for (var k = 0; k < b.tabs.length; k++) {
+                    var attiva = b.tabs[k].getAttribute('aria-selected') === 'true';
+                    b.bottoni[k].setAttribute('aria-pressed', attiva ? 'true' : 'false');
+                }
+            }
+        }
+    };
+
     /* =======================================================
        VELLUTO · lo scroll stesso
        ------------------------------------------------------
@@ -821,6 +984,7 @@
         ctx.clearRect(0, 0, W, H);
         velluto.tick(dt);
         scrub.update(dt);
+        lenti.update();
 
         var lettereAttive = false;
         var bestCover = 0, best = null;
@@ -963,7 +1127,7 @@
         else if (!running) { running = true; last = 0; requestAnimationFrame(frame); }
     });
 
-    window.__fx = { hosts: hosts, lettere: lettere, effects: effects, scrub: scrub, velluto: velluto };
+    window.__fx = { hosts: hosts, lettere: lettere, effects: effects, scrub: scrub, velluto: velluto, lenti: lenti, accordion: accordion };
 
     /* Il sito fa avanzare i quadri da solo dopo 9,5s (8s per la fascia
        dati) chiamando window.scrollTo: e' uno scroll che l'utente non ha

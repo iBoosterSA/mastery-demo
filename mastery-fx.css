@@ -270,6 +270,364 @@ body.fx-on .dstage {
 }
 
 /* ===========================================================
+   LENTI · barra compatta persistente
+   Prende il posto dei tab grandi quando escono dal campo.
+   Nascosta con visibility, non solo con opacita': altrimenti
+   resterebbe raggiungibile da tastiera mentre e' invisibile.
+   =========================================================== */
+
+.fx-lenti {
+    position: fixed;
+    left: 0;
+    right: 0;
+    z-index: 90;                    /* sotto la barra di navigazione */
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+
+    background: var(--paper);
+    border-bottom: 1px solid var(--line);
+
+    visibility: hidden;
+    opacity: 0;
+    transform: translateY(-100%);
+    transition: opacity var(--v-breve) var(--velluto),
+                transform var(--v-breve) var(--velluto),
+                visibility 0s var(--v-breve);
+}
+
+.fx-lenti.on {
+    visibility: visible;
+    opacity: 1;
+    transform: none;
+    transition: opacity var(--v-breve) var(--velluto),
+                transform var(--v-breve) var(--velluto),
+                visibility 0s;
+}
+
+.fx-lenti button {
+    font-family: var(--display);
+    text-transform: uppercase;
+    font-size: clamp(.85rem, .6rem + .7vw, 1.15rem);
+    letter-spacing: .04em;
+    line-height: 1;
+    padding: 14px clamp(14px, 3vw, 40px);
+    text-align: left;
+
+    background: transparent;
+    color: var(--klein);
+    border: 0;
+    border-right: 1px solid var(--line);
+    cursor: pointer;
+    transition: background var(--v-breve) var(--velluto),
+                color var(--v-breve) var(--velluto);
+}
+
+.fx-lenti button:last-child { border-right: 0; }
+.fx-lenti button[aria-pressed="true"] { background: var(--klein); color: var(--paper); }
+.fx-lenti button[aria-pressed="false"]:hover { background: rgba(0, 47, 167, .1); }
+
+/* ===========================================================
+   PERCHE · la sezione deve staccarsi da quella sopra
+   =========================================================== */
+
+body.fx-on #perche {
+    background: var(--white);
+    border-top: 1px solid var(--line);
+}
+
+#perche .titolo-sezione {
+    font-family: var(--display);
+    font-size: var(--t-h2);
+    line-height: .94;
+    color: var(--klein);
+    max-width: 18ch;
+    margin: clamp(18px, 2.6vw, 40px) 0 0;
+}
+
+#perche .istruzione {
+    margin: clamp(26px, 4vw, 52px) 0 clamp(10px, 1.2vw, 16px);
+    font-size: var(--t-micro);
+    font-weight: 700;
+    letter-spacing: .28em;
+    text-transform: uppercase;
+    color: var(--klein);
+    opacity: .6;
+}
+
+@media (max-width: 860px) {
+    .fx-lenti button { font-size: .8rem; padding: 12px 14px; }
+}
+
+/* ===========================================================
+   ACCORDION ORIZZONTALE · sezione "Perche Mastery CLC"
+   ------------------------------------------------------------
+   Due pannelli affiancati. Chiuso: stretto, numero in alto e
+   nome ruotato di 90 gradi. Aperto: si allarga e mostra la
+   risposta con i tre dati che la reggono.
+   Sotto gli 860px la rotazione non ha senso: i pannelli si
+   impilano e diventano un accordion verticale classico.
+   =========================================================== */
+
+body.fx-on #perche {
+    background: var(--white);
+    border-top: 1px solid var(--line);
+}
+
+#perche .ha-titolo {
+    font-family: var(--display);
+    font-size: var(--t-h2);
+    line-height: .94;
+    color: var(--klein);
+    margin: 0;
+}
+
+#perche .ha-occhiello {
+    margin: clamp(12px, 1.6vw, 22px) 0 0;
+    font-size: var(--t-lead);
+    line-height: 1.4;
+    max-width: 46ch;
+    color: var(--ink);
+}
+
+.ha {
+    display: flex;
+    margin-top: clamp(30px, 4.5vw, 66px);
+    min-height: min(76svh, 700px);
+    border: 1px solid var(--line);
+    /* niente overflow:hidden: il contenuto del pannello chiuso e' gia'
+       fuori dal flusso, e qui taglierebbe i dati del pannello aperto */
+}
+
+.ha-p {
+    position: relative;
+    display: flex;
+    flex: 0 0 clamp(86px, 9vw, 130px);
+    min-width: 0;
+    border-right: 1px solid var(--line);
+    background: var(--white);
+    transition: flex-basis var(--v-lungo) var(--velluto),
+                flex-grow var(--v-lungo) var(--velluto),
+                background var(--v-medio) var(--velluto),
+                color var(--v-medio) var(--velluto);
+}
+
+.ha-p:last-child { border-right: 0; }
+
+.ha-p.aperto {
+    flex: 1 1 auto;
+    background: var(--klein);
+    color: var(--paper);
+}
+
+/* --- la linguetta: e' tutto il pannello quando e' chiuso --- */
+
+.ha-tab {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 22px;
+    padding: clamp(20px, 2.4vw, 32px) 0;
+
+    background: transparent;
+    border: 0;
+    color: var(--klein);
+    cursor: pointer;
+    transition: color var(--v-medio) var(--velluto),
+                background var(--v-breve) var(--velluto);
+}
+
+.ha-p:not(.aperto) .ha-tab:hover { background: rgba(0, 47, 167, .06); }
+
+/* aperto: la linguetta si ritira su una striscia stretta a sinistra */
+.ha-p.aperto .ha-tab {
+    inset: 0 auto 0 0;
+    width: clamp(52px, 5vw, 76px);
+    cursor: default;
+    color: var(--paper);
+}
+
+.ha-n {
+    font-family: var(--display);
+    font-size: clamp(1.1rem, .9rem + .5vw, 1.5rem);
+    line-height: 1;
+    opacity: .5;
+}
+
+.ha-v {
+    font-family: var(--display);
+    text-transform: uppercase;
+    font-size: clamp(.95rem, .75rem + .5vw, 1.3rem);
+    line-height: 1;
+    letter-spacing: .02em;
+    white-space: nowrap;
+    max-height: 100%;
+    overflow: hidden;
+
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);          /* dal basso verso l'alto */
+    transition: opacity var(--v-medio) var(--velluto);
+}
+
+.ha-p.aperto .ha-v { opacity: 0; pointer-events: none; }
+
+/* --- il contenuto --- */
+
+.ha-c {
+    flex: 1 1 auto;
+    min-width: 0;
+    margin-left: clamp(52px, 5vw, 76px);
+    padding: clamp(24px, 3vw, 54px) clamp(24px, 3.4vw, 60px);
+    display: flex;
+    flex-direction: column;
+
+    opacity: 0;
+    transform: translateY(14px);
+    transition: opacity var(--v-medio) var(--velluto),
+                transform var(--v-medio) var(--velluto);
+}
+
+/* Nel pannello chiuso il contenuto resta nel DOM ma non deve occupare
+   spazio: in una colonna da 130px il testo andrebbe a capo all'infinito
+   e sarebbe lui a decidere l'altezza di tutta la fascia. */
+.ha-p:not(.aperto) .ha-c {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    margin-left: 0;
+    overflow: hidden;
+}
+
+.ha-p.aperto .ha-c {
+    opacity: 1;
+    transform: none;
+    transition-delay: .18s;             /* entra quando il pannello si e' aperto */
+}
+
+.ha-testa { display: flex; align-items: baseline; gap: 16px; }
+
+.ha-n-int {
+    font-family: var(--display);
+    font-size: var(--t-micro);
+    letter-spacing: .24em;
+    opacity: .6;
+}
+
+.ha-nome {
+    margin: 0;
+    font-family: var(--display);
+    text-transform: uppercase;
+    font-size: clamp(1.5rem, 1rem + 2.2vw, 3rem);
+    line-height: .94;
+}
+
+.ha-claim {
+    margin: clamp(16px, 2vw, 30px) 0 0;
+    font-size: var(--t-h4);
+    line-height: 1.24;
+    max-width: 24ch;
+}
+
+.ha-dati {
+    list-style: none;
+    margin: auto 0 0;
+    padding: clamp(22px, 3vw, 40px) 0 0;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: clamp(18px, 2.4vw, 40px);
+    border-top: 1px solid var(--line-inv);
+}
+
+.ha-dati li { min-width: 0; }
+
+.ha-fig {
+    display: block;
+    font-family: var(--display);
+    font-size: clamp(2rem, 1.2rem + 3vw, 4rem);
+    line-height: .9;
+    white-space: nowrap;
+}
+
+.ha-dati p {
+    margin: 10px 0 0;
+    font-size: var(--t-micro);
+    line-height: 1.45;
+}
+
+.ha-src {
+    margin-top: 8px !important;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    opacity: .6;
+}
+
+.ha-cta {
+    align-self: flex-start;
+    margin-top: clamp(22px, 3vw, 40px);
+    font-family: var(--display);
+    text-transform: uppercase;
+    font-size: clamp(1rem, .8rem + .6vw, 1.3rem);
+    color: inherit;
+    text-decoration: none;
+    border-bottom: 2px solid currentColor;
+    padding-bottom: 4px;
+}
+
+.ha-cta span { display: inline-block; margin-left: .4em; transition: transform var(--v-breve) var(--velluto); }
+.ha-cta:hover span { transform: translateX(5px); }
+
+/* --- sotto gli 860px: impilati, niente rotazione --- */
+
+@media (max-width: 860px) {
+    .ha { display: block; min-height: 0; }
+
+    .ha-p {
+        display: block;
+        border-right: 0;
+        border-bottom: 1px solid var(--line);
+    }
+    .ha-p:last-child { border-bottom: 0; }
+
+    .ha-tab {
+        position: relative;
+        inset: auto;
+        width: 100%;
+        flex-direction: row;
+        align-items: center;
+        justify-content: flex-start;
+        gap: 14px;
+        padding: 18px 20px;
+    }
+    .ha-p.aperto .ha-tab { width: 100%; inset: auto; }
+
+    .ha-v {
+        writing-mode: horizontal-tb;
+        transform: none;
+        opacity: 1 !important;
+        white-space: normal;
+        text-align: left;
+    }
+
+    .ha-c {
+        margin-left: 0;
+        padding: 0 20px 24px;
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height var(--v-medio) var(--velluto),
+                    opacity var(--v-medio) var(--velluto);
+    }
+    .ha-p.aperto .ha-c { max-height: 1400px; }
+
+    .ha-dati { grid-template-columns: 1fr; gap: 20px; }
+    .ha-testa { display: none; }
+}
+
+/* ===========================================================
    TELEFONI · dal primo collaudo su dispositivo vero (27/9)
    Su schermi stretti il piede della testata si era mangiato la
    finestra dei claim (interlinea 1.8 dei testi evidenziati +
