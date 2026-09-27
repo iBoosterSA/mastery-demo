@@ -1,0 +1,270 @@
+/* ===========================================================
+   MASTERY · FX LAYER · solo preview locale
+   Un unico canvas fisso dietro ai contenuti. Le sezioni
+   diventano trasparenti e il loro colore viene ridipinto sul
+   canvas: cosi' l'effetto puo' attraversare i confini di
+   sezione cambiando colore, senza toccare il markup.
+   =========================================================== */
+
+#fx-stage {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+}
+
+body.fx-on section,
+body.fx-on footer {
+    position: relative;
+    z-index: 1;
+    background: transparent !important;
+}
+
+/* --- Pannello di controllo: NON fa parte del sito --- */
+#fx-ui {
+    position: fixed;
+    right: 18px;
+    bottom: 18px;
+    z-index: 9999;
+    background: #0E0E0E;
+    color: #fff;
+    font: 600 10px/1.2 "Helvetica Neue", Helvetica, Arial, sans-serif;
+    letter-spacing: .18em;
+    padding: 14px;
+    width: 208px;
+    user-select: none;
+}
+
+#fx-ui h6 {
+    margin: 0 0 10px;
+    font-size: 9px;
+    letter-spacing: .3em;
+    opacity: .55;
+    font-weight: 600;
+}
+
+#fx-ui button {
+    display: block;
+    width: 100%;
+    margin-bottom: 4px;
+    padding: 8px 9px;
+    background: transparent;
+    border: 1px solid rgba(255,255,255,.28);
+    color: #fff;
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+}
+
+#fx-ui button:hover { border-color: rgba(255,255,255,.7); }
+#fx-ui button[aria-pressed="true"] { background: #002FA7; border-color: #002FA7; }
+
+#fx-ui .row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 12px;
+    font-size: 9px;
+    letter-spacing: .2em;
+    opacity: .75;
+}
+
+#fx-ui input[type=range] { flex: 1; accent-color: #002FA7; }
+
+#fx-ui .hint {
+    margin-top: 10px;
+    font-size: 9px;
+    font-weight: 400;
+    letter-spacing: .08em;
+    line-height: 1.5;
+    opacity: .45;
+}
+
+/* ===========================================================
+   IL BIVIO · sezione "per chi"
+   Titolo, premessa, poi i due percorsi affiancati: numero,
+   nome grande, sottotitolo, descrizione. Entrano uno dopo
+   l'altro quando la sezione arriva a schermo.
+   =========================================================== */
+
+#per-chi .bivio-intro {
+    margin: clamp(18px, 2.4vw, 30px) 0 0;
+    max-width: 62ch;
+    font-size: var(--t-lead);
+    line-height: 1.42;
+    color: var(--ink);
+
+    opacity: 0;
+    transform: translateY(12px);
+    transition: opacity .7s ease .18s, transform .7s cubic-bezier(.22, .61, .36, 1) .18s;
+}
+
+#per-chi.in .bivio-intro { opacity: 1; transform: none; }
+
+#per-chi .bivio {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(26px, 5vw, 84px);
+    margin-top: clamp(40px, 6vw, 92px);
+}
+
+#per-chi .bivio-col {
+    border-top: 1px solid var(--klein);
+    padding-top: clamp(16px, 2vw, 26px);
+
+    opacity: 0;
+    transform: translateY(18px);
+    transition: opacity .75s ease, transform .75s cubic-bezier(.22, .61, .36, 1);
+}
+
+#per-chi.in .bivio-col { opacity: 1; transform: none; transition-delay: .34s; }
+#per-chi.in .bivio-col:nth-child(2) { transition-delay: .48s; }
+
+#per-chi .bivio-n {
+    display: block;
+    font-size: var(--t-micro);
+    font-weight: 700;
+    letter-spacing: .3em;
+    color: var(--klein);
+    opacity: .55;
+}
+
+#per-chi .bivio-name {
+    margin: clamp(10px, 1.4vw, 18px) 0 0;
+    font-family: var(--display);
+    font-size: clamp(2.4rem, 5.4vw, 4.8rem);
+    line-height: .88;
+    color: var(--klein);
+    text-transform: uppercase;
+}
+
+#per-chi .bivio-kicker {
+    margin: clamp(8px, 1vw, 14px) 0 0;
+    font-size: var(--t-micro);
+    font-weight: 700;
+    letter-spacing: .26em;
+    text-transform: uppercase;
+    color: var(--klein);
+}
+
+#per-chi .bivio-t {
+    margin: clamp(14px, 1.8vw, 24px) 0 0;
+    max-width: 38ch;
+    line-height: 1.55;
+    color: var(--ink);
+}
+
+@media (max-width: 860px) {
+    #per-chi .bivio { grid-template-columns: 1fr; gap: 30px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    #per-chi .bivio-intro,
+    #per-chi .bivio-col { opacity: 1; transform: none; transition: none; }
+}
+
+/* ===========================================================
+   PAROLE IN EVIDENZA
+   Rettangolo a colori invertiti rispetto al fondo della sezione.
+   box-decoration-break: clone da' a ogni riga il suo rettangolo,
+   invece di un unico blocco che scavalca gli a capo.
+   =========================================================== */
+
+.evid {
+    background: var(--klein);
+    color: var(--paper);
+    padding: .03em .2em;
+    margin: 0 -.02em;
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
+}
+
+/* sui fondi pieni si inverte: bianco pieno, testo blu */
+.hero .evid,
+.contact .evid,
+.door.klein .evid,
+.section.blue .evid {
+    background: var(--paper);
+    color: var(--klein);
+}
+
+/* I testi che contengono evidenze hanno bisogno di piu' aria fra le righe:
+   altrimenti i rettangoli di due righe consecutive si sfiorano. */
+.hero .leadtext { line-height: 1.8; }
+
+/* ===========================================================
+   VELLUTO · una sola curva e una sola scala di tempi
+   ------------------------------------------------------------
+   Il sito usa curve e durate diverse a seconda del punto (.45s
+   qui, .7s la, "ease" ovunque). Risultato: ogni cosa si muove
+   con un carattere suo. Qui tutto passa sulla stessa curva —
+   slancio iniziale e frenata lunga — e su tempi coerenti.
+   =========================================================== */
+
+:root {
+    --velluto: cubic-bezier(.16, 1, .3, 1);
+    --v-breve: .55s;
+    --v-medio: .95s;
+    --v-lungo: 1.4s;
+}
+
+/* le comparse delle sezioni e delle righe di testo */
+body.fx-on .anim,
+body.fx-on .words .w > i,
+body.fx-on .mask > span,
+body.fx-on .leadtext,
+body.fx-on .lens,
+body.fx-on .mirror,
+body.fx-on .datum .under,
+body.fx-on .up {
+    transition-duration: var(--v-medio) !important;
+    transition-timing-function: var(--velluto) !important;
+}
+
+/* i cambi di stato piu' minuti: barra, schede, bottoni, filetti */
+body.fx-on .nav,
+body.fx-on .pill,
+body.fx-on .cta,
+body.fx-on .btn,
+body.fx-on button,
+body.fx-on a,
+body.fx-on .lens-tab,
+body.fx-on .ticks button,
+body.fx-on .data-ticks button {
+    transition-duration: var(--v-breve) !important;
+    transition-timing-function: var(--velluto) !important;
+}
+
+/* il bivio segue la stessa regola invece di avere la sua */
+#per-chi .bivio-intro,
+#per-chi .bivio-col,
+#per-chi .bivio-cue {
+    transition-timing-function: var(--velluto);
+    transition-duration: var(--v-medio);
+}
+
+/* la freccia che invita a scendere: respiro lento, non un battito */
+@keyframes bivio-giu {
+    0%, 100% { transform: translateY(0); }
+    50%      { transform: translateY(6px); }
+}
+#per-chi .bivio-cue span { animation-duration: 3.2s; }
+
+/* niente di tutto questo se il sistema chiede meno movimento */
+@media (prefers-reduced-motion: reduce) {
+    body.fx-on * { transition-duration: .01ms !important; animation-duration: .01ms !important; }
+}
+
+/* ===========================================================
+   FINESTRA DI RIVELAZIONE
+   I testi non appaiono dissolvendosi: entrano gia' pieni,
+   scoperti dal bordo della loro finestra. Un titolo grande a
+   mezza opacita' su fondo pieno non sembra in arrivo, sembra
+   un difetto di stampa.
+   =========================================================== */
+
+body.fx-on .hero .stage,
+body.fx-on .leads,
+body.fx-on .dstage {
+    overflow: hidden;
+}

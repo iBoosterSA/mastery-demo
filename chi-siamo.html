@@ -408,7 +408,7 @@ footer .legal{font-size:var(--t-micro);letter-spacing:.06em;opacity:.75;max-widt
 
 <main id="contenuto">
 
-<section class="section anim" id="inizio" data-nav="light">
+<section class="section anim" id="inizio" data-nav="light" data-fx="off">
   <div class="wrap">
     <p class="label">Mastery in C-Level Consulting</p>
     <h1 class="display words" style="font-size:var(--t-h2);max-width:20ch;color:var(--klein);margin-top:clamp(20px,3vw,44px)">Mastery non insegna a chi guida a pensare. Lo accompagna a far accadere ciò che decide.</h1>
@@ -416,7 +416,7 @@ footer .legal{font-size:var(--t-micro);letter-spacing:.06em;opacity:.75;max-widt
   </div>
 </section>
 
-<section class="section white anim" id="da-dove-veniamo" data-nav="light">
+<section class="section white anim" id="da-dove-veniamo" data-nav="light" data-fx="off">
   <div class="wrap">
     <p class="label" style="color:var(--klein)">Da dove veniamo</p>
     <h2 class="display words" style="font-size:var(--t-h2);max-width:16ch;color:var(--klein);margin-top:clamp(20px,3vw,44px)">Prima le imprese vere. Poi il metodo.</h2>
@@ -428,7 +428,7 @@ footer .legal{font-size:var(--t-micro);letter-spacing:.06em;opacity:.75;max-widt
   </div>
 </section>
 
-<section class="section anim" id="perche-esistiamo" data-nav="light">
+<section class="section anim" id="perche-esistiamo" data-nav="light" data-fx="off">
   <div class="wrap">
     <p class="label" style="color:var(--klein)">Perché esistiamo</p>
     <h2 class="display words" style="font-size:var(--t-h2);max-width:16ch;color:var(--klein);margin-top:clamp(20px,3vw,44px)">Il vuoto era lì. Nessuno lo misurava.</h2>
@@ -444,7 +444,7 @@ footer .legal{font-size:var(--t-micro);letter-spacing:.06em;opacity:.75;max-widt
   </div>
 </section>
 
-<section class="section blue anim" id="come-lavoriamo" data-nav="dark">
+<section class="section blue anim" id="come-lavoriamo" data-nav="dark" data-fx="off">
   <div class="wrap">
     <p class="label">Come lavoriamo</p>
     <h2 class="display words" style="font-size:var(--t-h2);max-width:16ch;margin-top:clamp(20px,3vw,44px)">Quattro promesse. Tutte verificabili.</h2>
@@ -458,7 +458,7 @@ footer .legal{font-size:var(--t-micro);letter-spacing:.06em;opacity:.75;max-widt
   </div>
 </section>
 
-<section class="section white anim" id="percorsi" data-nav="light">
+<section class="section white anim" id="percorsi" data-nav="light" data-fx="off">
   <div class="wrap">
     <p class="label" style="color:var(--klein)">I percorsi</p>
     <div class="porte up">
@@ -476,7 +476,7 @@ footer .legal{font-size:var(--t-micro);letter-spacing:.06em;opacity:.75;max-widt
   </div>
 </section>
 
-<section class="section contact anim" id="contatto" data-nav="dark">
+<section class="section contact anim" id="contatto" data-nav="dark" data-fx="off">
   <div class="wrap">
     <p class="label">Il primo passo</p>
     <h2 class="display words">Parliamone. Per anticipare i problemi o per risolverli adesso.</h2>
@@ -490,7 +490,7 @@ footer .legal{font-size:var(--t-micro);letter-spacing:.06em;opacity:.75;max-widt
 </section>
 </main>
 
-<footer>
+<footer data-fx="lettere" data-fx-i="0.5">
   <div class="wrap inner">
     <span class="mark">MASTERY CLC.</span>
     <span class="legal">Mastery CLC · strumenti e percorsi per chi guida le imprese. · Dati societari in via di pubblicazione.</span>
@@ -936,5 +936,7 @@ document.documentElement.classList.add('js');
   });
 })();
 </script>
+<link rel="stylesheet" href="mastery-fx.css?v=1790495352">
+<script src="mastery-fx.js?v=1790495352"></script>
 </body>
 </html>

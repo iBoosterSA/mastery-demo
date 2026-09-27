@@ -366,7 +366,7 @@ footer .legal{font-size:var(--t-micro);letter-spacing:.06em;opacity:.75;max-widt
 
 <main id="contenuto">
 
-<section class="hero" id="inizio" data-nav="dark">
+<section class="hero" id="inizio" data-nav="dark" data-fx="tipografia" data-fx-i="0.55" data-fx-scrub data-fx-words="MASTERY CLC.|LA SQUADRA|LA PERSONA">
  <div class="hero-stage">
   <div class="wrap top">
     <p class="label">Mastery in C-Level Consulting</p>
@@ -380,7 +380,6 @@ footer .legal{font-size:var(--t-micro);letter-spacing:.06em;opacity:.75;max-widt
   <div class="wrap stage">
     <div class="slide on" data-i="0">
       <h1 class="claim">
-        <span class="mask"><span>Mastery CLC.</span></span>
         <span class="mask"><span>Strumenti e&nbsp;percorsi</span></span>
         <span class="mask"><span>per chi guida le&nbsp;imprese</span></span>
       </h1>
@@ -402,9 +401,9 @@ footer .legal{font-size:var(--t-micro);letter-spacing:.06em;opacity:.75;max-widt
   <div class="wrap">
     <div class="hero-foot">
       <div class="leads">
-        <p class="leadtext on" data-i="0">In un'impresa si misura tutto: i margini, le vendite, i tempi, le scorte. Tutto, tranne lo stato di forma di chi la guida. Mastery CLC lavora esattamente lì: strumenti che misurano il vertice, percorsi che lo allenano, progressi che si vedono.</p>
-        <p class="leadtext" data-i="1">Le deleghe ci sono, le responsabilità anche. Ma avere un gruppo dirigente non significa ancora muoversi come un unico team. Lavoriamo sulle dinamiche della vostra prima linea per portarla a decidere prima ed eseguire meglio, eliminando esitazioni e frizioni che rallentano l'intera struttura.</p>
-        <p class="leadtext" data-i="2">Più le responsabilità crescono, più aumenta la solitudine di chi decide. Mettiamo a disposizione di chi guida strumenti per misurare la propria capacità di gestione e allenare il proprio stato di forma, sia per affrontare i passaggi di carriera sia per mantenere benessere e performance ai massimi livelli.</p>
+        <p class="leadtext on" data-i="0"><mark class="evid">In un'impresa si misura tutto</mark>: i margini, le vendite, i tempi, le scorte. Tutto, <mark class="evid">tranne lo stato di forma di chi la guida</mark>. Mastery CLC lavora esattamente lì: strumenti che misurano il vertice, percorsi che lo allenano, progressi che si vedono.</p>
+        <p class="leadtext" data-i="1">Le deleghe ci sono, le responsabilità anche. Ma avere un gruppo dirigente non significa ancora muoversi come un unico team. <mark class="evid">Lavoriamo sulle dinamiche della vostra prima linea per portarla a decidere prima ed eseguire meglio</mark>, eliminando esitazioni e frizioni che rallentano l'intera struttura.</p>
+        <p class="leadtext" data-i="2">Più le responsabilità crescono, più aumenta la solitudine di chi decide. <mark class="evid">Mettiamo a disposizione di chi guida strumenti per misurare la propria capacità di gestione e allenare il proprio stato di forma</mark>, sia per affrontare i passaggi di carriera sia per mantenere benessere e performance ai massimi livelli.</p>
       </div>
       <a class="cta" href="#contatto">Parliamone <span class="arw" aria-hidden="true"></span></a>
     </div>
@@ -412,15 +411,32 @@ footer .legal{font-size:var(--t-micro);letter-spacing:.06em;opacity:.75;max-widt
  </div>
 </section>
 
-<section class="section white anim" id="per-chi" data-nav="light">
+<section class="section white anim" id="per-chi" data-nav="light" data-fx="off">
   <div class="wrap">
-    <p class="label" style="color:var(--klein)">Per chi è Mastery CLC.</p>
-    <h2 class="display words" style="font-size:var(--t-h2);max-width:22ch;color:var(--klein);margin-top:clamp(20px,3vw,44px)">Il vertice come squadra. Il manager come persona.</h2>
+    <p class="label" style="color:var(--klein)">Per chi &egrave; Mastery CLC.</p>
 
+    <h2 class="display words" style="font-size:var(--t-h2);max-width:16ch;color:var(--klein);margin-top:clamp(20px,3vw,44px)">Scegli la tua dimensione di crescita.</h2>
+
+    <p class="bivio-intro">Mastery CLC si sdoppia per rispondere alle due diverse anime del comando. Due percorsi d'&eacute;lite, un unico obiettivo: l'eccellenza strategica e operativa.</p>
+
+    <div class="bivio">
+      <div class="bivio-col">
+        <span class="bivio-n">01</span>
+        <p class="bivio-name">C-One</p>
+        <p class="bivio-kicker">L'Identit&agrave; Collettiva</p>
+        <p class="bivio-t">Il percorso dedicato al vertice aziendale preso come insieme, per trasformare il gruppo che governa l'impresa in un unico organismo decisionale d'alto impatto.</p>
+      </div>
+      <div class="bivio-col">
+        <span class="bivio-n">02</span>
+        <p class="bivio-name">E-One</p>
+        <p class="bivio-kicker">L'Evoluzione Individuale</p>
+        <p class="bivio-t">Il percorso focalizzato sul singolo manager che vuole migliorare se stesso, per potenziare il proprio mindset e governare la complessit&agrave; in totale autonomia.</p>
+      </div>
+    </div>
   </div>
 </section>
 
-<section class="door klein anim" data-nav="dark">
+<section class="door klein anim" data-nav="dark" data-fx="lettere" data-fx-i="0.5" data-fx-target=".name .mask span">
   <div class="wrap">
     <p class="label">L'impresa · il vertice come squadra</p>
     <p class="name display"><span class="mask"><span>C-One</span></span></p>
@@ -433,7 +449,7 @@ footer .legal{font-size:var(--t-micro);letter-spacing:.06em;opacity:.75;max-widt
   </div>
 </section>
 
-<section class="door nero anim" data-nav="dark">
+<section class="door nero anim" data-nav="dark" data-fx="lettere" data-fx-i="0.5" data-fx-target=".name .mask span">
   <div class="wrap">
     <p class="label">Il manager · la persona che guida</p>
     <p class="name display" style="color:var(--klein)"><span class="mask"><span>E-One</span></span></p>
@@ -446,11 +462,7 @@ footer .legal{font-size:var(--t-micro);letter-spacing:.06em;opacity:.75;max-widt
   </div>
 </section>
 
-<div class="marquee" aria-hidden="true">
-  <div class="track"><span>Il vertice come squadra</span><i>·</i><span>Il manager come persona</span><i>·</i><span>Il vertice come squadra</span><i>·</i><span>Il manager come persona</span><i>·</i></div>
-</div>
-
-<section class="section anim" id="perche" data-nav="light" style="padding-bottom:0">
+<section class="section anim" id="perche" data-nav="light" style="padding-bottom:0" data-fx="tipografia" data-fx-i="0.5" data-fx-words-from=".fig" data-fx-floor=".under" data-fx-y="0.46" data-fx-scrub=".databand">
   <div class="wrap">
     <p class="label" style="color:var(--klein)">Perché Mastery CLC</p>
 
@@ -465,7 +477,7 @@ footer .legal{font-size:var(--t-micro);letter-spacing:.06em;opacity:.75;max-widt
           <div class="datum" data-i="0">
             <div>
               <p class="eco">Il gioco di squadra rende. Parecchio.</p>
-              <span class="fig" data-count="6" data-post="x">6x</span>
+              <span class="fig" data-post="x">6x</span>
               <div class="under">
                 <p>Le aziende dove il vertice gioca da squadra hanno fino a sei volte più probabilità di guidare il proprio settore per crescita e risultati.</p>
                 <p class="src">Bain &amp; Company, 2018 · oltre 1.000 aziende</p>
@@ -475,7 +487,7 @@ footer .legal{font-size:var(--t-micro);letter-spacing:.06em;opacity:.75;max-widt
           <div class="datum" data-i="1" hidden>
             <div>
               <p class="eco">Chi ha ragione: voi o la vostra prima linea?</p>
-              <span class="fig" data-count="52" data-post="%">52%</span>
+              <span class="fig" data-post="%">52%</span>
               <div class="under">
                 <p>I dirigenti che vedono problemi seri nel proprio vertice. Tra i CEO li vede solo il 28%. Qualcuno si sbaglia.</p>
                 <p class="src">Harvard Business Review, 2007 · 124 CEO e 579 dirigenti</p>
@@ -607,7 +619,7 @@ footer .legal{font-size:var(--t-micro);letter-spacing:.06em;opacity:.75;max-widt
   </div>
 </section>
 
-<section class="section white anim" id="risultati" data-nav="light">
+<section class="section white anim" id="risultati" data-nav="light" data-fx="off">
   <div class="wrap">
     <h2 class="display" style="font-size:var(--t-h2);color:var(--klein)">
       <span class="mask"><span>Risultati</span></span>
@@ -647,7 +659,7 @@ footer .legal{font-size:var(--t-micro);letter-spacing:.06em;opacity:.75;max-widt
   </div>
 </section>
 
-<section class="section anim" id="insights" data-nav="light">
+<section class="section anim" id="insights" data-nav="light" data-fx="off">
   <div class="wrap">
     <p class="label" style="color:var(--klein)">Per approfondire</p>
     <h2 class="display" style="font-size:var(--t-h2);color:var(--klein);margin-top:clamp(16px,2.4vw,32px)">
@@ -673,7 +685,7 @@ footer .legal{font-size:var(--t-micro);letter-spacing:.06em;opacity:.75;max-widt
   </div>
 </section>
 
-<section class="section contact anim" id="contatto" data-nav="dark">
+<section class="section contact anim" id="contatto" data-nav="dark" data-fx="off">
   <div class="wrap">
     <p class="label">Il primo passo</p>
     <h2 class="display words">Parliamone. Per anticipare i problemi o per risolverli adesso.</h2>
@@ -687,7 +699,7 @@ footer .legal{font-size:var(--t-micro);letter-spacing:.06em;opacity:.75;max-widt
 </section>
 </main>
 
-<footer>
+<footer data-fx="lettere" data-fx-i="0.5">
   <div class="wrap inner">
     <span class="mark">MASTERY CLC.</span>
     <span class="legal">Mastery CLC · strumenti e percorsi per chi guida le imprese. · Dati societari in via di pubblicazione.</span>
@@ -1133,5 +1145,7 @@ document.documentElement.classList.add('js');
   });
 })();
 </script>
+<link rel="stylesheet" href="mastery-fx.css?v=1790495352">
+<script src="mastery-fx.js?v=1790495352"></script>
 </body>
 </html>

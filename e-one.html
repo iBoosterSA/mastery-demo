@@ -467,7 +467,7 @@ html:not(.js) .hero.interna{height:auto}
 
 <main id="contenuto">
 
-<section class="hero interna" id="inizio" data-nav="light">
+<section class="hero interna" id="inizio" data-nav="light" data-fx="tipografia" data-fx-i="0.55" data-fx-scrub data-fx-words="LE RESPONSABILIT&Agrave;|CHI GUIDA|LA DECISIONE">
  <div class="hero-stage">
   <div class="wrap top">
     <p class="label">E-One · il manager come persona</p>
@@ -503,7 +503,7 @@ html:not(.js) .hero.interna{height:auto}
  </div>
 </section>
 
-<section class="section white anim" id="costruisci" data-nav="light">
+<section class="section white anim" id="costruisci" data-nav="light" data-fx="off">
   <div class="wrap">
     <div class="insegna">
       <h2 class="display words" style="font-size:var(--t-h2);color:var(--klein)">Costruisci il tuo percorso.</h2>
@@ -520,7 +520,7 @@ html:not(.js) .hero.interna{height:auto}
   </div>
 </section>
 
-<section class="section blue anim" id="percorso" data-nav="dark">
+<section class="section blue anim" id="percorso" data-nav="dark" data-fx="off">
   <div class="wrap">
     <p class="label">Il percorso E-One</p>
     <h2 class="display words" style="font-size:var(--t-h2);margin-top:clamp(16px,2.4vw,32px)">Un inizio, un ritmo, una fine.</h2>
@@ -571,7 +571,7 @@ html:not(.js) .hero.interna{height:auto}
   </div>
 </section>
 
-<section class="section anim" id="contatto" data-nav="light">
+<section class="section anim" id="contatto" data-nav="light" data-fx="off">
   <div class="wrap via">
     <div>
       <h2 class="display words" style="font-size:var(--t-h2);color:var(--klein)">Meglio a voce?</h2>
@@ -584,7 +584,7 @@ html:not(.js) .hero.interna{height:auto}
 </section>
 </main>
 
-<footer>
+<footer data-fx="lettere" data-fx-i="0.5">
   <div class="wrap inner">
     <span class="mark">MASTERY CLC.</span>
     <span class="legal">E-One è il percorso Mastery per il manager come persona. · Dati societari in via di pubblicazione.</span>
@@ -1249,5 +1249,7 @@ document.documentElement.classList.add('js');
   mostra();
 })();
 </script>
+<link rel="stylesheet" href="mastery-fx.css?v=1790495352">
+<script src="mastery-fx.js?v=1790495352"></script>
 </body>
 </html>
