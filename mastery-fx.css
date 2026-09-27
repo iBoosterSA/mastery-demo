@@ -268,3 +268,24 @@ body.fx-on .leads,
 body.fx-on .dstage {
     overflow: hidden;
 }
+
+/* ===========================================================
+   TELEFONI · dal primo collaudo su dispositivo vero (27/9)
+   Su schermi stretti il piede della testata si era mangiato la
+   finestra dei claim (interlinea 1.8 dei testi evidenziati +
+   altezza bloccata sul testo piu' lungo): i titoli uscivano
+   tagliati dalla finestra di rivelazione. Qui il piede
+   dimagrisce e la finestra torna piu' alta del titolo.
+   =========================================================== */
+@media (max-width: 640px) {
+    .hero .leadtext { line-height: 1.6; }
+    body.fx-on .hero-stage { padding-block: clamp(64px, 9svh, 84px) 16px; }
+    body.fx-on .hero .stage { margin-block: 12px; }
+    body.fx-on .hero-foot { padding-top: 14px; }
+}
+
+/* rete di sicurezza per i telefoni piu' bassi: il titolo si adatta */
+@media (max-width: 640px) and (max-height: 760px) {
+    .hero .claim { font-size: clamp(2.3rem, 10.5vw, 3.1rem); }
+    .hero .claim.short { font-size: clamp(2.8rem, 13vw, 3.9rem); }
+}
