@@ -17,6 +17,13 @@ body.fx-on section,
 body.fx-on footer {
     position: relative;
     z-index: 1;
+}
+
+/* La trasparenza arriva solo quando il telo ha DIPINTO il primo
+   fotogramma (classe fx-tela dal motore): se il motore non parte,
+   i fondi restano quelli del foglio e il sito non sbianca mai. */
+body.fx-tela section,
+body.fx-tela footer {
     background: transparent !important;
 }
 

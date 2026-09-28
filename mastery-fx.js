@@ -1111,7 +1111,7 @@
 
     /* ---------------- loop ---------------- */
 
-    var last = 0;
+    var last = 0, telaViva = false;
     function frame(ts) {
         var dt = last ? Math.min(ts - last, 64) : 16;
         last = ts;
@@ -1130,6 +1130,7 @@
                 ctx.fillStyle = hb.bg;
                 ctx.fillRect(0, rb.top - 1, W, rb.height + 2);
             }
+            if (!telaViva) { telaViva = true; document.body.classList.add('fx-tela'); }
             if (running) requestAnimationFrame(frame);
             return;
         }
@@ -1173,6 +1174,8 @@
 
         if (lettereAttive) lettere.update(dt);
         if (best && best !== activeHost) { activeHost = best; syncUI(); }
+        // il primo fotogramma e' stato disegnato: da qui i fondi passano al telo
+        if (!telaViva) { telaViva = true; document.body.classList.add('fx-tela'); }
         if (running) requestAnimationFrame(frame);
     }
 
