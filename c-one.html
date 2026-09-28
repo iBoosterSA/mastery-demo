@@ -1219,12 +1219,21 @@ document.documentElement.classList.add('js');
   addEventListener('resize', paint);
   paint();
 
-  if(coarse && !reduce && hero){ /* calamita morbida: a inerzia finita la posizione si assesta al centro del quadro (invisibile: il quadro e' sticky) */
+  if(coarse && !reduce && hero){ /* calamita morbida: a inerzia finita ci si assesta sulla sosta
+       piu' vicina. Col layer fx la regola e' la sua, direzionale: oltre meta' passaggio si va
+       AVANTI, prima si torna: mai la regressione inaspettata di chi era gia' quasi arrivato. */
     var mgHeroT = null;
     addEventListener('scroll', function(){
       clearTimeout(mgHeroT);
       mgHeroT = setTimeout(function(){
         if(touchDown) return;
+        var fx = window.__fx;
+        if(fx && fx.scrub && fx.scrub.sostaVicina){
+          var y = fx.scrub.sostaVicina(scrollY);
+          if(y !== null && Math.abs(y - scrollY) > 24) window.scrollTo({top: y, behavior:'smooth'});
+          return;
+        }
+        /* senza layer: il vecchio centro-quadro */
         var span = hero.offsetHeight - innerHeight;
         if(span <= 0) return;
         var top = hero.getBoundingClientRect().top;
@@ -1464,7 +1473,7 @@ document.documentElement.classList.add('js');
   });
 })();
 </script>
-<link rel="stylesheet" href="mastery-fx.css?v=1790579529">
-<script src="mastery-fx.js?v=1790579529"></script>
+<link rel="stylesheet" href="mastery-fx.css?v=1790581183">
+<script src="mastery-fx.js?v=1790581183"></script>
 </body>
 </html>
