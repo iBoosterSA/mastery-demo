@@ -1073,13 +1073,21 @@
             var parti = function () {
                 if (u.giro !== giro) return;          // un gesto piu' nuovo ha gia' comandato
 
-                var vecchio = strati[u.attivo];
                 dietro.classList.add('entra');
                 void dietro.offsetWidth;
                 dietro.classList.add('su');
                 u.attivo = 1 - u.attivo;
                 setTimeout(function () {
-                    vecchio.classList.remove('su');
+                    /* Solo il gesto piu' recente pulisce: i timer dei giri
+                       vecchi, ciechi, spegnevano lo strato del giro corrente
+                       quando i gesti si accavallavano al decode (misurato:
+                       strato corrente fermo a opacity 0.011, fascia blu).
+                       E lo stato si DERIVA: acceso il corrente, spenti gli
+                       altri, qualunque cosa sia successa prima. */
+                    if (u.giro !== giro) return;
+                    document.body.classList.add('fx-foto-viva');
+                    for (var q2 = 0; q2 < strati.length; q2++)
+                        if (strati[q2] !== dietro) strati[q2].classList.remove('su');
                     dietro.classList.remove('entra');
                 }, self.FOTO + 100);
 
