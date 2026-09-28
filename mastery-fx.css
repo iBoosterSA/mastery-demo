@@ -1174,7 +1174,17 @@ body.fx-on #vantaggi { border-top: 1px solid var(--line); }
 
 /* --- le due fotografie, una sopra l'altra --- */
 .fx-strato { position: absolute; inset: 0; opacity: 0; z-index: 1; }
-.fx-strato:first-child { opacity: 1; }          /* senza motore, la prima si vede */
+/* Senza motore la prima fotografia si vede lo stesso. ATTENZIONE: questa
+   regola va legata a "niente motore", altrimenti pesa quanto .fx-strato.su e
+   tiene il primo strato sempre a uno: i due strati restano tutti e due pieni
+   e la dissolvenza non esiste piu' - si vede un taglio secco. E' successo. */
+/* "niente motore" qui vuol dire: il MODO A FOTOGRAFIE non governa. La
+   classe giusta e' fx-quadri, non fx-on: con "riduci movimento" il motore
+   boota (fx-on arriva) ma lo scrub non si costruisce e i quadri non
+   partono: legata a fx-on, la riserva si spegneva e la testata restava
+   senza fotografia. Legata a fx-quadri copre no-script E riduci movimento,
+   e a modo vivo resta spenta: la dissolvenza non la incontra mai. */
+body:not(.fx-quadri) .fx-strato:first-child { opacity: 1; }
 .fx-strato.su { opacity: 1; }
 .fx-strato.entra { z-index: 2; transition: opacity 1.15s cubic-bezier(.42, 0, .42, 1); }
 .fx-strato img { width: 100%; height: 100%; object-fit: cover; display: block;
@@ -1197,6 +1207,19 @@ body.fx-quadri .hero.foto .fx-fascia .slide {
     transform: none !important; opacity: 0 !important; visibility: hidden !important; }
 body.fx-quadri .hero.foto .fx-fascia .slide.fx-ora { opacity: 1 !important; visibility: visible !important; }
 
+/* Il claim sopra a una fotografia non vuole il corpo che aveva sul palco
+   vuoto: là 122px riempivano uno spazio che non aveva nient'altro, qui
+   diventano un muro davanti all'immagine e ne occupano tre quarti. Questo è
+   il corpo del mock approvato — circa il 60% di quello di prima. */
+.hero.foto .fx-fascia .claim {
+    font-size: clamp(2.2rem, 1.1rem + 6vw, 6.6rem);
+    line-height: .9;
+    max-width: none;          /* le righe sono gia' decise: non serve un tetto */
+}
+
+/* una riga per blocco: gli a capo li decide il testo, non la larghezza */
+.hero.foto .claim .riga { display: block; }
+
 .hero.foto .claim .w { display: inline-block; overflow: hidden; vertical-align: top;
     padding-top: .2em; margin-top: -.2em; padding-bottom: .06em; margin-bottom: -.06em; }
 .hero.foto .claim .w > i { display: inline-block; font-style: normal; }
@@ -1205,14 +1228,25 @@ body.fx-quadri .hero.foto .claim .w > i { transform: translateY(108%);
 body.fx-quadri .hero.foto.scritto .slide.fx-ora .claim .w > i { transform: translateY(0); }
 
 /* --- il testo vecchio se ne va, non sparisce --- */
-.hero.foto .fx-fascia .slide,
-.hero.foto .leadtext { transition: opacity .28s ease; }
-.hero.foto.esce .slide.fx-ora,
-.hero.foto.esce .leadtext.fx-ora { opacity: 0 !important; }
+body.fx-quadri .hero.foto .fx-fascia .slide,
+body.fx-quadri .hero.foto .leadtext { transition: opacity .28s ease; }
+/* La regola che fa USCIRE deve pesare almeno quanto quella che fa VEDERE,
+   altrimenti perde e il testo non se ne va: sparisce di colpo quando viene
+   cambiato. Stessa trappola della comparsa dei titoli, §7.17-quinquies. */
+body.fx-quadri .hero.foto.esce .fx-fascia .slide.fx-ora,
+body.fx-quadri .hero.foto.esce .leads .leadtext.fx-ora { opacity: 0 !important; }
 
-/* mentre si riavvolge, niente transizioni: altrimenti il titolo vecchio
-   scende animandosi e il nuovo parte da metà strada */
-.hero.foto.ferma, .hero.foto.ferma * { transition: none !important; }
+/* Mentre si riavvolge, niente transizioni SUL TESTO: altrimenti il titolo
+   vecchio scende animandosi e il nuovo parte da metà strada.
+
+   Solo sul testo, però. Spegnendole su tutta la sezione si spengono anche
+   quelle delle fotografie, e siccome qui si forza un ricalcolo (offsetWidth)
+   mentre la regola è attiva, la dissolvenza in corso viene ANNULLATA e
+   l'opacità salta al valore finale: un taglio secco al posto del passaggio.
+   Misurato: lo strato entrante andava 0,00 · 0,04 · 0,11 e poi 1,00. */
+body.fx-quadri .hero.foto.ferma .slide, body.fx-quadri .hero.foto.ferma .slide *,
+body.fx-quadri .hero.foto.ferma .leadtext, body.fx-quadri .hero.foto.ferma .leadtext * {
+    transition: none !important; }
 
 /* --- il testo sotto --- */
 body.fx-quadri .hero.foto .leadtext { transform: none !important;

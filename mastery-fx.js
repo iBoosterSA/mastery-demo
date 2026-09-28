@@ -1043,6 +1043,7 @@
          scatto dell'immagine.
        ======================================================= */
     var quadri = {
+        ATTESA: 120,        // quanto il quadro deve stare fermo prima di entrare
         USCITA: 280,        // quanto ci mette il testo vecchio ad andarsene
         FOTO: 1150,         // la dissolvenza fra le due fotografie
         PASSO: 46,          // ritardo fra una parola e l'altra del titolo
@@ -1192,14 +1193,20 @@
                     if (aFoto) document.body.classList.add('fx-quadri');
                     var battute = slides.length * (aFoto ? 1 : 2);
                     box.style.height = Math.round((battute * this.BATTUTA + 1) * 100) + 'svh';
-                    for (var k = 0; k < slides.length; k++) slides[k].style.transition = 'none';
+                    // Il motore di prima toglieva le transizioni ai quadri
+                    // perche' li muoveva lui a ogni fotogramma. La testata a
+                    // fotografie fa il contrario: le transizioni SERVONO, e
+                    // uno stile scritto sull'elemento le spegne tutte. Senza
+                    // questa guardia il testo non se ne va: sparisce di colpo.
+                    if (!aFoto)
+                        for (var k = 0; k < slides.length; k++) slides[k].style.transition = 'none';
 
                     // I testi lunghi li muove il sito con una traslazione di
                     // uno schermo intero, a tempo: sembrano sparati via. Li
                     // impiliamo e li guidiamo noi, come i quadri.
                     var testi = box.querySelectorAll('.leadtext');
                     for (var t = 0; t < testi.length; t++) {
-                        testi[t].style.transition = 'none';
+                        if (!aFoto) testi[t].style.transition = 'none';
                         testi[t].style.animation = 'none';
                         testi[t].style.position = 'absolute';
                         testi[t].style.left = '0';
@@ -1335,8 +1342,25 @@
                 // Cosi' un gesto porta un quadro intero invece di lasciarne
                 // meta' per strada.
                 if (u.aFoto) {
+                    // Il quadro si prende dalla posizione GREZZA, ma non si
+                    // mette in scena subito. Una strisciata attraversa due o
+                    // tre confini di battuta prima di assestarsi: facendo
+                    // partire la sequenza a ogni attraversamento, un gesto
+                    // solo ne faceva partire tre, una sopra l'altra. Si
+                    // aspetta che il quadro stia fermo un momento, e vale
+                    // sempre l'ULTIMO: cosi' un gesto e' una sequenza sola.
                     var quadro = clamp(Math.floor(grezzo * u.S), 0, u.n - 1);
-                    if (quadro !== u.mostrato) { u.mostrato = quadro; quadri.vai(u, quadro); }
+                    if (quadro !== u.mostrato && quadro !== u.atteso) {
+                        u.atteso = quadro;
+                        clearTimeout(u.attesa);
+                        u.attesa = setTimeout(function (unita, q) {
+                            return function () {
+                                if (unita.mostrato === q) return;
+                                unita.mostrato = q;
+                                quadri.vai(unita, q);
+                            };
+                        }(u, quadro), quadri.ATTESA);
+                    }
                     continue;
                 }
 
