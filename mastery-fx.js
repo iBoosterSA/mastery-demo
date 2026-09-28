@@ -849,6 +849,11 @@
 
         build: function () {
             this.units = [];
+            // Con "riduci movimento" lo slider a battute non si costruisce:
+            // niente piste allungate, niente controllo inline dei quadri.
+            // Restano al motore base del sito, che con questa preferenza
+            // cambia scena all'istante: tutto il contenuto e' raggiungibile.
+            if (reduceMotion) return;
             for (var i = 0; i < hosts.length; i++) {
                 var host = hosts[i];
                 if (host.el.dataset.fxScrub === undefined) continue;
@@ -1040,6 +1045,22 @@
         scrollY = window.pageYOffset;
 
         ctx.clearRect(0, 0, W, H);
+
+        // Con "riduci movimento" il telo serve solo a ridipingere i fondi
+        // delle sezioni (rese trasparenti dal foglio): nessun effetto.
+        if (reduceMotion) {
+            for (var b = 0; b < hosts.length; b++) {
+                var hb = hosts[b];
+                if (!hb.bg) continue;
+                var rb = hb.el.getBoundingClientRect();
+                if (rb.bottom < -60 || rb.top > H + 60) continue;
+                ctx.fillStyle = hb.bg;
+                ctx.fillRect(0, rb.top - 1, W, rb.height + 2);
+            }
+            if (running) requestAnimationFrame(frame);
+            return;
+        }
+
         velluto.tick(dt);
         scrub.update(dt);
         lenti.update();
@@ -1237,8 +1258,7 @@
         measure();
         riancora();
         buildUI();
-        if (!reduceMotion) requestAnimationFrame(frame);
-        else frame(1);
+        requestAnimationFrame(frame);
         if (document.fonts && document.fonts.ready)
             document.fonts.ready.then(function () { measure(); riancora(); });
         setTimeout(function () { measure(); riancora(); }, 1200);
