@@ -1061,9 +1061,17 @@
 
             var giro = (u.giro || 0) + 1;
             u.giro = giro;
-            if (u.attivo === undefined) u.attivo = 0;
 
-            var dietro = strati[1 - u.attivo];
+            /* Il "dietro" si DERIVA dallo stato vero del telaio, mai da un
+               contatore: quando i due si disallineano (avvio, timer, gesti
+               accavallati) il contatore indicava lo strato VISIBILE, la
+               sorgente gli veniva cambiata sotto gli occhi e per mezzo
+               secondo non c'era nessuna fotografia: il lampo blu visto dal
+               cliente. Lo strato acceso non si tocca MAI. */
+            var acceso = null;
+            for (var qa = 0; qa < strati.length; qa++)
+                if (strati[qa].classList.contains('su')) acceso = qa;
+            var dietro = strati[acceso === null ? 1 : 1 - acceso];
             var img = dietro.querySelector('img');
             var fonte = dietro.querySelector('source');
             if (fonte) fonte.srcset = slide.dataset.fotoTel || '';
@@ -1076,7 +1084,6 @@
                 dietro.classList.add('entra');
                 void dietro.offsetWidth;
                 dietro.classList.add('su');
-                u.attivo = 1 - u.attivo;
                 setTimeout(function () {
                     /* Solo il gesto piu' recente pulisce: i timer dei giri
                        vecchi, ciechi, spegnevano lo strato del giro corrente
@@ -1270,7 +1277,7 @@
                 var span = u.box.offsetHeight - H;
                 if (span <= 0) continue;
                 if (Math.max(a, b) < top || Math.min(a, b) > top + span) continue;
-                return { top: top, span: span, S: u.S };
+                return { top: top, span: span, S: u.S, aFoto: u.aFoto };
             }
             return null;
         },
@@ -1304,8 +1311,11 @@
             var x = (pos - p.top) / bPx;
             var k = Math.floor(x + 1e-6);
             var f = x - k;
-            if (f <= this.HOLD) return null;             // gia' in sosta
-            var meta = this.HOLD + (1 - this.HOLD) / 2;
+            // Nella testata a fotografie la sosta e' quasi tutta zona viva:
+            // non c'e' un viaggio da guardare dentro la battuta, e un colpo
+            // di rotella (mouse) deve bastare a girare il quadro.
+            if (f <= (p.aFoto ? .06 : this.HOLD)) return null;   // gia' in sosta
+            var meta = p.aFoto ? .16 : this.HOLD + (1 - this.HOLD) / 2;
             var riposo = this.HOLD / 2;
             // Chi risale non va mai riportato in giu': il passaggio si
             // completa nel senso in cui il gesto stava andando. Scendendo vale
