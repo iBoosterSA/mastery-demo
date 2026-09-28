@@ -1194,6 +1194,11 @@
     }
 
     window.addEventListener('keydown', function (e) {
+        // Scorciatoie del pannello di lavoro: senza pannello non esistono
+        // (prima erano vive anche in produzione), e mai dentro un campo.
+        if (!ui) return;
+        var t = e.target, tag = t && t.tagName;
+        if (tag === 'INPUT' || tag === 'TEXTAREA' || (t && t.isContentEditable)) return;
         var i = ['1', '2', '3'].indexOf(e.key);
         if (i >= 0) setFx(ORDER[i]);
     });
