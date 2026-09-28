@@ -754,7 +754,7 @@
                 if (e.ctrlKey) return;                    // zoom del browser
                 e.preventDefault();
                 var d = e.deltaY * (e.deltaMode === 1 ? 16 : (e.deltaMode === 2 ? H : 1));
-                self.target = clamp(self.target + d, 0, self.max());
+                self.mira(d);
             }, { passive: false });
 
             window.addEventListener('keydown', function (e) {
@@ -771,7 +771,7 @@
                 else if (e.key === 'End') { e.preventDefault(); self.target = self.max(); return; }
                 if (d === null) return;
                 e.preventDefault();
-                self.target = clamp(self.target + d, 0, self.max());
+                self.mira(d);
             });
 
             // i link interni non devono saltare: arrivano scivolando
@@ -783,12 +783,29 @@
                 var dest = document.getElementById(id);
                 if (!dest) return;
                 e.preventDefault();
+                self.gestoT = 0;      // salto voluto: niente tetto ne' assestamento
                 self.target = clamp(dest.getBoundingClientRect().top + window.pageYOffset, 0, self.max());
             });
         },
 
         max: function () {
             return Math.max(document.documentElement.scrollHeight - H, 0);
+        },
+
+        /* Un gesto di scroll - la raffica di eventi senza pause - dentro
+           una testata a battute avanza al massimo fino alla PROSSIMA SOSTA:
+           la rivelazione e il cambio non possono accadere nello stesso
+           gesto, per quanto ampio. E' il comportamento degli slider di
+           mestiere: il primo scroll rivela, il secondo cambia. */
+        gestoBase: 0,
+        gestoT: 0,
+
+        mira: function (d) {
+            var ora = performance.now();
+            if (ora - this.gestoT > 280) this.gestoBase = this.target;
+            this.gestoT = ora;
+            var proposto = clamp(this.target + d, 0, this.max());
+            this.target = scrub.tettoGesto(this.gestoBase, proposto);
         },
 
         tick: function (dt) {
@@ -809,6 +826,14 @@
                 this.corrente = this.target = vero;
                 this.ultimoScritto = null;
                 return;
+            }
+
+            // A gesto finito, se si e' rimasti a meta' di un passaggio, il
+            // bersaglio si assesta alla sosta piu' vicina: mai titoli appesi.
+            if (this.gestoT && performance.now() - this.gestoT > 300) {
+                var sosta = scrub.sostaVicina(this.target);
+                if (sosta !== null) this.target = sosta;
+                this.gestoT = 0;
             }
 
             var k = 1 - Math.exp(-dt / (this.TAU * 1000));
@@ -920,6 +945,53 @@
                     if (massima) box.style.minHeight = Math.ceil(massima) + 'px';
                 }
             }
+        },
+
+        /* La pista (se c'e') toccata dal tragitto [base, proposto]. */
+        pista: function (a, b) {
+            for (var i = 0; i < this.units.length; i++) {
+                var u = this.units[i];
+                if (!u.box.offsetParent) continue;
+                var top = u.box.getBoundingClientRect().top + window.pageYOffset;
+                var span = u.box.offsetHeight - H;
+                if (span <= 0) continue;
+                if (Math.max(a, b) < top || Math.min(a, b) > top + span) continue;
+                return { top: top, span: span, S: u.S };
+            }
+            return null;
+        },
+
+        /* Il tetto del gesto: dal punto di partenza si avanza al massimo
+           fino al riposo (meta' sosta) della battuta successiva. */
+        tettoGesto: function (base, proposto) {
+            var p = this.pista(base, proposto);
+            if (!p) return proposto;
+            var bPx = this.BATTUTA * H;
+            var x = (base - p.top) / bPx;
+            var k = Math.floor(x + 1e-6);
+            var riposo = this.HOLD / 2;
+            if (proposto > base)
+                return Math.min(proposto, p.top + ((k + 1) + riposo) * bPx);
+            var minX = (x > k + riposo + .02) ? k + riposo : (k - 1) + riposo;
+            return Math.max(proposto, p.top + minX * bPx);
+        },
+
+        /* A gesto finito: la sosta su cui assestarsi, o null se si e' gia'
+           a riposo o fuori pista. Oltre meta' passaggio si completa,
+           prima si torna. */
+        sostaVicina: function (pos) {
+            var p = this.pista(pos, pos);
+            if (!p) return null;
+            var bPx = this.BATTUTA * H;
+            var x = (pos - p.top) / bPx;
+            var k = Math.floor(x + 1e-6);
+            var f = x - k;
+            if (f <= this.HOLD) return null;             // gia' in sosta
+            var meta = this.HOLD + (1 - this.HOLD) / 2;
+            var riposo = this.HOLD / 2;
+            var xr = (f < meta) ? k + riposo : (k + 1) + riposo;
+            var y = p.top + xr * bPx;
+            return Math.abs(y - pos) < 2 ? null : y;
         },
 
         unitFor: function (host) {
