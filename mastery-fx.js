@@ -1315,8 +1315,10 @@
             // non c'e' un viaggio da guardare dentro la battuta, e un colpo
             // di rotella (mouse) deve bastare a girare il quadro.
             if (f <= (p.aFoto ? .06 : this.HOLD)) return null;   // gia' in sosta
-            var meta = p.aFoto ? .16 : this.HOLD + (1 - this.HOLD) / 2;
             var riposo = this.HOLD / 2;
+            // per le foto la soglia e' in pixel veri: un colpo di rotella
+            // (~120px) completa il quadro su qualunque altezza di finestra
+            var meta = p.aFoto ? riposo + 60 / bPx : this.HOLD + (1 - this.HOLD) / 2;
             // Chi risale non va mai riportato in giu': il passaggio si
             // completa nel senso in cui il gesto stava andando. Scendendo vale
             // la regola di sempre - oltre meta' si completa, prima si torna.
