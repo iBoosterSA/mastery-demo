@@ -1011,6 +1011,130 @@
     };
 
     /* =======================================================
+       QUADRI · la testata a fotografie
+       ------------------------------------------------------
+       Un gesto porta un quadro intero. Dentro al gesto, tre
+       momenti in fila:
+
+         1. la fotografia nuova entra in dissolvenza
+         2. il titolo sale, una parola per volta
+         3. il testo arriva, e il pennarello bianco gli passa
+            sopra quando l'ultima parola del titolo e' a posto
+
+       Quello che si e' imparato sbagliando, e che sta qui
+       dentro perche' non si ripeta:
+
+       - LA CURVA. La curva del velluto fa il 49% del lavoro
+         nel primo 10% del tempo: giusta per un movimento che
+         deve arrivare svelto e posarsi piano, un disastro per
+         una dissolvenza - meta' opacita' in novanta millesimi
+         si legge come un lampo. Qui la trasparenza va quasi
+         lineare.
+       - UNO SOLO SI MUOVE. Se la vecchia sfuma mentre la nuova
+         si accende, a meta' strada sono tutte e due trasparenti
+         e si vede il fondo attraverso. La vecchia resta piena
+         SOTTO finche' la nuova non e' arrivata.
+       - SI ASPETTA LA DECODIFICA. Cambiare la sorgente e basta
+         lascia un fotogramma vuoto mentre il browser decodifica.
+         La fotografia si fa vedere solo dopo decode().
+       - IL TESTO SE NE VA, non sparisce. Azzerarlo nell'istante
+         del gesto lo faceva sparire in un fotogramma solo, nella
+         stessa zona dove poi entra la fotografia: sembrava uno
+         scatto dell'immagine.
+       ======================================================= */
+    var quadri = {
+        USCITA: 280,        // quanto ci mette il testo vecchio ad andarsene
+        FOTO: 1150,         // la dissolvenza fra le due fotografie
+        PASSO: 46,          // ritardo fra una parola e l'altra del titolo
+        SALITA: 950,        // quanto ci mette una parola a salire
+
+        vai: function (u, quadro) {
+            var fascia = u.box.querySelector('.fx-fascia');
+            if (!fascia) return;
+            // le classi di scena stanno sulla SEZIONE, non sulla fascia: il
+            // testo e il suo pennarello vivono nel piede, fuori dalla fascia
+            var scena = u.host.el;
+            var strati = fascia.querySelectorAll('.fx-strato');
+            var slide = u.slides[quadro];
+            if (!slide || strati.length < 2) return;
+
+            var giro = (u.giro || 0) + 1;
+            u.giro = giro;
+            if (u.attivo === undefined) u.attivo = 0;
+
+            var dietro = strati[1 - u.attivo];
+            var img = dietro.querySelector('img');
+            var fonte = dietro.querySelector('source');
+            if (fonte) fonte.srcset = slide.dataset.fotoTel || '';
+            img.src = slide.dataset.foto || '';
+
+            var self = this;
+            var parti = function () {
+                if (u.giro !== giro) return;          // un gesto piu' nuovo ha gia' comandato
+
+                var vecchio = strati[u.attivo];
+                dietro.classList.add('entra');
+                void dietro.offsetWidth;
+                dietro.classList.add('su');
+                u.attivo = 1 - u.attivo;
+                setTimeout(function () {
+                    vecchio.classList.remove('su');
+                    dietro.classList.remove('entra');
+                }, self.FOTO + 100);
+
+                if (u.mostrato !== -1) scena.classList.add('esce');
+
+                setTimeout(function () {
+                    if (u.giro !== giro) return;
+                    self.scrivi(u, scena, quadro, giro);
+                }, u.primo ? 0 : self.USCITA + 20);
+                u.primo = false;
+            };
+
+            if (u.primo === undefined) u.primo = true;
+            if (img.decode) img.decode().then(parti, parti); else parti();
+        },
+
+        /* A testo sparito - e solo allora - si cambia quello che c'e' scritto,
+           senza transizioni, cosi' nessuno vede il riavvolgimento. */
+        scrivi: function (u, scena, quadro, giro) {
+            var self = this;
+            scena.classList.add('ferma');
+            scena.classList.remove('scritto', 'segnato', 'esce');
+
+            // Il quadro in scena si segna con una classe NOSTRA, non con
+            // la ".on" del sito: lo script originale della testata continua a
+            // girare e quella classe la scrive lui a ogni fotogramma. Due
+            // padroni sulla stessa classe fanno lampeggiare i quadri.
+            for (var i = 0; i < u.slides.length; i++) {
+                var dentro = i === quadro;
+                u.slides[i].classList.toggle('fx-ora', dentro);
+                u.slides[i].setAttribute('aria-hidden', dentro ? 'false' : 'true');
+            }
+            for (var t = 0; t < u.testi.length; t++)
+                u.testi[t].classList.toggle('fx-ora', t === quadro);
+
+            var tacche = u.host.el.querySelectorAll('.ticks button');
+            for (var k = 0; k < tacche.length; k++)
+                tacche[k].setAttribute('aria-current', k === quadro ? 'true' : 'false');
+
+            void scena.offsetWidth;
+            scena.classList.remove('ferma');
+
+            var parole = u.slides[quadro].querySelectorAll('.claim .w').length;
+            var finito = Math.max(parole - 1, 0) * this.PASSO + this.SALITA;
+
+            requestAnimationFrame(function () {
+                if (u.giro !== giro) return;
+                scena.classList.add('scritto');
+                setTimeout(function () {
+                    if (u.giro === giro) scena.classList.add('segnato');
+                }, finito + 180);
+            });
+        }
+    };
+
+    /* =======================================================
        SCRUB · lo slider agganciato allo scroll
        ------------------------------------------------------
        Il sito cambia quadro a soglia (floor(prog*n)) e lascia
@@ -1055,7 +1179,18 @@
                     var slides = box.querySelectorAll('.slide, .datum');
                     if (slides.length < 2) continue;
 
-                    var battute = slides.length * 2;
+                    // Con le fotografie un quadro vale UNA battuta: la
+                    // parola in trasparenza non c'e' piu', quindi la prima
+                    // meta' della battuta - che serviva a lei - e' libera, e
+                    // il claim ci sta dentro. La testata si accorcia di un
+                    // terzo. Senza foto resta il ritmo di prima.
+                    var aFoto = box.closest('[data-fx-foto]') !== null;
+                    // il foglio nasconde i testi della testata a fotografie solo
+                    // sotto questa classe: se lo scrub non si costruisce (riduci
+                    // movimento, o niente motore) la classe non arriva e la
+                    // testata resta quella del sito, tutta leggibile
+                    if (aFoto) document.body.classList.add('fx-quadri');
+                    var battute = slides.length * (aFoto ? 1 : 2);
                     box.style.height = Math.round((battute * this.BATTUTA + 1) * 100) + 'svh';
                     for (var k = 0; k < slides.length; k++) slides[k].style.transition = 'none';
 
@@ -1074,7 +1209,7 @@
 
                     this.units.push({
                         host: host, box: box, slides: slides,
-                        n: slides.length, S: battute,
+                        n: slides.length, S: battute, aFoto: aFoto, mostrato: -1,
                         s: 0, f: 0, g: 0, o: 0,
                         gw: 0, ga: 1, gdx: 0,        // parola: indice, opacita', scarto
                         leads: box.querySelectorAll('.leads'),
@@ -1193,6 +1328,17 @@
                 // valore interno lo insegue a ogni fotogramma, cosi' fra una
                 // tacca e l'altra l'animazione continua a muoversi da sola.
                 var grezzo = clamp(-u.box.getBoundingClientRect().top / span, 0, 1);
+
+                // La testata a fotografie non si interpola: la posizione dice
+                // soltanto QUALE quadro e' in scena, e il passaggio lo fa il
+                // foglio di stile a tempo, come per i titoli delle sezioni.
+                // Cosi' un gesto porta un quadro intero invece di lasciarne
+                // meta' per strada.
+                if (u.aFoto) {
+                    var quadro = clamp(Math.floor(grezzo * u.S), 0, u.n - 1);
+                    if (quadro !== u.mostrato) { u.mostrato = quadro; quadri.vai(u, quadro); }
+                    continue;
+                }
 
                 if (u.prog === undefined) u.prog = grezzo;
                 if (Math.abs(grezzo - u.prog) > 0.35) u.prog = grezzo;   // salto d'ancora: aggancia
@@ -1479,7 +1625,7 @@
         else if (!running) { running = true; last = 0; requestAnimationFrame(frame); }
     });
 
-    window.__fx = { rivela: rivela, marchio: marchio, hosts: hosts, lettere: lettere, effects: effects, scrub: scrub, velluto: velluto, lenti: lenti, accordion: accordion };
+    window.__fx = { rivela: rivela, marchio: marchio, quadri: quadri, hosts: hosts, lettere: lettere, effects: effects, scrub: scrub, velluto: velluto, lenti: lenti, accordion: accordion };
 
     /* Il sito fa avanzare i quadri da solo dopo 9,5s (8s per la fascia
        dati) chiamando window.scrollTo: e' uno scroll che l'utente non ha
