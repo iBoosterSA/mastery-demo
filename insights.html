@@ -674,8 +674,12 @@ document.documentElement.classList.add('js');
     if(hint){ hint.classList.add('via'); hint = null; }
     slides.forEach(function(sl,k){ sl.classList.toggle('on', k === i); sl.classList.toggle('past', k < i); sl.setAttribute('aria-hidden', k === i ? 'false' : 'true'); });
     leads.forEach(function(l,k){ l.classList.toggle('on', k === i); l.classList.toggle('past', k < i); });
-    ticks.forEach(function(t,k){ t.setAttribute('aria-current', k === i ? 'true' : 'false'); });
-    if(conta) conta.firstChild.textContent = '0' + (i + 1);
+    if(!hero.classList.contains('foto')){ /* sulla testata a foto contatore e
+         tacche seguono il quadro del motore, non le zone di questo script:
+         qui l'isteresi delle zone li lasciava indietro di uno sul telefono */
+      ticks.forEach(function(t,k){ t.setAttribute('aria-current', k === i ? 'true' : 'false'); });
+      if(conta) conta.firstChild.textContent = '0' + (i + 1);
+    }
   }
   addEventListener('scroll', function(){
     if(hint && scrollY > 60){ hint.classList.add('via'); hint = null; }
@@ -1020,7 +1024,7 @@ document.documentElement.classList.add('js');
   });
 })();
 </script>
-<link rel="stylesheet" href="mastery-fx.css?v=1790631333">
-<script src="mastery-fx.js?v=1790631333"></script>
+<link rel="stylesheet" href="mastery-fx.css?v=1790631828">
+<script src="mastery-fx.js?v=1790631828"></script>
 </body>
 </html>

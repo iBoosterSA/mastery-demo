@@ -1125,6 +1125,10 @@
             var tacche = u.host.el.querySelectorAll('.ticks button');
             for (var k = 0; k < tacche.length; k++)
                 tacche[k].setAttribute('aria-current', k === quadro ? 'true' : 'false');
+            // il contatore segue il quadro (lo script del sito, sulla testata
+            // a foto, non lo tocca piu': le sue zone restavano indietro)
+            var conta = u.host.el.querySelector('.conta');
+            if (conta && conta.firstChild) conta.firstChild.textContent = '0' + (quadro + 1);
 
             void scena.offsetWidth;
             scena.classList.remove('ferma');
