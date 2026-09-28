@@ -839,7 +839,7 @@
         BATTUTA: 0.8,        // schermate di scroll per ogni battuta
         CORSA: 100,          // corsa piena: chi esce e chi entra non si
                              // sovrappongono mai nello stesso punto
-        MORBIDEZZA: 0.24,    // secondi: rifinitura sopra il velluto dello scroll
+        MORBIDEZZA: 0.32,    // secondi: rifinitura sopra il velluto dello scroll
 
 
         /* Due battute per quadro:
@@ -982,9 +982,10 @@
                     else if (u.s === 2 * j + 1) off = -C * u.g;
                     else                        off = -C;
 
-                    // pieno per tutta la corsa; si spegne solo nell'ultimo
-                    // lembo, quando e' gia' quasi tutto fuori dalla finestra
-                    op = clamp((1 - Math.abs(off) / C) * 7, 0, 1);
+                    // l'opacita' segue la posizione: quasi niente al bordo,
+                    // piena solo al centro della scena (richiesta del cliente:
+                    // niente titoli gia' pieni appena sbucano)
+                    op = Math.pow(clamp(1 - Math.abs(off) / C, 0, 1), .9);
 
                     var sl = u.slides[j];
                     sl.style.transform = 'translate3d(' + off.toFixed(2) + '%,0,0)';
@@ -1021,7 +1022,7 @@
                     else if (u.s === 2 * t2 + 1) offT = -Ct * u.g;
                     else                         offT = -Ct;
 
-                    opT = clamp((1 - Math.abs(offT) / Ct) * 7, 0, 1);
+                    opT = Math.pow(clamp(1 - Math.abs(offT) / Ct, 0, 1), .9);
 
                     var el = u.testi[t2];
                     el.style.transform = 'translate3d(' + offT.toFixed(2) + '%,0,0)';
