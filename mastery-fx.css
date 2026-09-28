@@ -1179,7 +1179,11 @@ body.fx-on #vantaggi { border-top: 1px solid var(--line); }
 .hero.foto .wrap.stage { max-width: none; width: 100%; padding-inline: 0; }
 
 /* --- le due fotografie, una sopra l'altra --- */
-.fx-strato { position: absolute; inset: 0; opacity: 0; z-index: 1; }
+.fx-strato { position: absolute; inset: 0; opacity: 0; z-index: 1;
+    /* la transizione vive QUI, sempre attiva: accendere o spegnere .su e'
+       sempre morbido, mai istantaneo: lo scatto non ha da dove entrare */
+    transition: opacity .95s cubic-bezier(.4, 0, .6, 1); }
+.fx-strato:last-child { z-index: 2; }   /* il piano superiore, il solo che sfuma */
 /* Senza motore la prima fotografia si vede lo stesso. ATTENZIONE: questa
    regola va legata a "niente motore", altrimenti pesa quanto .fx-strato.su e
    tiene il primo strato sempre a uno: i due strati restano tutti e due pieni
@@ -1197,7 +1201,6 @@ body.fx-on #vantaggi { border-top: 1px solid var(--line); }
    blu piatta. A regime si spegne, e la dissolvenza non la incontra mai. */
 body:not(.fx-foto-viva) .fx-strato:first-child { opacity: 1; }
 .fx-strato.su { opacity: 1; }
-.fx-strato.entra { z-index: 2; transition: opacity 1.15s cubic-bezier(.42, 0, .42, 1); }
 .fx-strato img { width: 100%; height: 100%; object-fit: cover; display: block;
     transform: scale(1.055); transition: transform 7s cubic-bezier(.2, .5, .3, 1); }
 .fx-strato.su img { transform: none; }

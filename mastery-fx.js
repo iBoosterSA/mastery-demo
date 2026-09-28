@@ -1045,7 +1045,7 @@
     var quadri = {
         ATTESA: 120,        // quanto il quadro deve stare fermo prima di entrare
         USCITA: 280,        // quanto ci mette il testo vecchio ad andarsene
-        FOTO: 1150,         // la dissolvenza fra le due fotografie
+        FOTO: 1000,         // la dissolvenza fra le due fotografie
         PASSO: 46,          // ritardo fra una parola e l'altra del titolo
         SALITA: 950,        // quanto ci mette una parola a salire
 
@@ -1062,40 +1062,35 @@
             var giro = (u.giro || 0) + 1;
             u.giro = giro;
 
-            /* Il "dietro" si DERIVA dallo stato vero del telaio, mai da un
-               contatore: quando i due si disallineano (avvio, timer, gesti
-               accavallati) il contatore indicava lo strato VISIBILE, la
-               sorgente gli veniva cambiata sotto gli occhi e per mezzo
-               secondo non c'era nessuna fotografia: il lampo blu visto dal
-               cliente. Lo strato acceso non si tocca MAI. */
-            var acceso = null;
-            for (var qa = 0; qa < strati.length; qa++)
-                if (strati[qa].classList.contains('su')) acceso = qa;
-            var dietro = strati[acceso === null ? 1 : 1 - acceso];
-            var img = dietro.querySelector('img');
-            var fonte = dietro.querySelector('source');
+            /* UNA SOLA MOSSA PER PASSAGGIO. I due piani sono fissi: sotto
+               (primo) e sopra (secondo, z piu' alto). Il sotto, dal primo
+               quadro in poi, resta SEMPRE acceso: sotto una dissolvenza c'e'
+               sempre una fotografia piena. L'unica cosa che si muove e' la
+               trasparenza del piano superiore: sfuma DENTRO quando la nuova
+               fotografia sta sopra, sfuma VIA quando la nuova sta sotto.
+               Niente cambi di livello, niente pulizie a tempo, niente stati
+               intermedi: per costruzione non possono esserci salti. */
+            var sotto = strati[0], sopra = strati[1];
+            var sale = !sopra.classList.contains('su');
+            var dest = sale ? sopra : sotto;   // sempre un piano INVISIBILE o COPERTO
+            var img = dest.querySelector('img');
+            var fonte = dest.querySelector('source');
             if (fonte) fonte.srcset = slide.dataset.fotoTel || '';
             img.src = slide.dataset.foto || '';
 
             var self = this;
             var parti = function () {
-                if (u.giro !== giro) return;          // un gesto piu' nuovo ha gia' comandato
+                if (u.giro !== giro) return;      // un gesto piu' nuovo ha gia' comandato
 
-                dietro.classList.add('entra');
-                void dietro.offsetWidth;
-                dietro.classList.add('su');
+                sotto.classList.add('su');        // l'invariante: il fondo e' pieno
+                if (sale) sopra.classList.add('su');
+                else sopra.classList.remove('su');
+
                 setTimeout(function () {
-                    /* Solo il gesto piu' recente pulisce: i timer dei giri
-                       vecchi, ciechi, spegnevano lo strato del giro corrente
-                       quando i gesti si accavallavano al decode (misurato:
-                       strato corrente fermo a opacity 0.011, fascia blu).
-                       E lo stato si DERIVA: acceso il corrente, spenti gli
-                       altri, qualunque cosa sia successa prima. */
                     if (u.giro !== giro) return;
+                    // il primo passaggio e' compiuto: la riserva del foglio
+                    // critico puo' spegnersi (vedi body:not(.fx-foto-viva))
                     document.body.classList.add('fx-foto-viva');
-                    for (var q2 = 0; q2 < strati.length; q2++)
-                        if (strati[q2] !== dietro) strati[q2].classList.remove('su');
-                    dietro.classList.remove('entra');
                 }, self.FOTO + 100);
 
                 if (u.mostrato !== -1) scena.classList.add('esce');
@@ -1140,13 +1135,15 @@
             var parole = u.slides[quadro].querySelectorAll('.claim .w').length;
             var finito = Math.max(parole - 1, 0) * this.PASSO + this.SALITA;
 
-            requestAnimationFrame(function () {
+            // il titolo sale quando la fotografia e' sostanzialmente
+            // arrivata: una cosa alla volta, si legge il passaggio
+            setTimeout(function () {
                 if (u.giro !== giro) return;
                 scena.classList.add('scritto');
                 setTimeout(function () {
                     if (u.giro === giro) scena.classList.add('segnato');
                 }, finito + 180);
-            });
+            }, 350);
         }
     };
 
