@@ -1122,15 +1122,18 @@
                 u.slides[i].classList.toggle('fx-ora', dentro);
                 u.slides[i].setAttribute('aria-hidden', dentro ? 'false' : 'true');
             }
-            for (var t = 0; t < u.testi.length; t++)
-                u.testi[t].classList.toggle('fx-ora', t === quadro);
-
             var tacche = u.host.el.querySelectorAll('.ticks button');
             for (var k = 0; k < tacche.length; k++)
                 tacche[k].setAttribute('aria-current', k === quadro ? 'true' : 'false');
 
             void scena.offsetWidth;
             scena.classList.remove('ferma');
+
+            // il testo sotto entra DOPO il fermo immagine, a transizioni
+            // riaccese: cosi' ha la sua dissolvenza d'ingresso e non
+            // appare mai di botto (dentro al fermo apparirebbe secco)
+            for (var t = 0; t < u.testi.length; t++)
+                u.testi[t].classList.toggle('fx-ora', t === quadro);
 
             var parole = u.slides[quadro].querySelectorAll('.claim .w').length;
             var finito = Math.max(parole - 1, 0) * this.PASSO + this.SALITA;

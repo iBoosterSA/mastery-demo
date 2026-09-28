@@ -1265,7 +1265,10 @@ body.fx-quadri .hero.foto.ferma .leadtext, body.fx-quadri .hero.foto.ferma .lead
 /* --- il testo sotto --- */
 body.fx-quadri .hero.foto .leadtext { transform: none !important;
     opacity: 0 !important; visibility: hidden !important; }
-body.fx-quadri .hero.foto .leadtext.fx-ora { opacity: 1 !important; visibility: visible !important; }
+body.fx-quadri .hero.foto .leadtext.fx-ora { opacity: 1 !important; visibility: visible !important;
+    /* la dissolvenza d'ingresso del testo: morbida e con un filo di
+       ritardo, mentre il titolo sta salendo; l'uscita usa la base .28s */
+    transition: opacity .55s ease .1s; }
 
 /* Il pennarello si DISEGNA: il bianco è un'immagine larga zero che cresce
    fino a coprire la riga. Il testo non si muove, si colora. Parte quando
