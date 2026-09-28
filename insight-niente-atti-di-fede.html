@@ -395,7 +395,7 @@ footer .legal{font-size:var(--t-micro);letter-spacing:.06em;opacity:.75;max-widt
   <!-- anteprima di condivisione -->
   <link rel="canonical" href="https://mastery-demo.onrender.com/insight-niente-atti-di-fede.html">
   <meta property="og:type" content="website">
-  <meta property="og:site_name" content="Mastery CLC">
+  <meta property="og:site_name" content="Mastery CLC.">
   <meta property="og:locale" content="it_IT">
   <meta property="og:url" content="https://mastery-demo.onrender.com/insight-niente-atti-di-fede.html">
   <meta property="og:title" content="Mastery CLC. &middot; Niente atti di fede">
@@ -404,13 +404,14 @@ footer .legal{font-size:var(--t-micro);letter-spacing:.06em;opacity:.75;max-widt
   <meta property="og:image:type" content="image/png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
-  <meta property="og:image:alt" content="Mastery CLC · Mastery CLC. &middot; Niente atti di fede">
+  <meta property="og:image:alt" content="Mastery CLC. · Niente atti di fede">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Mastery CLC. &middot; Niente atti di fede">
   <meta name="twitter:description" content="Un'impresa non paga un fornitore sulla parola.">
   <meta name="twitter:image" content="https://mastery-demo.onrender.com/assets/social/insight-niente-atti-di-fede.png">
   <meta name="theme-color" content="#002FA7">
   <link rel="icon" href="assets/social/favicon.png?v=m2" type="image/png">
+  <link rel="apple-touch-icon" href="assets/social/apple-touch-icon.png?v=m2">
 </head>
 <body>
 <a class="skip" href="#contenuto">Vai al contenuto</a>
@@ -491,7 +492,7 @@ footer .legal{font-size:var(--t-micro);letter-spacing:.06em;opacity:.75;max-widt
 <footer data-fx="lettere" data-fx-i="0.5">
   <div class="wrap inner">
     <span class="mark">MASTERY CLC.</span>
-    <span class="legal">Mastery CLC · strumenti e percorsi per chi guida le imprese. · Dati societari in via di pubblicazione.</span>
+    <span class="legal">Mastery CLC. · strumenti e percorsi per chi guida le imprese. · Dati societari in via di pubblicazione.</span>
   </div>
 </footer>
 
@@ -613,14 +614,17 @@ document.documentElement.classList.add('js');
   if(coarse && !reduce && hero){ /* calamita morbida: a inerzia finita ci si assesta sulla sosta
        piu' vicina. Col layer fx la regola e' la sua, direzionale: oltre meta' passaggio si va
        AVANTI, prima si torna: mai la regressione inaspettata di chi era gia' quasi arrivato. */
-    var mgHeroT = null;
+    var mgHeroT = null, mgHeroY = null, mgHeroSu = false;
     addEventListener('scroll', function(){
+      if(mgHeroY !== null && scrollY !== mgHeroY) mgHeroSu = scrollY < mgHeroY;
+      mgHeroY = scrollY;
       clearTimeout(mgHeroT);
       mgHeroT = setTimeout(function(){
         if(touchDown) return;
         var fx = window.__fx;
         if(fx && fx.scrub && fx.scrub.sostaVicina){
-          var y = fx.scrub.sostaVicina(scrollY);
+          /* il verso del gesto: chi risale non va mai riportato in giu' (D117) */
+          var y = fx.scrub.sostaVicina(scrollY, mgHeroSu);
           if(y !== null && Math.abs(y - scrollY) > 24) window.scrollTo({top: y, behavior:'smooth'});
           return;
         }
@@ -927,7 +931,7 @@ document.documentElement.classList.add('js');
         (dati.note ? '\nNote: ' + dati.note : '') +
         '\n\nRichiesta preparata dal dialogo del sito Mastery CLC.';
       window.location.href = 'mailto:info@masteryclc.it?subject=' +
-        encodeURIComponent(document.body.dataset.oggetto || 'Mastery CLC · Richiesta di incontro') + '&body=' + encodeURIComponent(corpo);
+        encodeURIComponent(document.body.dataset.oggetto || 'Mastery CLC. · Richiesta di incontro') + '&body=' + encodeURIComponent(corpo);
       say(voi ? 'Fatto! La mail vi aspetta nella vostra posta: un clic e parte. Se non dovesse aprirsi, potete scriverci direttamente a info@masteryclc.it.' : 'Fatto! La mail ti aspetta nella tua posta: un clic e parte. Se non dovesse aprirsi, puoi scriverci direttamente a info@masteryclc.it.');
     });
     box.appendChild(b); thread.appendChild(box);
@@ -943,7 +947,7 @@ document.documentElement.classList.add('js');
   });
 })();
 </script>
-<link rel="stylesheet" href="mastery-fx.css?v=1790597776">
-<script src="mastery-fx.js?v=1790597776"></script>
+<link rel="stylesheet" href="mastery-fx.css?v=1790613903">
+<script src="mastery-fx.js?v=1790613903"></script>
 </body>
 </html>

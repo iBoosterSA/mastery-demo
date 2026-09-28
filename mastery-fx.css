@@ -422,6 +422,35 @@ body.fx-on .section.blue + .section.contact { border-top: 1px solid var(--line-i
 .citazione blockquote p { font-style: italic; }
 
 /* ===========================================================
+   RIVELA · la comparsa aspetta che il titolo sia entrato
+   ------------------------------------------------------------
+   Il sito lega la comparsa alla classe .in, che arriva quando la
+   sezione tocca il bordo basso dello schermo: il titolo sale e
+   si scopre mentre è ancora fuori campo, e chi si ferma lo trova
+   già fermo. Qui le stesse tre regole passano su .fx-in, che il
+   motore assegna più tardi (−30% invece di −12%).
+
+   La testata è esclusa: là i quadri hanno un ritmo loro.
+   Senza motore la classe non arriva e vale il comportamento del
+   sito: non si resta mai con del testo nascosto.
+   =========================================================== */
+
+/* Le due regole hanno la stessa forma e la stessa specificita': cambia
+   solo la classe. Vince la seconda perche' viene dopo. Scriverle
+   diversamente farebbe vincere quella che nasconde, e resterebbe del
+   testo invisibile: e' successo. */
+
+body.fx-rivela .anim:not(.hero).in .mask > span,
+body.fx-rivela .anim:not(.hero).in .words .w > i { transform: translateY(106%); }
+
+body.fx-rivela .anim:not(.hero).in .up { opacity: 0; transform: translateY(14px); }
+
+body.fx-rivela .anim:not(.hero).fx-in .mask > span,
+body.fx-rivela .anim:not(.hero).fx-in .words .w > i { transform: translateY(0); }
+
+body.fx-rivela .anim:not(.hero).fx-in .up { opacity: 1; transform: none; }
+
+/* ===========================================================
    TESTATE DI SEZIONE · una misura sola
    ------------------------------------------------------------
    Erano scritte a mano una per una: margin-top in tre valori
@@ -726,10 +755,11 @@ body.fx-on #perche { border-top: 1px solid var(--line); }
     min-width: 0;
     border-right: 1px solid var(--line);
     background: var(--white);
+    /* Niente transizione sul colore: il fondo del pannello aperto lo dipinge
+       la tela, e cambia di colpo. Se il testo ci mettesse un secondo ad
+       arrivare al bianco, le lettere che si compongono nascerebbero scure. */
     transition: flex-basis var(--v-lungo) var(--velluto),
-                flex-grow var(--v-lungo) var(--velluto),
-                background var(--v-medio) var(--velluto),
-                color var(--v-medio) var(--velluto);
+                flex-grow var(--v-lungo) var(--velluto);
 }
 
 .ha-p:last-child { border-right: 0; }
@@ -847,8 +877,55 @@ body.fx-on #perche { border-top: 1px solid var(--line); }
     line-height: .94;
 }
 
+/* Il pannello chiuso sparisce davvero: serve all'effetto lettere, che si
+   riavvolge quando il bersaglio non e' visibile e si riscrive quando torna.
+   Senza questa riga il nome si comporrebbe dentro alla striscia chiusa,
+   cioe' per nessuno. */
+/* Il fondo del pannello aperto passa alla tela (vedi data-fx-fondo nel
+   motore): senza, le lettere che si compongono finirebbero dietro a un
+   fondo opaco. Se il motore non parte, il fondo del foglio resta. */
+body.fx-tela .ha-p.aperto { background: transparent; }
+
+.ha-p:not(.aperto) .ha-c { visibility: hidden; }
+.ha-p.aperto .ha-c { visibility: visible; }
+
+/* --- il pannello grande: nome, argomento, testo, dati --- */
+
+.ha.grande { min-height: min(88svh, 860px); }
+
+.ha .name {
+    margin: clamp(14px, 1.8vw, 24px) 0 0;
+    font-family: var(--display);
+    text-transform: uppercase;
+    font-size: clamp(2.6rem, 1.6rem + 4vw, 6rem);
+    line-height: .86;
+    letter-spacing: -.02em;
+}
+
+.ha-corpo {
+    display: grid;
+    gap: clamp(20px, 2.6vw, 48px);
+    margin-top: clamp(22px, 2.8vw, 40px);
+}
+
+@media (min-width: 900px) {
+    .ha-corpo { grid-template-columns: 5fr 7fr; align-items: start; }
+}
+
+.ha-testo p { font-size: var(--t-micro); line-height: 1.6; max-width: 54ch; opacity: .92; }
+
+/* il nome del percorso dentro al pannello: piccolo, sopra al claim */
+.ha-kicker {
+    margin: clamp(10px, 1.2vw, 16px) 0 0;
+    font-size: var(--t-micro);
+    font-weight: 700;
+    letter-spacing: .2em;
+    text-transform: uppercase;
+    opacity: .7;
+}
+
 .ha-claim {
-    margin: clamp(16px, 2vw, 30px) 0 0;
+    margin: 0;
     font-size: var(--t-h4);
     line-height: 1.24;
     max-width: 24ch;
@@ -1034,4 +1111,41 @@ body.fx-on #vantaggi { border-top: 1px solid var(--line); }
 @media (max-width: 640px) and (max-height: 760px) {
     .hero .claim { font-size: clamp(2.3rem, 10.5vw, 3.1rem); }
     .hero .claim.short { font-size: clamp(2.8rem, 13vw, 3.9rem); }
+}
+
+/* ===========================================================
+   MARCHIO · il logotipo della barra si compone
+   ------------------------------------------------------------
+   Il gesto delle lettere sulla tela, rifatto nel documento: la
+   barra sta sopra la tela, quindi lettere dipinte le finirebbero
+   dietro. Qui i caratteri ereditano il colore della barra e
+   seguono da soli il cambio di tema.
+
+   I pezzi li crea il motore. Senza motore la riga non trova
+   nessuno e il marchio resta quello che è.
+   =========================================================== */
+
+.fx-marchio { display: inline-block; white-space: nowrap; }
+
+.fx-marchio > i {
+    display: inline-block;
+    font-style: normal;
+    opacity: 0;
+    transform: translate(var(--dx, 0), var(--dy, 0)) scale(var(--s, 1));
+    /* tempi propri, piu' corti di quelli delle sezioni: la barra e' alta
+       una cinquantina di pixel e un gesto lungo li' dentro sembra lento */
+    transition: transform .82s var(--velluto),
+                opacity   .52s var(--velluto);
+    transition-delay: var(--d, 0ms);
+    will-change: transform, opacity;
+}
+
+.fx-marchio.posa > i { opacity: 1; transform: none; }
+
+/* a posa finita niente piu' trasformazioni in ballo: il marchio è un
+   collegamento, e deve restare un collegamento normale */
+.fx-marchio.posa > i { will-change: auto; }
+
+@media (prefers-reduced-motion: reduce) {
+    .fx-marchio > i { opacity: 1; transform: none; transition: none; }
 }

@@ -494,7 +494,7 @@ html:not(.js) .hero.interna{height:auto}
   <!-- anteprima di condivisione -->
   <link rel="canonical" href="https://mastery-demo.onrender.com/c-one.html">
   <meta property="og:type" content="website">
-  <meta property="og:site_name" content="Mastery CLC">
+  <meta property="og:site_name" content="Mastery CLC.">
   <meta property="og:locale" content="it_IT">
   <meta property="og:url" content="https://mastery-demo.onrender.com/c-one.html">
   <meta property="og:title" content="Mastery CLC. · C-One, il percorso che misura e allena il vertice">
@@ -503,7 +503,7 @@ html:not(.js) .hero.interna{height:auto}
   <meta property="og:image:type" content="image/png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
-  <meta property="og:image:alt" content="Mastery CLC · C-One, il percorso che misura e allena il vertice">
+  <meta property="og:image:alt" content="Mastery CLC. · C-One, il percorso che misura e allena il vertice">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Mastery CLC. · C-One, il percorso che misura e allena il vertice">
   <meta name="twitter:description" content="C-One, il percorso Mastery per i gruppi dirigenti: misura chi guida, legge il vertice come sistema e lo allena a trasformare le decisioni in esecuzione.">
@@ -1222,14 +1222,17 @@ document.documentElement.classList.add('js');
   if(coarse && !reduce && hero){ /* calamita morbida: a inerzia finita ci si assesta sulla sosta
        piu' vicina. Col layer fx la regola e' la sua, direzionale: oltre meta' passaggio si va
        AVANTI, prima si torna: mai la regressione inaspettata di chi era gia' quasi arrivato. */
-    var mgHeroT = null;
+    var mgHeroT = null, mgHeroY = null, mgHeroSu = false;
     addEventListener('scroll', function(){
+      if(mgHeroY !== null && scrollY !== mgHeroY) mgHeroSu = scrollY < mgHeroY;
+      mgHeroY = scrollY;
       clearTimeout(mgHeroT);
       mgHeroT = setTimeout(function(){
         if(touchDown) return;
         var fx = window.__fx;
         if(fx && fx.scrub && fx.scrub.sostaVicina){
-          var y = fx.scrub.sostaVicina(scrollY);
+          /* il verso del gesto: chi risale non va mai riportato in giu' (D117) */
+          var y = fx.scrub.sostaVicina(scrollY, mgHeroSu);
           if(y !== null && Math.abs(y - scrollY) > 24) window.scrollTo({top: y, behavior:'smooth'});
           return;
         }
@@ -1457,7 +1460,7 @@ document.documentElement.classList.add('js');
         (dati.note ? '\nNote: ' + dati.note : '') +
         '\n\nRichiesta preparata dal dialogo del sito Mastery CLC.';
       window.location.href = 'mailto:info@masteryclc.it?subject=' +
-        encodeURIComponent(document.body.dataset.oggetto || 'Mastery CLC · Richiesta di incontro') + '&body=' + encodeURIComponent(corpo);
+        encodeURIComponent(document.body.dataset.oggetto || 'Mastery CLC. · Richiesta di incontro') + '&body=' + encodeURIComponent(corpo);
       say(voi ? 'Fatto! La mail vi aspetta nella vostra posta: un clic e parte. Se non dovesse aprirsi, potete scriverci direttamente a info@masteryclc.it.' : 'Fatto! La mail ti aspetta nella tua posta: un clic e parte. Se non dovesse aprirsi, puoi scriverci direttamente a info@masteryclc.it.');
     });
     box.appendChild(b); thread.appendChild(box);
@@ -1473,7 +1476,7 @@ document.documentElement.classList.add('js');
   });
 })();
 </script>
-<link rel="stylesheet" href="mastery-fx.css?v=1790597776">
-<script src="mastery-fx.js?v=1790597776"></script>
+<link rel="stylesheet" href="mastery-fx.css?v=1790613903">
+<script src="mastery-fx.js?v=1790613903"></script>
 </body>
 </html>

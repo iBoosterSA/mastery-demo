@@ -141,6 +141,62 @@
         }
     }
 
+    /* =======================================================
+       RIVELA · quando un titolo entra in scena
+       ------------------------------------------------------
+       Il sito rivela sezione per sezione con un osservatore a
+       -12% dal bordo basso: la comparsa parte mentre il titolo
+       sta ancora salendo da sotto. Con lo scroll di velluto,
+       che continua per quasi due secondi dopo il gesto, quando
+       ci si ferma a guardare e' finita da un pezzo: il titolo
+       sembra sempre gia' li', fermo.
+
+       Qui la rivelazione passa sotto il nostro comando, con un
+       margine che aspetta che il titolo sia entrato per davvero.
+       Le sezioni gia' rivelate dal sito restano tali: niente
+       salti all'avvio.
+       ======================================================= */
+    var rivela = {
+        MARGINE: '0px 0px -38% 0px',
+        io: null,
+
+        /* Rete di sicurezza: una sezione che sta tutta nell'ultimo 38%
+           della pagina non arriverebbe mai alla soglia, perche' lo scroll
+           finisce prima. Arrivati in fondo, si rivela quel che resta. */
+        infondo: function () {
+            if (!this.io) return;
+            if (window.pageYOffset + H < docH - 4) return;
+            var resto = document.querySelectorAll('.anim:not(.fx-in)');
+            for (var i = 0; i < resto.length; i++) {
+                resto[i].classList.add('fx-in');
+                this.io.unobserve(resto[i]);
+            }
+        },
+
+        build: function () {
+            if (!('IntersectionObserver' in window)) return;
+            if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+            // quello che il sito ha gia' mostrato resta mostrato
+            var fatte = document.querySelectorAll('.anim.in');
+            for (var i = 0; i < fatte.length; i++) fatte[i].classList.add('fx-in');
+            document.body.classList.add('fx-rivela');
+
+            if (this.io) this.io.disconnect();
+            var self = this;
+            this.io = new IntersectionObserver(function (voci) {
+                for (var k = 0; k < voci.length; k++) {
+                    if (!voci[k].isIntersecting) continue;
+                    voci[k].target.classList.add('fx-in');
+                    self.io.unobserve(voci[k].target);
+                }
+            }, { threshold: 0, rootMargin: this.MARGINE });
+
+            var da = document.querySelectorAll('.anim:not(.fx-in)');
+            for (var j = 0; j < da.length; j++) this.io.observe(da[j]);
+        }
+    };
+
     function measure() {
         dpr = Math.min(window.devicePixelRatio || 1, 2);
         W = window.innerWidth;
@@ -151,6 +207,8 @@
         canvas.style.height = H + 'px';
         ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
         docH = Math.max(document.body.scrollHeight, H);
+        rivela.build();
+        marchio.build();
         lettere.build();
         scrub.build();
         scrub.pareggiaLeads();
@@ -309,6 +367,89 @@
     };
 
     /* =======================================================
+       MARCHIO · il logotipo della barra si compone
+       ------------------------------------------------------
+       Stesso gesto delle lettere sulla tela - i caratteri
+       nascono sparsi e si posano al loro posto - ma qui
+       disegnato nel documento, non sul canvas: la barra sta a
+       z-index 100, sopra la tela, quindi lettere dipinte
+       finirebbero dietro al suo fondo. In piu' cosi' i
+       caratteri ereditano il colore della barra e seguono da
+       soli il cambio di tema fra una sezione e l'altra.
+
+       Si compone una volta per caricamento. Senza motore, o
+       con "riduci movimento", il marchio resta quello che e'.
+       ======================================================= */
+    var marchio = {
+        fatto: false,
+        SCARTO_X: 46,        // px di dispersione orizzontale
+        SCARTO_Y: 22,
+
+        build: function () {
+            if (this.fatto) return;
+            if (reduceMotion) return;
+
+            var el = document.querySelector('.nav .brand');
+            if (!el || !el.firstChild || el.firstChild.nodeType !== 3) return;
+
+            var testo = el.firstChild.nodeValue;
+            this.fatto = true;
+
+            // il nome resta leggibile per chi non vede lo schermo: i pezzi
+            // sono decorazione, il nome intero sta sull'etichetta
+            if (!el.getAttribute('aria-label')) el.setAttribute('aria-label', testo.trim());
+
+            var pezzi = document.createElement('span');
+            pezzi.className = 'fx-marchio';
+            pezzi.setAttribute('aria-hidden', 'true');
+
+            var indici = [], n = 0;
+            for (var i = 0; i < testo.length; i++) {
+                var c = testo[i];
+                if (!c.trim()) { pezzi.appendChild(document.createTextNode('\u00a0')); continue; }
+                var q = document.createElement('i');
+                q.textContent = c;
+                pezzi.appendChild(q);
+                indici.push(n++);
+            }
+            if (!n) return;
+
+            // ordine d'arrivo casuale: non si scrive da sinistra a destra
+            for (var q2 = indici.length - 1; q2 > 0; q2--) {
+                var m = Math.floor(Math.random() * (q2 + 1));
+                var t = indici[q2]; indici[q2] = indici[m]; indici[m] = t;
+            }
+
+            // i pezzi entrano nel documento PRIMA di essere misurati:
+            // staccati dalla pagina hanno tutti riquadro zero, e la
+            // dispersione finirebbe calcolata sul nulla
+            el.textContent = '';
+            el.appendChild(pezzi);
+
+            var lettereEl = pezzi.querySelectorAll('i');
+            // i caratteri nascono sparsi, ma dentro alla barra: fuori a
+            // sinistra uscirebbero dallo schermo, a destra finirebbero sopra
+            // alle voci del menu
+            var barra = (el.closest('.wrap') || el).getBoundingClientRect();
+            var casa = el.getBoundingClientRect();
+            for (var k = 0; k < lettereEl.length; k++) {
+                var st = lettereEl[k].style;
+                var r = lettereEl[k].getBoundingClientRect();
+                var dx = clamp(rnd(-this.SCARTO_X, this.SCARTO_X),
+                               barra.left - r.left, casa.right + 60 - r.right);
+                st.setProperty('--dx', dx.toFixed(1) + 'px');
+                st.setProperty('--dy', rnd(-this.SCARTO_Y, this.SCARTO_Y).toFixed(1) + 'px');
+                st.setProperty('--s', rnd(0.55, 1.75).toFixed(2));
+                st.setProperty('--d', (indici.indexOf(k) * 70 + 120) + 'ms');
+            }
+
+            requestAnimationFrame(function () {
+                requestAnimationFrame(function () { pezzi.classList.add('posa'); });
+            });
+        }
+    };
+
+    /* =======================================================
        LETTERE · ricomposizione tipografica
        ------------------------------------------------------
        Funziona su QUALUNQUE bersaglio, non solo sul marchio:
@@ -442,6 +583,14 @@
         refresh: function (u) {
             var node = u.el.firstChild;
             if (!node || node.nodeType !== 3 || !u.metrics) return false;
+
+            /* Il colore si rilegge a ogni fotogramma, non solo alla partenza.
+               Dentro all'accordion l'effetto parte mentre il pannello sta
+               ancora passando da testo blu a testo carta: leggendolo una
+               volta sola, le lettere nascevano scure e restavano scure fino
+               alla consegna. */
+            var ora = getComputedStyle(u.el).color.match(/\d+/g);
+            if (ora) u.rgb = ora.slice(0, 3).join(',');
             var m = u.metrics, text = node.nodeValue, i, k = 0;
 
             for (i = 0; i < text.length; i++) {
@@ -504,6 +653,19 @@
                 if (u.host !== host || !u.chars || !u.playing) continue;
                 if (u.t >= this.total(u)) continue;      // ora c'e' il testo vero
 
+                /* Le lettere nascono sparse intorno al punto d'arrivo. Dentro
+                   a un pannello colorato le piu' esterne finirebbero fuori,
+                   sulla carta, dove sono bianche su bianco: qui si ritagliano
+                   dentro al riquadro che fa loro da fondo. */
+                var riquadro = u.el.closest('[data-fx-fondo]');
+                if (riquadro) {
+                    var rq = riquadro.getBoundingClientRect();
+                    ctx.save();
+                    ctx.beginPath();
+                    ctx.rect(rq.left, rq.top, rq.width, rq.height);
+                    ctx.clip();
+                }
+
                 for (var c = 0; c < u.chars.length; c++) {
                     var g = u.chars[c];
                     var local = clamp((u.t - g.delay) / this.DUR, 0, 1);
@@ -529,6 +691,8 @@
                     ctx.fillStyle = 'rgba(' + u.rgb + ',' + a.toFixed(3) + ')';
                     ctx.fillText(g.ch, x, y);
                 }
+
+                if (riquadro) ctx.restore();
             }
         },
 
@@ -831,7 +995,7 @@
             // A gesto finito, se si e' rimasti a meta' di un passaggio, il
             // bersaglio si assesta alla sosta piu' vicina: mai titoli appesi.
             if (this.gestoT && performance.now() - this.gestoT > 300) {
-                var sosta = scrub.sostaVicina(this.target);
+                var sosta = scrub.sostaVicina(this.target, this.target < this.gestoBase);
                 if (sosta !== null) this.target = sosta;
                 this.gestoT = 0;
             }
@@ -964,22 +1128,26 @@
         /* Il tetto del gesto: dal punto di partenza si avanza al massimo
            fino al riposo (meta' sosta) della battuta successiva. */
         tettoGesto: function (base, proposto) {
+            // IN SALITA IL GESTO E' LIBERO. Scendendo, ogni battuta mostra
+            // qualcosa di nuovo e il passo misurato e' il ritmo della lettura;
+            // risalendo si sta solo uscendo, e farsi fermare a ogni battuta
+            // sembra un rifiuto. Un colpo solo riporta dove arriva l'inerzia.
+            if (proposto <= base) return proposto;
             var p = this.pista(base, proposto);
             if (!p) return proposto;
             var bPx = this.BATTUTA * H;
-            var x = (base - p.top) / bPx;
-            var k = Math.floor(x + 1e-6);
             var riposo = this.HOLD / 2;
-            if (proposto > base)
-                return Math.min(proposto, p.top + ((k + 1) + riposo) * bPx);
-            var minX = (x > k + riposo + .02) ? k + riposo : (k - 1) + riposo;
-            return Math.max(proposto, p.top + minX * bPx);
+            // Il gesto puo' cominciare sopra la pista: da piu' di una battuta
+            // piu' in su il conto darebbe una battuta che la pista non ha.
+            var x = Math.max((base - p.top) / bPx, -1);
+            var k = Math.floor(x + 1e-6);
+            return Math.min(proposto, p.top + ((k + 1) + riposo) * bPx);
         },
 
         /* A gesto finito: la sosta su cui assestarsi, o null se si e' gia'
            a riposo o fuori pista. Oltre meta' passaggio si completa,
            prima si torna. */
-        sostaVicina: function (pos) {
+        sostaVicina: function (pos, su) {
             var p = this.pista(pos, pos);
             if (!p) return null;
             var bPx = this.BATTUTA * H;
@@ -989,8 +1157,14 @@
             if (f <= this.HOLD) return null;             // gia' in sosta
             var meta = this.HOLD + (1 - this.HOLD) / 2;
             var riposo = this.HOLD / 2;
-            var xr = (f < meta) ? k + riposo : (k + 1) + riposo;
-            var y = p.top + xr * bPx;
+            // Chi risale non va mai riportato in giu': il passaggio si
+            // completa nel senso in cui il gesto stava andando. Scendendo vale
+            // la regola di sempre - oltre meta' si completa, prima si torna.
+            var xr = (su || f < meta) ? k + riposo : (k + 1) + riposo;
+            // L'ultima battuta non ha una sosta dopo di se': il suo passaggio
+            // finisce dove finisce la pista. Senza questo tetto, chi si ferma
+            // nella coda della testata viene spinto GIU' oltre il confine.
+            var y = Math.min(p.top + xr * bPx, p.top + p.span);
             return Math.abs(y - pos) < 2 ? null : y;
         },
 
@@ -1164,6 +1338,21 @@
                 ctx.fillRect(0, rect.top - 1, W, rect.height + 2);
             }
 
+            /* Fondi interni alla sezione, dipinti sulla tela.
+               Serve al pannello aperto dell'accordion: se il suo fondo
+               restasse nel foglio, le lettere che si compongono sulla tela
+               gli finirebbero dietro e non si vedrebbero. Cosi' invece il
+               fondo sta sotto e le lettere sopra. */
+            var fondi = host.el.querySelectorAll('[data-fx-fondo]');
+            for (var q = 0; q < fondi.length; q++) {
+                var el = fondi[q];
+                if (el.classList.contains('ha-p') && !el.classList.contains('aperto')) continue;
+                var rf = el.getBoundingClientRect();
+                if (rf.width < 1 || rf.height < 1) continue;
+                ctx.fillStyle = el.dataset.fxFondo;
+                ctx.fillRect(rf.left, rf.top, rf.width, rf.height);
+            }
+
             for (var f = 0; f < host.fx.length; f++) {
                 var name = host.fx[f];
                 var fx = effects[name];
@@ -1174,6 +1363,7 @@
             ctx.restore();
         }
 
+        rivela.infondo();
         if (lettereAttive) lettere.update(dt);
         if (best && best !== activeHost) { activeHost = best; syncUI(); }
         // il primo fotogramma e' stato disegnato: da qui i fondi passano al telo
@@ -1289,7 +1479,7 @@
         else if (!running) { running = true; last = 0; requestAnimationFrame(frame); }
     });
 
-    window.__fx = { hosts: hosts, lettere: lettere, effects: effects, scrub: scrub, velluto: velluto, lenti: lenti, accordion: accordion };
+    window.__fx = { rivela: rivela, marchio: marchio, hosts: hosts, lettere: lettere, effects: effects, scrub: scrub, velluto: velluto, lenti: lenti, accordion: accordion };
 
     /* Il sito fa avanzare i quadri da solo dopo 9,5s (8s per la fascia
        dati) chiamando window.scrollTo: e' uno scroll che l'utente non ha
