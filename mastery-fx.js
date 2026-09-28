@@ -1060,7 +1060,9 @@
                     op = Math.pow(clamp(1 - Math.abs(off) / C, 0, 1), .9);
 
                     var sl = u.slides[j];
-                    sl.style.transform = 'translate3d(' + off.toFixed(2) + '%,0,0)';
+                    // a riposo niente transform inline: WebKit perde i fondi
+                    // delle evidenze multilinea dentro elementi trasformati
+                    sl.style.transform = Math.abs(off) < .005 ? '' : 'translate3d(' + off.toFixed(2) + '%,0,0)';
                     sl.style.opacity = op.toFixed(3);
                     sl.style.visibility = op > 0.004 ? 'visible' : 'hidden';
                 }
@@ -1097,7 +1099,7 @@
                     opT = Math.pow(clamp(1 - Math.abs(offT) / Ct, 0, 1), .9);
 
                     var el = u.testi[t2];
-                    el.style.transform = 'translate3d(' + offT.toFixed(2) + '%,0,0)';
+                    el.style.transform = Math.abs(offT) < .005 ? '' : 'translate3d(' + offT.toFixed(2) + '%,0,0)';
                     el.style.opacity = opT.toFixed(3);
                     el.style.visibility = opT > 0.004 ? 'visible' : 'hidden';
                 }
