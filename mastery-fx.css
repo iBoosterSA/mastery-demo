@@ -1282,6 +1282,12 @@ body.fx-quadri .hero.foto .leadtext .evid {
 }
 body.fx-quadri .hero.foto.segnato .leadtext.fx-ora .evid { background-size: 100% 100%; color: var(--klein); }
 
+/* L'invito a scorrere resta di scena per tutta la testata a fotografie:
+   il sito lo spegne al primo gesto, ma qui i quadri sono quattro e il
+   simbolo (gia' animato dal foglio del sito) accompagna fino in fondo.
+   Uscendo dalla testata se ne va con lei, insieme allo sticky. */
+body.fx-quadri .hero.foto .scrollhint.via { opacity: .85; }
+
 @media (max-width: 760px) {
     /* il taglio verticale: più alto, stretto sul soggetto */
     .hero.foto .fx-fascia { height: auto; aspect-ratio: 4 / 5; max-height: 52svh; }

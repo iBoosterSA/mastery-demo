@@ -1142,7 +1142,9 @@
                 scena.classList.add('scritto');
                 setTimeout(function () {
                     if (u.giro === giro) scena.classList.add('segnato');
-                }, finito + 180);
+                    // il pennarello parte mentre l'ultima parola sta
+                    // finendo di posarsi: un filo d'anticipo, niente attesa
+                }, Math.max(finito - 120, 250));
             }, 350);
         }
     };
