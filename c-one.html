@@ -497,7 +497,8 @@ html:not(.js) .hero.interna{height:auto}
    velo e corpo del titolo giusti. Senza queste righe, nell'attesa del
    foglio la pagina si mostrava con le regole della vecchia testata:
    fascia stretta e titoli tagliati dal nastro. Visto dal cliente. */
-.hero.foto .fx-fascia{position:relative;height:100%;overflow:hidden;width:100vw;margin-left:calc(50% - 50vw);margin-right:calc(50% - 50vw)}
+.hero.foto .wrap.stage{max-width:none;width:100%;padding-inline:0}
+.hero.foto .fx-fascia{position:relative;height:100%;overflow:hidden;width:100%;left:0;margin:0}
 .hero.foto .fx-fascia .slide{position:absolute;inset:0;z-index:4;display:flex;align-items:center;transform:none;transition:none;visibility:hidden}
 .hero.foto .fx-fascia .slide.on,.hero.foto .fx-fascia .slide.fx-ora{visibility:visible}
 .hero.foto .leadtext .evid{background:var(--paper);color:var(--klein)}
@@ -1496,7 +1497,7 @@ document.documentElement.classList.add('js');
   });
 })();
 </script>
-<link rel="stylesheet" href="mastery-fx.css?v=1790628121">
-<script src="mastery-fx.js?v=1790628121"></script>
+<link rel="stylesheet" href="mastery-fx.css?v=1790628560">
+<script src="mastery-fx.js?v=1790628560"></script>
 </body>
 </html>

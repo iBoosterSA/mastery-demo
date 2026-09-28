@@ -1170,7 +1170,13 @@ body.fx-on #vantaggi { border-top: 1px solid var(--line); }
    fotografia, non una figura dentro a un articolo. 100vw invece di 100%
    perche' il padre e' incolonnato col resto della pagina. */
 .hero.foto .fx-fascia { position: relative; height: 100%; overflow: hidden;
-    width: 100vw; margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw); }
+    /* full-bleed SENZA unita' viewport e senza margini negativi: dentro
+       lo sticky della testata WebKit dipingeva il vecchio rettangolo e
+       tagliava foto e titoli (visto dal cliente su Safari). Qui si
+       allarga il contenitore e la fascia riempie il padre: larghezze
+       naturali, nessun trucco, stesso risultato su ogni motore. */
+    width: 100%; left: 0; margin: 0; }
+.hero.foto .wrap.stage { max-width: none; width: 100%; padding-inline: 0; }
 
 /* --- le due fotografie, una sopra l'altra --- */
 .fx-strato { position: absolute; inset: 0; opacity: 0; z-index: 1; }
