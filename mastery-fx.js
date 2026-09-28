@@ -1244,6 +1244,12 @@
         setTimeout(function () { measure(); riancora(); }, 1200);
     }
 
+    // Il gesto finto parte SUBITO, alla valutazione dello script: il boot
+    // aspetta il load, ma su un primo caricamento freddo (immagini, font
+    // dalla rete) il load puo' arrivare DOPO i 9,5s del timer del sito,
+    // e l'avanzamento automatico scatterebbe prima di essere spento.
+    stopAvanzamentoAutomatico();
+
     if (document.readyState === 'complete') boot();
     else window.addEventListener('load', boot);
 })();
