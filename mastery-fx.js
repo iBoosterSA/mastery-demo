@@ -836,7 +836,7 @@
     var scrub = {
         units: [],
         HOLD: 0.22,          // quota della battuta in cui si sta fermi a leggere
-        BATTUTA: 0.8,        // schermate di scroll per ogni battuta
+        BATTUTA: 1.4,        // schermate di scroll per ogni battuta: a 0.8 una rotellata abituale girava due o tre quadri
         CORSA: 100,          // corsa piena: chi esce e chi entra non si
                              // sovrappongono mai nello stesso punto
         MORBIDEZZA: 0.32,    // secondi: rifinitura sopra il velluto dello scroll
