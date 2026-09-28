@@ -729,6 +729,20 @@
             this.ultimoScritto = null;
             this.attivo = true;
 
+            var self = this;
+            // Il colpo d'ancora del browser (arrivo con #sezione, cambio di
+            // hash) e la rifinitura del velluto corrono nello stesso giro:
+            // senza tregua, l'ultimo scrollTo nostro sovrascrive il salto.
+            // Al cambio d'ancora il velluto tace due fotogrammi e poi adotta.
+            window.addEventListener('hashchange', function () {
+                self.sospeso = true;
+                requestAnimationFrame(function () { requestAnimationFrame(function () {
+                    self.corrente = self.target = window.pageYOffset;
+                    self.ultimoScritto = null;
+                    self.sospeso = false;
+                }); });
+            });
+
             // Il sito ha scroll-behavior:smooth, quindi il browser animerebbe
             // a sua volta ogni nostro spostamento: due animazioni sovrapposte
             // che si annullano. Qui comandiamo noi.
@@ -778,7 +792,7 @@
         },
 
         tick: function (dt) {
-            if (!this.attivo) return;
+            if (!this.attivo || this.sospeso) return;
 
             // Riallineamento solo se la pagina si e' mossa per mano d'altri
             // (barra laterale, ancora del browser). Il confronto e' con
@@ -786,7 +800,12 @@
             // stiamo inseguendo: altrimenti il nostro stesso movimento
             // sembrerebbe un intervento esterno.
             var vero = window.pageYOffset;
-            if (this.ultimoScritto !== null && Math.abs(vero - this.ultimoScritto) > 3) {
+            // Con il registro ancora vergine (nessuna scrittura nostra) il
+            // confronto si fa con la posizione interna: altrimenti il primo
+            // gesto esterno - barra laterale, colpo d'ancora del browser -
+            // verrebbe combattuto e la pagina riavvolta.
+            var riferimento = this.ultimoScritto !== null ? this.ultimoScritto : this.corrente;
+            if (Math.abs(vero - riferimento) > 3) {
                 this.corrente = this.target = vero;
                 this.ultimoScritto = null;
                 return;
@@ -1183,16 +1202,46 @@
         } catch (e) { /* browser senza WheelEvent: pazienza */ }
     }
 
+    /* Chi arriva con un'ancora (#sezione) viene ancorato dal browser sul
+       layout NUDO; poi le misure allungano le piste e il bersaglio scivola
+       piu' in basso. Dopo ogni misura d'avvio si ri-ancora, finche' l'utente
+       non tocca: dal primo gesto la posizione e' sua. */
+    var gestoUtente = false;
+    ['wheel', 'touchstart', 'keydown', 'pointerdown'].forEach(function (ev) {
+        // isTrusted: il gesto finto che spegne l'avanzamento automatico
+        // non deve contare come mano dell'utente
+        window.addEventListener(ev, function (e) {
+            if (e.isTrusted) gestoUtente = true;
+        }, { passive: true });
+    });
+
+    function riancora() {
+        if (!location.hash || gestoUtente) return;
+        var dest = document.getElementById(location.hash.slice(1));
+        if (!dest) return;
+        var nav = document.querySelector('.nav');
+        var y = dest.getBoundingClientRect().top + window.pageYOffset
+              - ((nav ? nav.getBoundingClientRect().height : 72) + 8);
+        y = Math.max(0, y);
+        window.scrollTo(0, y);
+        if (velluto.attivo) {
+            velluto.corrente = velluto.target = y;
+            velluto.ultimoScritto = null;
+        }
+    }
+
     function boot() {
         install();
         stopAvanzamentoAutomatico();
         velluto.init();
         measure();
+        riancora();
         buildUI();
         if (!reduceMotion) requestAnimationFrame(frame);
         else frame(1);
-        if (document.fonts && document.fonts.ready) document.fonts.ready.then(measure);
-        setTimeout(measure, 1200);
+        if (document.fonts && document.fonts.ready)
+            document.fonts.ready.then(function () { measure(); riancora(); });
+        setTimeout(function () { measure(); riancora(); }, 1200);
     }
 
     if (document.readyState === 'complete') boot();
