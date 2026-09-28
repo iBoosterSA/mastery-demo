@@ -389,6 +389,26 @@ footer .legal{font-size:var(--t-micro);letter-spacing:.06em;opacity:.75;max-widt
   .js .mask > span{transform:none}
   .js .up{opacity:1;transform:none}
 }
+
+/* ===== TESTATA A FOTOGRAFIE - CRITICO NEL DOCUMENTO =====
+   La testata deve stare in piedi anche se il foglio del motore arriva
+   tardi, non arriva, o arriva vecchio dalla cache: fascia a tutta
+   larghezza, niente nastro sulle slide, prima fotografia visibile,
+   velo e corpo del titolo giusti. Senza queste righe, nell'attesa del
+   foglio la pagina si mostrava con le regole della vecchia testata:
+   fascia stretta e titoli tagliati dal nastro. Visto dal cliente. */
+.hero.foto .fx-fascia{position:relative;height:100%;overflow:hidden;width:100vw;margin-inline:calc(50% - 50vw)}
+.hero.foto .fx-fascia .slide{position:absolute;inset:0;z-index:4;display:flex;align-items:center;transform:none;transition:none;visibility:hidden}
+.hero.foto .fx-fascia .slide.on,.hero.foto .fx-fascia .slide.fx-ora{visibility:visible}
+.hero.foto .leadtext .evid{background:var(--paper);color:var(--klein)}
+.hero.foto .claim .w > i{display:inline-block;font-style:normal}
+.hero.foto .claim .riga{display:block}
+.hero.foto .fx-fascia .claim{font-size:clamp(2.2rem,1.1rem + 6vw,6.6rem);line-height:.9;max-width:none}
+.fx-strato{position:absolute;inset:0;opacity:0;z-index:1}
+.fx-strato:first-child{opacity:1}
+.fx-strato img{width:100%;height:100%;object-fit:cover;display:block}
+.fx-velo{position:absolute;inset:0;z-index:3;background:var(--klein);opacity:.58}
+@media (max-width:760px){.hero.foto .fx-fascia{height:auto;aspect-ratio:4/5;max-height:52svh}}
 </style>
 
   <!-- anteprima di condivisione -->
@@ -978,7 +998,7 @@ document.documentElement.classList.add('js');
   });
 })();
 </script>
-<link rel="stylesheet" href="mastery-fx.css?v=1790626068">
-<script src="mastery-fx.js?v=1790626068"></script>
+<link rel="stylesheet" href="mastery-fx.css?v=1790626486">
+<script src="mastery-fx.js?v=1790626486"></script>
 </body>
 </html>
