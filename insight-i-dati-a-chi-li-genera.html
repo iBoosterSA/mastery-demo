@@ -980,8 +980,20 @@ document.documentElement.classList.add('js');
     n.textContent = voi ? 'Questo tasto apre il vostro programma di posta con la mail già pronta: dovrete solo premere invio.' : 'Questo tasto apre il tuo programma di posta con la mail già pronta: dovrai solo premere invio.';
     thread.appendChild(n); thread.scrollTop = thread.scrollHeight;
   }
-  document.getElementById('apri-dialogo').addEventListener('click', function(){
+  function apriDialogo(){
     start(); if(dlg.showModal) dlg.showModal(); else dlg.setAttribute('open','');
+  }
+  document.getElementById('apri-dialogo').addEventListener('click', apriDialogo);
+  /* ogni "Parliamone" apre il form, ovunque sia: testata, barra, piede.
+     Il link resta un link (#contatto): senza script porta comunque al contatto. */
+  [].forEach.call(document.querySelectorAll('a[href="#contatto"]'), function(a){
+    if(!/^parliamone/i.test(a.textContent.trim())) return;
+    a.addEventListener('click', function(ev){
+      ev.preventDefault();
+      ev.stopPropagation();   /* ferma anche lo scivolo del velluto verso #contatto:
+                                 il form si apre e la pagina resta dov'e' */
+      apriDialogo();
+    });
   });
   document.getElementById('chiudi-dialogo').addEventListener('click', function(){
     if(dlg.close) dlg.close(); else dlg.removeAttribute('open');
