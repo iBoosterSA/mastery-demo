@@ -1285,6 +1285,24 @@ body.fx-quadri .hero.foto .leadtext .evid {
 }
 body.fx-quadri .hero.foto.segnato .leadtext.fx-ora .evid { background-size: 100% 100%; color: var(--klein); }
 
+/* TELEFONI, testata a foto: il Parliamone e' largo tutta la riga e lo
+   Scorri gli cadeva sopra (misurato: stessi 614-652px di quota su 390).
+   Qui il piede riserva una fascia in fondo tutta per l'invito. */
+@media (max-width: 760px) {
+    body.fx-quadri .hero.foto .hero-foot { padding-bottom: 54px; }
+    .hero.foto .scrollhint { bottom: 10px; }
+}
+
+/* TELEFONI, selettore dei percorsi: coi pannelli impilati la linguetta
+   chiusa finiva sotto tutto il contenuto dell'aperto (800px piu' in
+   basso, invisibile). La scelta sta in testa: la linguetta chiusa
+   SEMPRE sopra il pannello aperto. */
+@media (max-width: 760px) {
+    .ha.grande { display: flex; flex-direction: column; }
+    .ha.grande .ha-p:not(.aperto) { order: 0; }
+    .ha.grande .ha-p.aperto { order: 1; }
+}
+
 /* L'invito a scorrere resta di scena per tutta la testata a fotografie:
    il sito lo spegne al primo gesto, ma qui i quadri sono quattro e il
    simbolo (gia' animato dal foglio del sito) accompagna fino in fondo.
