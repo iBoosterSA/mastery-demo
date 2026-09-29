@@ -1291,11 +1291,12 @@ body.fx-quadri .hero.foto.segnato .leadtext.fx-ora .evid { background-size: 100%
    e' visibile che il gesto sta girando i quadri anche se la pagina,
    pinnata, non si muove. La fascia e' riservata: i lead e il Parliamone
    non possono raggiungerla, per costruzione. */
-body.fx-quadri .hero.foto .hero-foot { padding-bottom: 96px; }
-.hero.foto .scrollhint { bottom: 10px; }
+body.fx-quadri .hero.foto .hero-foot { padding-bottom: 112px; }
+/* il chevron rimbalza di 7px: il fondo gli lascia sempre aria sotto */
+.hero.foto .scrollhint { bottom: 26px; }
 body.fx-quadri .hero.foto .wrap.top .ticks {
     position: absolute; left: 50%; transform: translateX(-50%);
-    bottom: 56px; z-index: 5; }
+    bottom: 72px; z-index: 5; }
 
 /* TELEFONI, selettore dei percorsi: coi pannelli impilati la linguetta
    chiusa finiva sotto tutto il contenuto dell'aperto (800px piu' in
