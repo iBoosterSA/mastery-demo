@@ -825,6 +825,22 @@ body.fx-on #perche { border-top: 1px solid var(--line); }
 
 .ha-p.aperto .ha-v { opacity: 0; pointer-events: none; }
 
+/* la dicitura sotto il nome: dice cosa ci trovi, prima di aprire */
+.ha-cosa {
+    text-transform: uppercase;
+    letter-spacing: .14em;
+    font-size: .72rem;
+    line-height: 1.2;
+    opacity: .75;
+    white-space: nowrap;
+    max-height: 100%;
+    overflow: hidden;
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);          /* dal basso verso l'alto, come il nome */
+    transition: opacity var(--v-medio) var(--velluto);
+}
+.ha-p.aperto .ha-cosa { opacity: 0; pointer-events: none; }
+
 /* --- il contenuto --- */
 
 .ha-c {
@@ -1070,6 +1086,14 @@ body.fx-on #vantaggi { border-top: 1px solid var(--line); }
     .ha-p.aperto .ha-tab { width: 100%; inset: auto; }
 
     .ha-v {
+        writing-mode: horizontal-tb;
+        transform: none;
+        opacity: 1 !important;
+        white-space: normal;
+        text-align: left;
+    }
+
+    .ha-cosa {
         writing-mode: horizontal-tb;
         transform: none;
         opacity: 1 !important;
