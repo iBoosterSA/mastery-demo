@@ -1285,13 +1285,13 @@ body.fx-quadri .hero.foto .leadtext .evid {
 }
 body.fx-quadri .hero.foto.segnato .leadtext.fx-ora .evid { background-size: 100% 100%; color: var(--klein); }
 
-/* TELEFONI, testata a foto: il Parliamone e' largo tutta la riga e lo
-   Scorri gli cadeva sopra (misurato: stessi 614-652px di quota su 390).
-   Qui il piede riserva una fascia in fondo tutta per l'invito. */
-@media (max-width: 760px) {
-    body.fx-quadri .hero.foto .hero-foot { padding-bottom: 54px; }
-    .hero.foto .scrollhint { bottom: 10px; }
-}
+/* Testata a foto, OGNI larghezza: da quando lo Scorri resta di scena su
+   tutti i quadri, il piede gli riserva una fascia in fondo tutta sua:
+   sul telefono ci finiva sopra il Parliamone (largo tutta la riga), sul
+   desktop la terza riga dei lead lunghi. Spazio riservato = il testo
+   non puo' raggiungerlo, per costruzione. */
+body.fx-quadri .hero.foto .hero-foot { padding-bottom: 54px; }
+.hero.foto .scrollhint { bottom: 10px; }
 
 /* TELEFONI, selettore dei percorsi: coi pannelli impilati la linguetta
    chiusa finiva sotto tutto il contenuto dell'aperto (800px piu' in
