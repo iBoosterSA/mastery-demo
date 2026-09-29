@@ -1742,3 +1742,61 @@
     if (document.readyState === 'complete') boot();
     else window.addEventListener('load', boot);
 })();
+
+/* =====================================================================
+   LE VOCI (B2) - la sezione Risultati della home.
+
+   Vive fuori dall'IIFE del motore, apposta: se il motore sopra
+   inciampa, questa parte non viene mai valutata, .js-viva non arriva
+   e le testimonianze restano tutte aperte. Il fallback senza motore
+   e' la pagina intera, mai una fila di porte chiuse.
+
+   Parte alla valutazione dello script (fondo del body, DOM pronto),
+   non al load: i corpi si chiudono prima che la sezione possa
+   arrivare sotto gli occhi.
+   ===================================================================== */
+(function () {
+    var sez = document.getElementById('risultati');
+    if (!sez) return;
+    var box = sez.querySelector('.voci2');
+    if (!box) return;
+    var voci = [].slice.call(sez.querySelectorAll('.voce2'));
+    if (!voci.length) return;
+
+    box.classList.add('js-viva');
+
+    /* apertura al click/tap: una alla volta */
+    voci.forEach(function (v) {
+        var b = v.querySelector('.v2-tit button');
+        b.addEventListener('click', function () {
+            var apro = !v.classList.contains('aperta');
+            voci.forEach(function (o) {
+                o.classList.remove('aperta');
+                o.querySelector('.v2-tit button').setAttribute('aria-expanded', 'false');
+            });
+            if (apro) { v.classList.add('aperta'); b.setAttribute('aria-expanded', 'true'); }
+        });
+    });
+
+    /* il fuoco: il titolo si accende avvicinandosi al centro dello schermo */
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    box.classList.add('js-fuoco');
+    var ticking = false;
+    function fuoco() {
+        ticking = false;
+        var meta = window.innerHeight / 2;
+        voci.forEach(function (v) {
+            var b = v.querySelector('.v2-tit button');
+            var r = b.getBoundingClientRect();
+            if (r.bottom < -80 || r.top > window.innerHeight + 80) return;
+            var d = Math.abs((r.top + r.height / 2) - meta) / meta;  /* 0 al centro, 1 al bordo */
+            var op = Math.max(.2, Math.min(1, 1.08 - d * 1.15));
+            b.style.opacity = op.toFixed(3);
+        });
+    }
+    window.addEventListener('scroll', function () {
+        if (!ticking) { ticking = true; requestAnimationFrame(fuoco); }
+    }, { passive: true });
+    window.addEventListener('resize', fuoco);
+    fuoco();
+})();

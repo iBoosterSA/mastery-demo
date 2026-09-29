@@ -1318,3 +1318,57 @@ body.fx-quadri .hero.foto .scrollhint.via { opacity: .85; }
     /* il taglio verticale: più alto, stretto sul soggetto */
     .hero.foto .fx-fascia { height: auto; aspect-ratio: 4 / 5; max-height: 52svh; }
 }
+
+/* =====================================================================
+   LE VOCI (B2) - la sezione Risultati della home.
+
+   Griglia di soli titoli in Anton klein: allo scroll ogni titolo si
+   accende via via che si avvicina al centro dello schermo (il fuoco,
+   scritto dal motore sull'elemento), al click la voce si apre e mostra
+   ruolo e citazione, una alla volta.
+
+   Le classi di runtime sono due, entrambe messe dal motore:
+   - .js-viva  sul contenitore: da qui in poi i corpi partono chiusi.
+     Senza motore non arriva mai, e le testimonianze restano APERTE:
+     il fallback e' la pagina intera, non una fila di porte cieche.
+   - .js-fuoco sul contenitore: accende la modulazione dei titoli.
+     In prefers-reduced-motion il motore non la mette, e qui sotto
+     c'e' comunque la cintura.
+   ===================================================================== */
+#risultati .voci2 { display: grid; grid-template-columns: 1fr 1fr;
+    gap: clamp(36px, 4.8vw, 76px) clamp(52px, 6.5vw, 120px);
+    margin-top: clamp(30px, 4vw, 60px); }
+#risultati .v2-tit { margin: 0; }
+#risultati .v2-tit button { all: unset; cursor: pointer; display: block;
+    /* all:unset = content-box: senza la scatola dichiarata, il padding
+       della chevron e il margine delle virgolette sforano la colonna */
+    box-sizing: border-box; width: calc(100% - .46em);
+    font-family: var(--display); text-transform: uppercase; color: var(--klein);
+    font-size: clamp(1.7rem, .9rem + 2.4vw, 3rem); line-height: 1.02;
+    letter-spacing: -.01em; position: relative; padding-right: 44px;
+    /* la virgoletta d'apertura resta appesa fuori dal filo: tutte le
+       righe del testo partono allineate (.46em = la sua larghezza in Anton) */
+    text-indent: -.46em; margin-left: .46em; }
+#risultati .js-fuoco .v2-tit button { opacity: .2; }  /* il fuoco comanda */
+#risultati .v2-tit button:focus-visible { outline: 2px solid var(--klein); outline-offset: 4px; opacity: 1; }
+#risultati .v2-chev { position: absolute; right: 6px; top: .42em; width: 13px; height: 13px;
+    border-right: 2px solid currentColor; border-bottom: 2px solid currentColor;
+    transform: rotate(45deg); transition: transform .45s var(--velluto); }
+#risultati .voce2.aperta .v2-chev { transform: rotate(225deg); }
+#risultati .v2-corpo { display: grid; grid-template-rows: 1fr;
+    transition: grid-template-rows .6s var(--velluto); }
+#risultati .voci2.js-viva .v2-corpo { grid-template-rows: 0fr; }
+#risultati .js-viva .voce2.aperta .v2-corpo { grid-template-rows: 1fr; }
+#risultati .v2-int { overflow: hidden; min-height: 0; }
+#risultati .v2-int .role { display: inline-block; background: var(--klein); color: var(--paper);
+    text-transform: uppercase; letter-spacing: .14em; font-size: .72rem; font-weight: 600;
+    padding: .5em .85em; margin: 16px 0 0; }
+#risultati .v2-int blockquote { margin: 10px 0 6px; font-style: italic; line-height: 1.55;
+    opacity: .92; max-width: 56ch; }
+@media (max-width: 899px) {
+    #risultati .voci2 { grid-template-columns: 1fr; gap: clamp(30px, 7vw, 48px); }
+}
+@media (prefers-reduced-motion: reduce) {
+    #risultati .js-fuoco .v2-tit button { opacity: 1 !important; }
+    #risultati .v2-corpo, #risultati .v2-chev { transition: none; }
+}
