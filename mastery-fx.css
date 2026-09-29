@@ -1276,6 +1276,7 @@ body.fx-quadri .hero.foto .leadtext.fx-ora { opacity: 1 !important; visibility: 
    <mark> nasce col fondo giallo del browser: va spento a mano, perché qui
    il fondo lo fa l'immagine e il giallo riaffiorerebbe da sotto. */
 body.fx-quadri .hero.foto .leadtext .evid {
+    font-weight: 700;
     background-color: transparent;
     background-image: linear-gradient(var(--paper), var(--paper));
     background-repeat: no-repeat;
@@ -1317,6 +1318,54 @@ body.fx-quadri .hero.foto .scrollhint.via { opacity: .85; }
 @media (max-width: 760px) {
     /* il taglio verticale: più alto, stretto sul soggetto */
     .hero.foto .fx-fascia { height: auto; aspect-ratio: 4 / 5; max-height: 52svh; }
+}
+
+/* ============================================================
+   PALCO INTERO (29/9) · la fotografia prende tutto lo schermo
+   ------------------------------------------------------------
+   Le sorgenti sono passate a 16:9: sugli schermi comuni lo
+   spazio sotto la barra ha proprio quel rapporto, la fascia
+   riempie il palco e ogni testo le sta SOPRA: label in alto,
+   titolo al centro, lead col pennarello e Parliamone in basso,
+   blocco di avanzamento in fondo al centro.
+
+   Vale SOLO col motore e senza riduci-movimento (html.js +
+   media): negli altri casi resta il flusso classico - foto nel
+   mezzo, testi sotto - che e' il fallback gia' collaudato.
+   Le quote basse non cambiano: Scorri a 26, tacche a 72, lead
+   dal 112 in su (la fascia riservata resta legge).
+   ============================================================ */
+@media (prefers-reduced-motion: no-preference) {
+    html.js .hero.foto .hero-stage { padding-block: 0; }
+    html.js .hero.foto .stage { margin-block: 0; }
+
+    /* il livello alto si stira fino in fondo: il label si posa in
+       testa (dove il palco aveva il suo padding), le tacche - ancorate
+       al fondo del wrap - restano nel blocco di avanzamento */
+    html.js .hero.foto .wrap.top { position: absolute; left: 0; right: 0;
+        top: clamp(88px, 13vh, 160px); bottom: 0; z-index: 6;
+        align-items: flex-start; pointer-events: none; }
+    html.js .hero.foto .wrap.top > * { pointer-events: auto; }
+
+    /* il livello basso: lead + Parliamone sopra la fotografia,
+       il piede poggia sulla fascia riservata */
+    html.js .hero.foto .hero-stage > .wrap:not(.top):not(.stage) {
+        position: absolute; left: 0; right: 0; bottom: 0; z-index: 6; }
+    html.js .hero.foto .hero-foot { border-top: 0; padding-top: 0; }
+
+    /* fratello della fascia: senza quota resterebbe sotto i suoi piani */
+    html.js .hero.foto .scrollhint { z-index: 6; }
+}
+
+/* sul telefono niente piu' finestra 4:5: il taglio verticale riempie lo
+   schermo intero come sul grande (media PIATTA, non annidata: l'annidamento
+   e' recente e un Safari vecchio la scarterebbe intera) */
+@media (prefers-reduced-motion: no-preference) and (max-width: 760px) {
+    html.js .hero.foto .fx-fascia { height: 100%; aspect-ratio: auto; max-height: none; }
+    /* sul telefono il titolo non sta al centro: li' sotto arrivano lead e
+       Parliamone; si posa nella banda libera tra label e lead */
+    html.js .hero.foto .fx-fascia .slide { align-items: flex-start; }
+    html.js .hero.foto .fx-fascia .claim { margin-top: clamp(150px, 26svh, 230px); }
 }
 
 /* =====================================================================

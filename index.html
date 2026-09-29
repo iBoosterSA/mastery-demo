@@ -359,7 +359,7 @@ footer .legal{font-size:var(--t-micro);letter-spacing:.06em;opacity:.75;max-widt
 .hero.foto .fx-fascia{position:relative;height:100%;overflow:hidden;width:100%;left:0;margin:0}
 .hero.foto .fx-fascia .slide{position:absolute;inset:0;z-index:4;display:flex;align-items:center;transform:none;transition:none;visibility:hidden}
 .hero.foto .fx-fascia .slide.on,.hero.foto .fx-fascia .slide.fx-ora{visibility:visible}
-.hero.foto .leadtext .evid{background:var(--paper);color:var(--klein)}
+.hero.foto .leadtext .evid{background:var(--paper);color:var(--klein);font-weight:700}
 .hero.foto .claim .w > i{display:inline-block;font-style:normal}
 .hero.foto .claim .riga{display:block}
 .hero.foto .fx-fascia .claim{font-size:clamp(2.2rem,1.1rem + 6vw,6.6rem);line-height:.9;max-width:none}
@@ -369,6 +369,22 @@ footer .legal{font-size:var(--t-micro);letter-spacing:.06em;opacity:.75;max-widt
 .fx-strato img{width:100%;height:100%;object-fit:cover;display:block}
 .fx-velo{position:absolute;inset:0;z-index:3;background:var(--klein);opacity:.58}
 @media (max-width:760px){.hero.foto .fx-fascia{height:auto;aspect-ratio:4/5;max-height:52svh}}
+/* palco intero (29/9): la fotografia prende lo schermo, i testi le stanno sopra;
+   solo col motore e senza riduci-movimento, altrimenti resta il flusso */
+@media (prefers-reduced-motion: no-preference){
+  html.js .hero.foto .hero-stage{padding-block:0}
+  html.js .hero.foto .stage{margin-block:0}
+  html.js .hero.foto .wrap.top{position:absolute;left:0;right:0;top:clamp(88px,13vh,160px);bottom:0;z-index:6;align-items:flex-start;pointer-events:none}
+  html.js .hero.foto .wrap.top > *{pointer-events:auto}
+  html.js .hero.foto .hero-stage > .wrap:not(.top):not(.stage){position:absolute;left:0;right:0;bottom:0;z-index:6}
+  html.js .hero.foto .hero-foot{border-top:0;padding-top:0}
+  html.js .hero.foto .scrollhint{z-index:6}
+}
+@media (prefers-reduced-motion: no-preference) and (max-width:760px){
+  html.js .hero.foto .fx-fascia{height:100%;aspect-ratio:auto;max-height:none}
+  html.js .hero.foto .fx-fascia .slide{align-items:flex-start}
+  html.js .hero.foto .fx-fascia .claim{margin-top:clamp(150px,26svh,230px)}
+}
 </style>
 
   <!-- anteprima di condivisione -->
@@ -426,26 +442,26 @@ footer .legal{font-size:var(--t-micro);letter-spacing:.06em;opacity:.75;max-widt
       <div class="fx-fascia">
         <div class="fx-strato">
           <picture>
-            <source media="(max-width: 760px)" srcset="assets/foto/home-0-tel.webp">
-            <img src="assets/foto/home-0.webp" alt="" width="1800" height="675">
+            <source media="(max-width: 760px)" srcset="assets/foto/home-0-tel.webp?v=1790697486">
+            <img src="assets/foto/home-0.webp?v=1790697486" alt="" width="1800" height="675">
           </picture>
         </div>
         <div class="fx-strato">
           <picture><source media="(max-width: 760px)" srcset=""><img src="" alt=""></picture>
         </div>
         <span class="fx-velo"></span>
-        <div class="slide on" data-i="0" data-foto="assets/foto/home-0.webp" data-foto-tel="assets/foto/home-0-tel.webp">
+        <div class="slide on" data-i="0" data-foto="assets/foto/home-0.webp?v=1790697486" data-foto-tel="assets/foto/home-0-tel.webp?v=1790697486">
           <h1 class="claim short display"><span class="riga"><span class="w" style="--i:0"><i>Mastery</i></span> <span class="w" style="--i:1"><i>CLC.</i></span></span></h1>
         </div>
-        <div class="slide" data-i="1" aria-hidden="true" data-foto="assets/foto/home-1.webp" data-foto-tel="assets/foto/home-1-tel.webp">
+        <div class="slide" data-i="1" aria-hidden="true" data-foto="assets/foto/home-1.webp?v=1790697486" data-foto-tel="assets/foto/home-1-tel.webp?v=1790697486">
           <p class="claim short display"><span class="riga"><span class="w" style="--i:0"><i>Strumenti</i></span> <span class="w" style="--i:1"><i>e&nbsp;percorsi</i></span></span>
             <span class="riga"><span class="w" style="--i:2"><i>per</i></span> <span class="w" style="--i:3"><i>chi</i></span> <span class="w" style="--i:4"><i>guida</i></span> <span class="w" style="--i:5"><i>le&nbsp;imprese</i></span></span></p>
         </div>
-        <div class="slide" data-i="2" aria-hidden="true" data-foto="assets/foto/home-2.webp" data-foto-tel="assets/foto/home-2-tel.webp">
+        <div class="slide" data-i="2" aria-hidden="true" data-foto="assets/foto/home-2.webp?v=1790697486" data-foto-tel="assets/foto/home-2-tel.webp?v=1790697486">
           <p class="claim short display"><span class="riga"><span class="w" style="--i:0"><i>Il</i></span> <span class="w" style="--i:1"><i>vertice</i></span></span>
             <span class="riga"><span class="w" style="--i:2"><i>come</i></span> <span class="w" style="--i:3"><i>squadra</i></span></span></p>
         </div>
-        <div class="slide" data-i="3" aria-hidden="true" data-foto="assets/foto/home-3.webp" data-foto-tel="assets/foto/home-3-tel.webp">
+        <div class="slide" data-i="3" aria-hidden="true" data-foto="assets/foto/home-3.webp?v=1790697486" data-foto-tel="assets/foto/home-3-tel.webp?v=1790697486">
           <p class="claim short display"><span class="riga"><span class="w" style="--i:0"><i>Il</i></span> <span class="w" style="--i:1"><i>manager</i></span></span>
             <span class="riga"><span class="w" style="--i:2"><i>come</i></span> <span class="w" style="--i:3"><i>persona</i></span></span></p>
         </div>
@@ -455,10 +471,10 @@ footer .legal{font-size:var(--t-micro);letter-spacing:.06em;opacity:.75;max-widt
   <div class="wrap">
     <div class="hero-foot">
       <div class="leads">
-          <p class="leadtext on" data-i="0">Mastery CLC. <mark class="evid">Sviluppiamo il potenziale dei leader per convertire decisioni complesse in risultati di valore</mark>.</p>
-        <p class="leadtext" data-i="1"><mark class="evid">In un'impresa si misura tutto tranne lo stato di forma di chi la guida</mark>. Mastery CLC. lavora con strumenti che valutano il vertice, percorsi che lo allenano e progressi quantificabili.</p>
-        <p class="leadtext" data-i="2">Avere un gruppo dirigente non significa muoversi come un unico team. <mark class="evid">Lavoriamo sulle dinamiche della vostra prima linea per portarla a decidere prima ed eseguire meglio</mark>.</p>
-        <p class="leadtext" data-i="3">Più le responsabilità crescono, più aumenta la solitudine di chi decide. <mark class="evid">Mettiamo a disposizione di chi guida strumenti per misurare e allenare il proprio stato di forma</mark>.</p>
+          <p class="leadtext on" data-i="0"><mark class="evid">Sviluppiamo il potenziale dei leader per convertire decisioni complesse in risultati di valore.</mark></p>
+        <p class="leadtext" data-i="1"><mark class="evid">In un'impresa si misura tutto tranne lo stato di forma di chi la guida. Mastery CLC. lavora con strumenti che valutano il vertice, percorsi che lo allenano e progressi quantificabili.</mark></p>
+        <p class="leadtext" data-i="2"><mark class="evid">Avere un gruppo dirigente non significa muoversi come un unico team. Lavoriamo sulle dinamiche della vostra prima linea per portarla a decidere prima ed eseguire meglio.</mark></p>
+        <p class="leadtext" data-i="3"><mark class="evid">Più le responsabilità crescono, più aumenta la solitudine di chi decide. Mettiamo a disposizione di chi guida strumenti per misurare e allenare il proprio stato di forma.</mark></p>
       </div>
       <a class="cta" href="#contatto">Parliamone <span class="arw" aria-hidden="true"></span></a>
     </div>
@@ -1101,7 +1117,7 @@ document.documentElement.classList.add('js');
   });
 })();
 </script>
-<link rel="stylesheet" href="mastery-fx.css?v=1790689717">
-<script src="mastery-fx.js?v=1790689717"></script>
+<link rel="stylesheet" href="mastery-fx.css?v=1790697486">
+<script src="mastery-fx.js?v=1790697486"></script>
 </body>
 </html>
