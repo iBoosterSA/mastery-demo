@@ -1285,13 +1285,17 @@ body.fx-quadri .hero.foto .leadtext .evid {
 }
 body.fx-quadri .hero.foto.segnato .leadtext.fx-ora .evid { background-size: 100% 100%; color: var(--klein); }
 
-/* Testata a foto, OGNI larghezza: da quando lo Scorri resta di scena su
-   tutti i quadri, il piede gli riserva una fascia in fondo tutta sua:
-   sul telefono ci finiva sopra il Parliamone (largo tutta la riga), sul
-   desktop la terza riga dei lead lunghi. Spazio riservato = il testo
-   non puo' raggiungerlo, per costruzione. */
-body.fx-quadri .hero.foto .hero-foot { padding-bottom: 54px; }
+/* Testata a foto, OGNI larghezza: in fondo vive il BLOCCO DI AVANZAMENTO,
+   tutto insieme e sempre nello stesso punto: tacche + contatore sopra,
+   Scorri sotto. Chi scrolla guarda li', e li' vede la tacca avanzare:
+   e' visibile che il gesto sta girando i quadri anche se la pagina,
+   pinnata, non si muove. La fascia e' riservata: i lead e il Parliamone
+   non possono raggiungerla, per costruzione. */
+body.fx-quadri .hero.foto .hero-foot { padding-bottom: 96px; }
 .hero.foto .scrollhint { bottom: 10px; }
+body.fx-quadri .hero.foto .wrap.top .ticks {
+    position: absolute; left: 50%; transform: translateX(-50%);
+    bottom: 56px; z-index: 5; }
 
 /* TELEFONI, selettore dei percorsi: coi pannelli impilati la linguetta
    chiusa finiva sotto tutto il contenuto dell'aperto (800px piu' in
