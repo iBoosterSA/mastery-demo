@@ -319,6 +319,19 @@ footer .legal{font-size:var(--t-micro);letter-spacing:.06em;opacity:.75;max-widt
 .dlg .field input:focus{outline:0;border-bottom-color:var(--klein)}
 .dlg .err{color:var(--klein);font-size:var(--t-micro);letter-spacing:.06em}
 .dlg .note{font-size:var(--t-micro);letter-spacing:.06em;opacity:.6;max-width:46ch}
+.dlg .passi{font-size:var(--t-micro);letter-spacing:.12em;text-transform:uppercase;opacity:.7}
+.dlg .field.colonna{flex-direction:column}
+.dlg .field textarea{border:0;border-bottom:1px solid var(--line);background:none;
+  padding:9px 2px;font:inherit;font-size:var(--t-body);min-height:88px;resize:vertical}
+.dlg .field textarea:focus{outline:0;border-bottom-color:var(--klein)}
+.dlg .field .fila{display:flex;gap:10px;justify-content:flex-end}
+.dlg .riep{border:1px solid var(--line);padding:16px 18px;display:grid;gap:10px}
+.dlg .riep p{margin:0}
+.dlg .riep b{display:block;font-family:var(--display);text-transform:uppercase;
+  font-size:var(--t-micro);letter-spacing:.14em;color:var(--klein);font-weight:600;margin-bottom:2px}
+.dlg .consenso{display:flex;gap:10px;align-items:flex-start;font-size:var(--t-micro);
+  letter-spacing:.04em;max-width:46ch;cursor:pointer}
+.dlg .consenso input{margin-top:3px;accent-color:var(--klein);width:16px;height:16px;flex:none}
 
 /* ---------- la riga degli specchi si accende per intero ---------- */
 /* la fascia arriva ai bordi dello schermo, il testo resta sulla colonna della pagina */
@@ -672,7 +685,8 @@ footer .legal{font-size:var(--t-micro);letter-spacing:.06em;opacity:.75;max-widt
     <div class="head">
       <div class="titolo">
         <span>Parliamone.</span>
-        <p>Prepariamoci al meglio per il nostro incontro.</p>
+        <p>Configuriamo il nostro incontro in meno di un minuto.</p>
+        <p class="passi" id="dlg-passi" aria-live="polite" hidden>Passo 1 di 5</p>
       </div>
       <button type="button" id="chiudi-dialogo" aria-label="Chiudi il dialogo">&#10005;</button>
     </div>
@@ -1010,109 +1024,229 @@ document.documentElement.classList.add('js');
     });
   });
 
-  /* dialogo di contatto */
+  /* dialogo di contatto: il modulo conversazionale a tappe (mockup:
+     l'invio e' simulato, le funzioni vere arrivano con il servizio) */
   var dlg = document.getElementById('dialogo'), thread = document.getElementById('thread');
-  var dati = {tema:'', nome:'', email:'', note:''};
-  var voi = false;
+  var passiEl = document.getElementById('dlg-passi');
+  var dati = {};
+  var TEMI = {
+    'c-one': {label: 'Sviluppo strategico del vertice aziendale (C-One)',
+              trans: 'Ottimo. Ottimizzeremo l\'incontro per capire come scalare il potenziale della tua impresa.'},
+    'e-one': {label: 'Percorso di crescita personale e manageriale (E-One)',
+              trans: 'Benvenuto. Qui la riservatezza è totale: un percorso focalizzato sui tuoi obiettivi personali.'},
+    'lavora-con-noi': {label: 'Collaborazione o opportunità di lavoro (Lavora con noi)',
+              trans: 'Splendido. Siamo sempre alla ricerca di professionisti di valore da inserire nel nostro ecosistema. Conosciamoci meglio.'},
+    'altro': {label: 'Altre esigenze o partnership',
+              trans: 'Perfetto, definiremo i dettagli direttamente a voce.'}
+  };
+  var ERR_VUOTO = 'Questo passaggio è necessario per configurare l\'incontro.';
+  function passo(n){ passiEl.hidden = false; passiEl.textContent = 'Passo ' + n + ' di 5'; }
   function say(txt, cls){
     var p = document.createElement('p');
     p.className = 'say' + (cls ? ' ' + cls : '');
     p.textContent = txt; thread.appendChild(p); thread.scrollTop = thread.scrollHeight;
     return p;
   }
+  function erroreUnaVolta(msg){
+    var ultimo = thread.lastElementChild;
+    if(ultimo && ultimo.classList.contains('err') && ultimo.textContent === msg) return;
+    say(msg, 'err');
+  }
   function options(list, cb){
     var box = document.createElement('div'); box.className = 'opts';
     list.forEach(function(o){
-      var b = document.createElement('button'); b.type='button'; b.textContent = o.label;
-      b.addEventListener('click', function(){ box.remove(); say(o.label,'mine'); cb(o); });
+      var b = document.createElement('button'); b.type = 'button'; b.textContent = o.label;
+      b.addEventListener('click', function(){ box.remove(); say(o.label, 'mine'); cb(o); });
       box.appendChild(b);
     });
     thread.appendChild(box); thread.scrollTop = thread.scrollHeight;
   }
-  function ask(placeholder, cb, extra){
+  /* un campo, un pulsante Avanti, una regola: se la regola non passa,
+     l'errore compare e il campo resta dov'e', col testo scritto */
+  function ask(ph, valida, errore, cb){
     var box = document.createElement('div'); box.className = 'field';
-    var inp = document.createElement('input'); inp.type='text'; inp.placeholder = placeholder;
-    inp.setAttribute('aria-label', placeholder);
-    var b = document.createElement('button'); b.type='button'; b.className='send'; b.textContent='Invia';
+    var inp = document.createElement('input'); inp.type = 'text'; inp.placeholder = ph;
+    inp.setAttribute('aria-label', ph);
+    var b = document.createElement('button'); b.type = 'button'; b.className = 'send'; b.textContent = 'Avanti';
     box.appendChild(inp); box.appendChild(b);
-    if(extra){
-      var s = document.createElement('button'); s.type='button'; s.className='send'; s.textContent = extra.label;
-      s.addEventListener('click', function(){ box.remove(); say(extra.label,'mine'); cb(''); });
-      box.appendChild(s);
-    }
     thread.appendChild(box); inp.focus(); thread.scrollTop = thread.scrollHeight;
     function go(){
-      var v = inp.value.trim(); if(!v) return;
-      box.remove(); say(v,'mine'); cb(v);
+      var v = inp.value.trim();
+      if(!valida(v)){ erroreUnaVolta(errore); return; }
+      box.remove(); say(v, 'mine'); cb(v);
     }
     b.addEventListener('click', go);
     inp.addEventListener('keydown', function(e){ if(e.key === 'Enter') go(); });
   }
+  /* il campo ampio, con eventuale via d'uscita */
+  function askArea(ph, salta, cb){
+    var box = document.createElement('div'); box.className = 'field colonna';
+    var ta = document.createElement('textarea'); ta.placeholder = ph; ta.setAttribute('aria-label', ph);
+    var fila = document.createElement('div'); fila.className = 'fila';
+    if(salta){
+      var sb = document.createElement('button'); sb.type = 'button'; sb.className = 'send'; sb.textContent = salta;
+      sb.addEventListener('click', function(){ box.remove(); say(salta, 'mine'); cb(''); });
+      fila.appendChild(sb);
+    }
+    var b = document.createElement('button'); b.type = 'button'; b.className = 'send'; b.textContent = 'Avanti';
+    b.addEventListener('click', function(){
+      var v = ta.value.trim();
+      box.remove(); if(v) say(v, 'mine'); cb(v);
+    });
+    fila.appendChild(b);
+    box.appendChild(ta); box.appendChild(fila);
+    thread.appendChild(box); ta.focus(); thread.scrollTop = thread.scrollHeight;
+  }
+  /* le due disponibilita', nella stessa schermata */
+  function askDoppio(ph1, ph2, cb){
+    var box = document.createElement('div'); box.className = 'field colonna';
+    var i1 = document.createElement('input'); i1.type = 'text'; i1.placeholder = ph1; i1.setAttribute('aria-label', ph1);
+    var i2 = document.createElement('input'); i2.type = 'text'; i2.placeholder = ph2; i2.setAttribute('aria-label', ph2);
+    var fila = document.createElement('div'); fila.className = 'fila';
+    var b = document.createElement('button'); b.type = 'button'; b.className = 'send'; b.textContent = 'Avanti';
+    b.addEventListener('click', function(){
+      var a = i1.value.trim(), c = i2.value.trim();
+      if(!a || !c){ erroreUnaVolta(ERR_VUOTO); return; }
+      box.remove(); say(a + ' / ' + c, 'mine'); cb(a, c);
+    });
+    fila.appendChild(b);
+    box.appendChild(i1); box.appendChild(i2); box.appendChild(fila);
+    thread.appendChild(box); i1.focus(); thread.scrollTop = thread.scrollHeight;
+  }
+  /* il CV: selettore vero, validato; il file resta sul suo computer (mockup) */
+  function askFile(cb){
+    var box = document.createElement('div'); box.className = 'field colonna';
+    var inp = document.createElement('input'); inp.type = 'file'; inp.accept = '.pdf,application/pdf';
+    inp.style.display = 'none';
+    var fila = document.createElement('div'); fila.className = 'fila';
+    var scegli = document.createElement('button'); scegli.type = 'button'; scegli.className = 'send';
+    scegli.textContent = 'Seleziona il tuo CV (PDF)';
+    scegli.addEventListener('click', function(){ inp.click(); });
+    var avanti = document.createElement('button'); avanti.type = 'button'; avanti.className = 'send';
+    avanti.textContent = 'Avanti'; avanti.disabled = true; avanti.style.opacity = '.4';
+    var nomeFile = '';
+    inp.addEventListener('change', function(){
+      var f = inp.files && inp.files[0]; if(!f) return;
+      if(!/\.pdf$/i.test(f.name) || f.size > 5 * 1024 * 1024){
+        erroreUnaVolta('Il file deve essere in formato PDF e non superare i 5MB.');
+        inp.value = ''; return;
+      }
+      nomeFile = f.name; scegli.textContent = f.name;
+      avanti.disabled = false; avanti.style.opacity = '';
+    });
+    avanti.addEventListener('click', function(){
+      if(!nomeFile) return;
+      box.remove(); say(nomeFile, 'mine'); cb(nomeFile);
+    });
+    fila.appendChild(scegli); fila.appendChild(avanti);
+    box.appendChild(inp); box.appendChild(fila);
+    thread.appendChild(box); thread.scrollTop = thread.scrollHeight;
+  }
+  function primoNome(){ return (dati.nome || '').split(' ')[0]; }
+
   function start(){
-    thread.innerHTML = '';
-    voi = document.body.dataset.registro === 'voi';
+    thread.innerHTML = ''; dati = {};
     var ctx = document.body.dataset.pagina;
-    if(ctx){
-      dati.tema = ctx === 'c-one' ? 'il vertice dell’impresa (C-One)' : 'percorso personale del manager';
-      say(voi
-        ? 'Benvenuti. Vi chiediamo solo due informazioni per focalizzarci e andare subito al punto.'
-        : 'Ciao! Ti chiediamo solo due informazioni per focalizzarci e andare subito al punto.');
-      say(ctx === 'c-one'
-        ? 'Parliamo del vertice della vostra impresa. Per iniziare: con chi abbiamo il piacere di parlare?'
-        : 'Parliamo del tuo percorso. Per iniziare: come ti chiami?');
-      ask('Nome e cognome', function(nome){
-        dati.nome = nome;
-        var grazie = nome ? 'Grazie, ' + nome.split(' ')[0] + '. ' : 'Grazie. ';
-        say(grazie + (voi ? 'A quale email possiamo rispondervi?' : 'A quale email possiamo risponderti?'));
-        chiediEmail();
+    if(ctx && TEMI[ctx]){
+      dati.tema = ctx;
+      say(TEMI[ctx].trans);
+      fase2();
+      return;
+    }
+    passo(1);
+    say('Ciao! Prepariamo il terreno per il nostro incontro. Di cosa vorresti parlare?');
+    options([
+      {label: TEMI['c-one'].label, val: 'c-one'},
+      {label: TEMI['e-one'].label, val: 'e-one'},
+      {label: TEMI['lavora-con-noi'].label, val: 'lavora-con-noi'},
+      {label: TEMI['altro'].label, val: 'altro'}
+    ], function(o){
+      dati.tema = o.val;
+      say(TEMI[o.val].trans);
+      fase2();
+    });
+  }
+  function fase2(){
+    passo(2);
+    say('Per iniziare, come ti chiami?');
+    ask('Nome e cognome', function(v){ return v.length >= 2; }, ERR_VUOTO, function(nome){
+      dati.nome = nome;
+      say('Grazie, ' + primoNome() + '. A quale indirizzo email possiamo scriverti?');
+      ask('nome@azienda.com', function(v){ return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v); },
+          'Manca qualcosa in questo indirizzo: ci dai un\'occhiata?', function(mail){
+        dati.email = mail;
+        say('E un numero di telefono per i dettagli operativi?');
+        ask('Numero di telefono (es. +39...)',
+            function(v){ return /^[0-9+\s-]+$/.test(v) && v.replace(/[^0-9]/g, '').length >= 8; },
+            'Inserisci un numero di telefono valido per poterti ricontattare.', function(tel){
+          dati.tel = tel; fase3();
+        });
+      });
+    });
+  }
+  function fase3(){
+    passo(3);
+    say('Come preferisci essere ricontattato per fissare la data?');
+    options([{label: 'Telefonata'}, {label: 'WhatsApp'}, {label: 'Email'}], function(o){
+      dati.canale = o.label;
+      say('Indicaci due opzioni di giorni e orari in cui saresti più libero (es. Lunedì pomeriggio, Martedì mattina):');
+      askDoppio('Opzione 1 (Giorno e fascia oraria)', 'Opzione 2 (Alternativa secondaria)', function(a, b){
+        dati.d1 = a; dati.d2 = b; fase4();
+      });
+    });
+  }
+  function fase4(){
+    passo(4);
+    if(dati.tema === 'lavora-con-noi'){
+      say('Per valutare al meglio il tuo profilo, lasciaci il link a LinkedIn o descrivi brevemente le tue competenze:');
+      askArea('Link LinkedIn o sintesi competenze...', null, function(txt){
+        dati.note = txt;
+        say('Carica qui il tuo CV aggiornato (formato PDF, max 5MB):');
+        askFile(function(nome){ dati.cv = nome; fase5(); });
       });
       return;
     }
-    say('Ciao! Ti chiediamo solo qualche informazione per focalizzarci e andare dritti al punto.');
-    say('Per iniziare: il tuo interesse è rivolto a…');
-    options([
-      {label:'Al vertice della tua azienda', next:'Perfetto. Nel nostro incontro capiremo insieme se C-One fa al caso della tua impresa. Intanto, come ti chiami?', tema:'il vertice dell’impresa (C-One)'},
-      {label:'A te come persona', next:'Bene. Qui la riservatezza è totale: quello che scrivi resta tra noi e i tuoi dati sono al sicuro. Intanto, come ti chiami?', tema:'percorso personale del manager'},
-      {label:'Altro', next:'Va benissimo, ne parliamo a voce. Intanto, come ti chiami?', tema:'da definire insieme'}
-    ], function(o){
-      dati.tema = o.tema;
-      say(o.next);
-      ask('Nome e cognome', function(nome){
-        dati.nome = nome;
-        say(nome ? 'Grazie, ' + nome.split(' ')[0] + '. A quale email possiamo risponderti?' : 'Grazie. A quale email possiamo risponderti?');
-        chiediEmail();
-      });
+    say('Un\'ultima cosa (facoltativa): vuoi anticiparci in due righe la tua sfida attuale o cosa sta succedendo?');
+    askArea('Scrivi qui un breve contesto...', 'Salta questo passaggio', function(txt){
+      dati.note = txt; fase5();
     });
   }
-  function chiediEmail(){
-    ask('Email', function(mail){
-      if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(mail)){
-        var e = say(voi ? 'Manca qualcosa in questo indirizzo: ci date un’occhiata?' : 'Manca qualcosa in questo indirizzo: ci dai un’occhiata?'); e.className = 'say err';
-        chiediEmail(); return;
-      }
-      dati.email = mail;
-      say(voi ? 'E se vi va, lasciateci due righe su cosa sta succedendo, così arriveremo già preparati.' : 'E se ti va, lasciaci due righe su cosa sta succedendo, così arriveremo già preparati.');
-      ask(voi ? 'Raccontateci in due righe cosa sta succedendo…' : 'Raccontaci in due righe cosa sta succedendo…', function(note){
-        dati.note = note; chiudi();
-      }, {label:'Ne parliamo all’incontro'});
-    });
-  }
-  function chiudi(){
-    say('Ci siamo! Ecco il riepilogo: ' + dati.nome + ' · ' + dati.email + ' · ' + dati.tema + (dati.note ? ' · «' + dati.note + '».' : '.'));
+  function fase5(){
+    passo(5);
+    say('Ci siamo! Ecco il riepilogo dei tuoi dati prima dell\'invio:');
+    var r = document.createElement('div'); r.className = 'riep';
+    function voce(tit, txt){
+      var p = document.createElement('p');
+      var b = document.createElement('b'); b.textContent = tit;
+      p.appendChild(b); p.appendChild(document.createTextNode(txt));
+      r.appendChild(p);
+    }
+    voce('Contatto', dati.nome + ' · ' + dati.email + ' · ' + dati.tel + ' (Canale preferito: ' + dati.canale + ')');
+    voce('Focus', TEMI[dati.tema].label);
+    voce('Disponibilità', dati.d1 + ' / ' + dati.d2);
+    if(dati.tema === 'lavora-con-noi'){
+      voce('Profilo', (dati.note ? dati.note + ' · ' : '') + 'CV: ' + dati.cv);
+    } else if(dati.note){
+      voce('Note', dati.note);
+    }
+    thread.appendChild(r);
+    var lab = document.createElement('label'); lab.className = 'consenso';
+    var ck = document.createElement('input'); ck.type = 'checkbox';
+    lab.appendChild(ck);
+    lab.appendChild(document.createTextNode('Accetto il trattamento dei dati secondo la Privacy Policy.'));
+    thread.appendChild(lab);
     var box = document.createElement('div'); box.className = 'opts';
-    var b = document.createElement('button'); b.type = 'button'; b.textContent = 'Prepara la mail';
+    var b = document.createElement('button'); b.type = 'button'; b.textContent = 'Invia la richiesta';
     b.addEventListener('click', function(){
-      var corpo = 'Nome: ' + dati.nome + '\nEmail: ' + dati.email + '\nTema: ' + dati.tema +
-        (dati.note ? '\nNote: ' + dati.note : '') +
-        '\n\nRichiesta preparata dal dialogo del sito Mastery CLC.';
-      window.location.href = 'mailto:info@masteryclc.it?subject=' +
-        encodeURIComponent(document.body.dataset.oggetto || 'Mastery CLC. · Richiesta di incontro') + '&body=' + encodeURIComponent(corpo);
-      say(voi ? 'Fatto! La mail vi aspetta nella vostra posta: un clic e parte. Se non dovesse aprirsi, potete scriverci direttamente a info@masteryclc.it.' : 'Fatto! La mail ti aspetta nella tua posta: un clic e parte. Se non dovesse aprirsi, puoi scriverci direttamente a info@masteryclc.it.');
+      if(!ck.checked){ erroreUnaVolta(ERR_VUOTO); return; }
+      box.remove(); fase6();
     });
-    box.appendChild(b); thread.appendChild(box);
-    var n = document.createElement('p'); n.className = 'note';
-    n.textContent = voi ? 'Questo tasto apre il vostro programma di posta con la mail già pronta: dovrete solo premere invio.' : 'Questo tasto apre il tuo programma di posta con la mail già pronta: dovrai solo premere invio.';
-    thread.appendChild(n); thread.scrollTop = thread.scrollHeight;
+    box.appendChild(b); thread.appendChild(box); thread.scrollTop = thread.scrollHeight;
+  }
+  function fase6(){
+    passiEl.hidden = true;
+    var canale = dati.canale === 'WhatsApp' ? 'WhatsApp' : dati.canale.toLowerCase();
+    say('Grazie ' + primoNome() + '! La tua richiesta è stata inviata correttamente al nostro team. Ti ricontatteremo al più presto tramite ' + canale + '. A presto!');
   }
   function apriDialogo(){
     start(); if(dlg.showModal) dlg.showModal(); else dlg.setAttribute('open','');
