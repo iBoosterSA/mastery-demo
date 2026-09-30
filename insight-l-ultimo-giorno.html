@@ -72,6 +72,12 @@ section[id]{scroll-margin-top:clamp(60px,8vh,96px)}
 .nav a:hover{border-bottom-color:currentColor}
 .nav .pill{border:1px solid currentColor;padding:7px 14px 8px;letter-spacing:.15em}
 .nav .pill:hover{background:var(--paper);color:var(--klein);border-color:var(--paper)}
+/* bersagli di tocco: l'area cliccabile cresce nel cuscino della barra senza
+   cambiare l'aspetto; la pillola si estende con un velo invisibile */
+.nav ul a:not(.pill){padding-block:11px;margin-block:-11px;padding-inline:5px;margin-inline:-5px}
+.nav .brand{padding-block:8px;margin-block:-8px}
+.nav .pill{position:relative}
+.nav .pill::after{content:"";position:absolute;inset:-8px -6px}
 .nav[data-theme="light"] .pill:hover{background:var(--ink);color:var(--paper);border-color:var(--ink)}
 .nav[data-theme="dark"] .pill:hover{background:var(--paper);color:var(--klein);border-color:var(--paper)}
 /* sugli schermi stretti il menu tiene la sola pillola: le voci tornano da tablet in su
@@ -374,10 +380,11 @@ html.con-dialogo,html.con-dialogo body{overflow:hidden}
 .nav .mark{display:flex;align-items:baseline;gap:.6em;flex:none;white-space:nowrap}
 .nav .targa{font-size:var(--t-micro);text-transform:uppercase;letter-spacing:.14em;
   opacity:.7;white-space:nowrap}
-/* «· Chi siamo» e' piu' lunga delle targhe sorelle: sotto i 420px spingeva la pillola
-   fuori dallo schermo. Qui la targa scende sotto il marchio e restano tutti e tre. */
+/* «· Chi siamo» e' la targa piu' lunga: sui piccoli si stringe solo la spaziatura.
+   (La discesa in colonna della D58 e' superata: oggi la barra va su due righe da 640px
+   in giu', la pillola vive nella riga sotto e «MASTERY CLC. · Chi siamo» sta in 198px:
+   in riga anche a 320. In colonna faceva la barra a TRE righe, un quinto dello schermo.) */
 @media(max-width:420px){
-  .nav .mark{flex-direction:column;align-items:flex-start;gap:.2em}
   .nav .targa{letter-spacing:.09em}
 }
 
@@ -450,6 +457,12 @@ html.con-dialogo,html.con-dialogo body{overflow:hidden}
   html.js .hero.foto .hero-stage > .wrap:not(.top):not(.stage){position:absolute;left:0;right:0;bottom:0;z-index:6}
   html.js .hero.foto .hero-foot{border-top:0;padding-top:0}
   html.js .hero.foto .scrollhint{z-index:6}
+}
+@media(max-width:760px){
+  /* inquadrature dedicate al telefono: la finestra mostra ~60% del taglio 4:5;
+     su queste due scene il soggetto finiva sotto il titolo o mezzo fuori (30/9) */
+  .hero.foto img[src*="home-3"]{object-position:30% 50%}
+  .hero.foto img[src*="e-one-1"]{object-position:0% 50%}
 }
 @media (prefers-reduced-motion: no-preference) and (max-width:760px){
   html.js .hero.foto .fx-fascia{height:100%;aspect-ratio:auto;max-height:none}
@@ -1170,7 +1183,7 @@ document.documentElement.classList.add('js');
   });
 })();
 </script>
-<link rel="stylesheet" href="mastery-fx.css?v=1790771651">
-<script src="mastery-fx.js?v=1790771651"></script>
+<link rel="stylesheet" href="mastery-fx.css?v=1790776585">
+<script src="mastery-fx.js?v=1790776585"></script>
 </body>
 </html>
