@@ -132,7 +132,10 @@ section[id]{scroll-margin-top:clamp(60px,8vh,96px)}
 .scrollhint.via{opacity:0}
 @keyframes hintnudge{0%,100%{translate:0 0}50%{translate:0 7px}}
 .stage{position:relative;flex:1;min-height:0;margin-block:clamp(20px,4vh,48px)}
-.slide{position:absolute;inset:0;display:flex;align-items:center;padding-inline:var(--gutter);
+.slide{position:absolute;inset:0;display:flex;align-items:center;
+  /* stesso bordo-contenuto del wrap: oltre i 1560px la colonna si centra
+     e il titolo la segue (prima restava ancorato al bordo dello schermo) */
+  padding-inline:max(var(--gutter),calc((100% - var(--max))/2 + var(--gutter)));
   visibility:hidden;pointer-events:none;transform:translateX(106%);
   transition:transform .85s cubic-bezier(.22,.61,.36,1),visibility 0s .85s}
 .slide.past{transform:translateX(-106%)}
@@ -417,6 +420,14 @@ html.con-dialogo,html.con-dialogo body{overflow:hidden}
 .porta .nome{font-family:var(--display);text-transform:uppercase;line-height:.92;
   font-size:clamp(2.75rem,1.4rem + 5.4vw,6rem);letter-spacing:-.03em;margin-left:-.04em;
   color:var(--klein);margin-block:clamp(10px,1.4vw,18px) clamp(16px,2.2vw,30px)}
+
+/* LE QUATTRO PROMESSE: griglia per RIGHE (con le columns si leggeva 01,03,02,04),
+   titoli senza spezzature a meta' colonna, paragrafo staccato dal titolo (riesame 30/9) */
+@media(min-width:1000px){
+  .voices{display:grid;grid-template-columns:1fr 1fr;column-gap:clamp(40px,5vw,96px)}
+}
+.voices .voice h3{max-width:28ch}
+.voices .voice p{margin-top:clamp(12px,1.5vw,20px);max-width:52ch}
 
 @media(prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
@@ -1182,7 +1193,7 @@ document.documentElement.classList.add('js');
   });
 })();
 </script>
-<link rel="stylesheet" href="mastery-fx.css?v=1790776585">
-<script src="mastery-fx.js?v=1790776585"></script>
+<link rel="stylesheet" href="mastery-fx.css?v=1790777920">
+<script src="mastery-fx.js?v=1790777920"></script>
 </body>
 </html>

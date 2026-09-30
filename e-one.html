@@ -132,7 +132,10 @@ section[id]{scroll-margin-top:clamp(60px,8vh,96px)}
 .scrollhint.via{opacity:0}
 @keyframes hintnudge{0%,100%{translate:0 0}50%{translate:0 7px}}
 .stage{position:relative;flex:1;min-height:0;margin-block:clamp(20px,4vh,48px)}
-.slide{position:absolute;inset:0;display:flex;align-items:center;padding-inline:var(--gutter);
+.slide{position:absolute;inset:0;display:flex;align-items:center;
+  /* stesso bordo-contenuto del wrap: oltre i 1560px la colonna si centra
+     e il titolo la segue (prima restava ancorato al bordo dello schermo) */
+  padding-inline:max(var(--gutter),calc((100% - var(--max))/2 + var(--gutter)));
   visibility:hidden;pointer-events:none;transform:translateX(106%);
   transition:transform .85s cubic-bezier(.22,.61,.36,1),visibility 0s .85s}
 .slide.past{transform:translateX(-106%)}
@@ -410,7 +413,8 @@ html:not(.js) .hero.interna{height:auto}
 .telaio .barra-passo{display:flex;align-items:center;justify-content:space-between;gap:clamp(16px,3vw,40px);
   flex-wrap:wrap;padding:clamp(16px,2vw,26px) clamp(18px,2.6vw,38px);
   border-bottom:1px solid var(--line)}
-.telaio .conta{font-size:var(--t-micro);text-transform:uppercase;letter-spacing:.14em;
+.telaio .conta{margin-left:0;  /* il .conta di testata porta 8px di margine: qui no (riesame 30/9) */
+  font-size:var(--t-micro);text-transform:uppercase;letter-spacing:.14em;
   font-weight:500;color:var(--klein)}
 .telaio .tacche{display:flex;gap:10px;align-items:center;flex:1 1 140px;
   max-width:286px;justify-content:flex-end}
@@ -475,6 +479,9 @@ html:not(.js) .hero.interna{height:auto}
 .via .alt a{border-bottom:1px solid currentColor}
 .via .azioni{display:flex;flex-direction:column;align-items:flex-start;gap:clamp(12px,1.6vw,20px)}
 @media(min-width:960px){.via .azioni{align-items:flex-end}}
+
+/* telefono: le risposte a piena riga, niente bordo a scaletta (riesame 30/9) */
+@media(max-width:640px){ .quadro .griglia .scelta{flex:1 1 100%} }
 
 @media(prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
@@ -1504,7 +1511,7 @@ document.documentElement.classList.add('js');
   mostra();
 })();
 </script>
-<link rel="stylesheet" href="mastery-fx.css?v=1790776585">
-<script src="mastery-fx.js?v=1790776585"></script>
+<link rel="stylesheet" href="mastery-fx.css?v=1790777920">
+<script src="mastery-fx.js?v=1790777920"></script>
 </body>
 </html>

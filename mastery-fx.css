@@ -947,6 +947,10 @@ body.fx-on #perche { border-top: 1px solid var(--line); }
    (successo: scenari e vantaggi di C-One, visti dal cliente). */
 body.fx-tela .ha-p.aperto[data-fx-fondo] { background: transparent; }
 
+/* il numero del pannello vive nell'angolo (e nella linguetta sul telefono):
+   il gemello piccolo accanto al titolo era un doppione a 8px di distanza (30/9) */
+.ha-testa .ha-n-int { display: none; }
+
 .ha-p:not(.aperto) .ha-c { visibility: hidden; }
 .ha-p.aperto .ha-c { visibility: visible; }
 
