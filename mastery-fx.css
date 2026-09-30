@@ -897,10 +897,13 @@ body.fx-on #perche { border-top: 1px solid var(--line); }
    riavvolge quando il bersaglio non e' visibile e si riscrive quando torna.
    Senza questa riga il nome si comporrebbe dentro alla striscia chiusa,
    cioe' per nessuno. */
-/* Il fondo del pannello aperto passa alla tela (vedi data-fx-fondo nel
-   motore): senza, le lettere che si compongono finirebbero dietro a un
-   fondo opaco. Se il motore non parte, il fondo del foglio resta. */
-body.fx-tela .ha-p.aperto { background: transparent; }
+/* Il fondo del pannello aperto passa alla tela SOLO DOVE LA TELA LO
+   DIPINGE, cioe' dove c'e' data-fx-fondo (il per-chi della home, con le
+   lettere che si compongono sopra). Senza quel distinguo la regola
+   spegneva il fondo anche sui selettori delle pagine interne, dove la
+   tela non dipinge nulla: pannelli bianchi, testo carta, INVISIBILI
+   (successo: scenari e vantaggi di C-One, visti dal cliente). */
+body.fx-tela .ha-p.aperto[data-fx-fondo] { background: transparent; }
 
 .ha-p:not(.aperto) .ha-c { visibility: hidden; }
 .ha-p.aperto .ha-c { visibility: visible; }
@@ -1255,6 +1258,17 @@ body.fx-quadri .hero.foto .fx-fascia .slide.fx-ora { opacity: 1 !important; visi
     max-width: none;          /* le righe sono gia' decise: non serve un tetto */
 }
 
+/* Le testate interne fanno DOMANDE, non titoli: frasi lunghe, corpo piu'
+   raccolto, un tetto in battute, e ANCORATE IN ALTO: i loro lead sono
+   lunghi e salgono parecchio dal fondo, al centro si scontrerebbero. */
+.hero.foto .fx-fascia .claim.domanda {
+    font-size: clamp(1.7rem, .9rem + 3.1vw, 4rem);
+    line-height: 1.06;
+    max-width: 20ch;
+    align-self: flex-start;
+    margin-top: clamp(140px, 19svh, 210px);
+}
+
 /* una riga per blocco: gli a capo li decide il testo, non la larghezza */
 .hero.foto .claim .riga { display: block; }
 
@@ -1390,6 +1404,12 @@ body.fx-quadri .hero.foto .scrollhint.via { opacity: .85; }
        Parliamone; si posa nella banda libera tra label e lead */
     html.js .hero.foto .fx-fascia .slide { align-items: flex-start; }
     html.js .hero.foto .fx-fascia .claim { margin-top: clamp(150px, 26svh, 230px); }
+    /* le domande delle interne, coi loro lead lunghi, stanno ancora piu' su */
+    html.js .hero.foto .fx-fascia .claim.domanda { margin-top: clamp(140px, 21svh, 190px);
+        font-size: clamp(1.45rem, 1rem + 2vw, 1.9rem); }
+    /* la barra mobile e' piu' alta di quella grande: il label le stava
+       sotto di 5px (misurato, home compresa): il livello alto scende */
+    html.js .hero.foto .wrap.top { top: clamp(102px, 15.5svh, 150px); }
 }
 
 /* =====================================================================

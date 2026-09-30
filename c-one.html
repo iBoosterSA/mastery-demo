@@ -505,6 +505,7 @@ html:not(.js) .hero.interna{height:auto}
 .hero.foto .claim .w > i{display:inline-block;font-style:normal}
 .hero.foto .claim .riga{display:block}
 .hero.foto .fx-fascia .claim{font-size:clamp(2.2rem,1.1rem + 6vw,6.6rem);line-height:.9;max-width:none}
+.hero.foto .fx-fascia .claim.domanda{font-size:clamp(1.7rem,.9rem + 3.1vw,4rem);line-height:1.06;max-width:20ch;align-self:flex-start;margin-top:clamp(140px,19svh,210px)}
 .fx-strato{position:absolute;inset:0;opacity:0;z-index:1}
 .fx-strato:last-child{z-index:2}
 .fx-strato:first-child{opacity:1}
@@ -526,6 +527,8 @@ html:not(.js) .hero.interna{height:auto}
   html.js .hero.foto .fx-fascia{height:100%;aspect-ratio:auto;max-height:none}
   html.js .hero.foto .fx-fascia .slide{align-items:flex-start}
   html.js .hero.foto .fx-fascia .claim{margin-top:clamp(150px,26svh,230px)}
+  html.js .hero.foto .fx-fascia .claim.domanda{margin-top:clamp(140px,21svh,190px);font-size:clamp(1.45rem,1rem + 2vw,1.9rem)}
+  html.js .hero.foto .wrap.top{top:clamp(102px,15.5svh,150px)}
 }
 </style>
 
@@ -568,7 +571,7 @@ html:not(.js) .hero.interna{height:auto}
 
 <main id="contenuto">
 
-<section class="hero interna" id="inizio" data-nav="light" data-fx="tipografia" data-fx-i="0.55" data-fx-scrub data-fx-words="LA SQUADRA|L&apos;ESECUZIONE|LA MISURA|L&apos;AUTONOMIA">
+<section class="hero foto" id="inizio" data-nav="dark" data-fx="off" data-fx-i="0.55" data-fx-scrub data-fx-foto>
  <div class="hero-stage">
   <div class="wrap top">
     <p class="label">C-One · perché decidere non basta</p>
@@ -581,31 +584,41 @@ html:not(.js) .hero.interna{height:auto}
   </div>
 
   <div class="wrap stage">
-    <div class="slide on" data-i="0">
-      <h1 class="claim words">Il vostro vertice è una squadra o una somma di singoli?</h1>
-    </div>
-    <div class="slide" data-i="1" aria-hidden="true">
-      <p class="claim display words">Quanto di ciò che decidete viene effettivamente realizzato?</p>
-    </div>
-    <div class="slide" data-i="2" aria-hidden="true">
-      <p class="claim display words">Riuscite a misurare i progressi del vostro gruppo dirigente?</p>
-    </div>
-    <div class="slide" data-i="3" aria-hidden="true">
-      <p class="claim display words">Su quante persone si regge il futuro della vostra azienda?</p>
+    <div class="fx-fascia">
+      <div class="fx-strato">
+        <picture>
+          <source media="(max-width: 760px)" srcset="assets/foto/c-one-0-tel.webp?v=1790749553">
+          <img src="assets/foto/c-one-0.webp?v=1790749553" alt="" width="1365" height="768">
+        </picture>
+      </div>
+      <div class="fx-strato">
+        <picture><source media="(max-width: 760px)" srcset=""><img src="" alt=""></picture>
+      </div>
+      <span class="fx-velo"></span>
+        <div class="slide on" data-i="0" data-foto="assets/foto/c-one-0.webp?v=1790749553" data-foto-tel="assets/foto/c-one-0-tel.webp?v=1790749553">
+          <h1 class="claim domanda display words">Il vostro vertice è una squadra o una somma di singoli?</h1>
+        </div>
+        <div class="slide" data-i="1" aria-hidden="true" data-foto="assets/foto/c-one-1.webp?v=1790749553" data-foto-tel="assets/foto/c-one-1-tel.webp?v=1790749553">
+          <p class="claim domanda display words">Quanto di ciò che decidete viene effettivamente realizzato?</p>
+        </div>
+        <div class="slide" data-i="2" aria-hidden="true" data-foto="assets/foto/c-one-2.webp?v=1790749553" data-foto-tel="assets/foto/c-one-2-tel.webp?v=1790749553">
+          <p class="claim domanda display words">Riuscite a misurare i progressi del vostro gruppo dirigente?</p>
+        </div>
+        <div class="slide" data-i="3" aria-hidden="true" data-foto="assets/foto/c-one-3.webp?v=1790749553" data-foto-tel="assets/foto/c-one-3-tel.webp?v=1790749553">
+          <p class="claim domanda display words">Su quante persone si regge il futuro della vostra azienda?</p>
+        </div>
     </div>
   </div>
 
   <div class="wrap">
     <div class="hero-foot">
       <div class="leads">
-        <p class="leadtext on" data-i="0">È <mark class="evid">la differenza tra un gruppo di dirigenti e un gruppo dirigente</mark>. L'assessment M-11D legge il gruppo dirigente come sistema, e il percorso lo allena a giocare la stessa partita: priorità comuni, dati condivisi, una sola direzione.</p>
-        <p class="leadtext" data-i="1">È la domanda a cui gli strumenti esistenti rispondono solo in parte. Noi ci abbiamo costruito un metodo: <mark class="evid">misurare il gruppo dirigente, leggerlo come sistema e allenarlo</mark>, passo dopo passo, a trasformare le decisioni in esecuzione.</p>
-        <p class="leadtext" data-i="2">Corsi e coaching si comprano spesso a sensazione, e a sensazione si valutano. <mark class="evid">Nel percorso C-One i progressi si misurano</mark>: verifiche trimestrali, riscontri strutturati del C-Team, numeri che mostrano cosa si muove e cosa no.</p>
-        <p class="leadtext" data-i="3">Quando la crescita dipende solo da poche figure chiave, <mark class="evid">il vertice non è una squadra: è un equilibrio fragile</mark>. Il percorso C-One mappa i colli di bottiglia del vertice, allena la delega e la responsabilità condivisa, e lascia in azienda un metodo che non dipende dai singoli.</p>
+        <p class="leadtext on" data-i="0"><mark class="evid">È la differenza tra un gruppo di dirigenti e un gruppo dirigente. L'assessment M-11D legge il gruppo dirigente come sistema, e il percorso lo allena a giocare la stessa partita: priorità comuni, dati condivisi, una sola direzione.</mark></p>
+        <p class="leadtext" data-i="1"><mark class="evid">È la domanda a cui gli strumenti esistenti rispondono solo in parte. Noi ci abbiamo costruito un metodo: misurare il gruppo dirigente, leggerlo come sistema e allenarlo, passo dopo passo, a trasformare le decisioni in esecuzione.</mark></p>
+        <p class="leadtext" data-i="2"><mark class="evid">Corsi e coaching si comprano spesso a sensazione, e a sensazione si valutano. Nel percorso C-One i progressi si misurano: verifiche trimestrali, riscontri strutturati del C-Team, numeri che mostrano cosa si muove e cosa no.</mark></p>
+        <p class="leadtext" data-i="3"><mark class="evid">Quando la crescita dipende solo da poche figure chiave, il vertice non è una squadra: è un equilibrio fragile. Il percorso C-One mappa i colli di bottiglia del vertice, allena la delega e la responsabilità condivisa, e lascia in azienda un metodo che non dipende dai singoli.</mark></p>
       </div>
-      <div class="duecta">
-        <a class="cta" href="#contatto">Parliamone <span class="arw" aria-hidden="true"></span></a>
-      </div>
+      <a class="cta" href="#contatto">Parliamone <span class="arw" aria-hidden="true"></span></a>
     </div>
   </div>
  </div>
@@ -1530,7 +1543,7 @@ document.documentElement.classList.add('js');
   });
 })();
 </script>
-<link rel="stylesheet" href="mastery-fx.css?v=1790699608">
-<script src="mastery-fx.js?v=1790699608"></script>
+<link rel="stylesheet" href="mastery-fx.css?v=1790751071">
+<script src="mastery-fx.js?v=1790751071"></script>
 </body>
 </html>
