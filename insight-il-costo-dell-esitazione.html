@@ -136,6 +136,10 @@ section[id]{scroll-margin-top:clamp(60px,8vh,96px)}
    copione della pagina solo dove il giro e' vivo (.col-giro): altrove le
    tacche classiche restano al loro posto. */
 .hero.foto.col-giro .ticks{display:none}
+/* col giro la testata e' UNA schermata: le battute girano sul posto a tempo,
+   lo scroll porta subito nella pagina (direttiva 30/9). Il doppio selettore
+   vince sull'altezza a battute del palco (html.js .hero.foto). */
+.hero.foto.giro-solo,html.js .hero.foto.giro-solo{height:100vh;height:100svh}
 .giro{position:absolute;left:50%;transform:translateX(-50%);bottom:76px;z-index:6;
   display:flex;align-items:center;gap:10px}
 .giro-pill{display:flex;align-items:center;gap:11px;padding:0 17px;height:42px;
@@ -684,6 +688,10 @@ document.documentElement.classList.add('js');
   var cur = 0, ticking = false, userMoved = reduce, autoDone = false, idle = null;
 
   /* i segnali del nastro: contatore di posizione e invito a scorrere */
+  /* col giro vivo niente invito a scorrere: le battute girano da sole
+     e la pillola racconta il ritmo (direttiva 30/9) */
+  var giroVivo = hero && hero.classList.contains('foto') && !reduce &&
+                 slides.length > 1 && !document.body.dataset.pagina;
   var conta = null, hint = null;
   if(hero && ticks.length){
     conta = document.createElement('span');
@@ -691,7 +699,7 @@ document.documentElement.classList.add('js');
     conta.innerHTML = '<b>01</b><i>/</i>0' + slides.length;
     ticks[0].parentNode.appendChild(conta);
   }
-  if(hero && slides.length > 1){
+  if(hero && slides.length > 1 && !giroVivo){
     hint = document.createElement('div');
     hint.className = 'scrollhint'; hint.setAttribute('aria-hidden','true');
     hint.innerHTML = '<span class="parola">Scorri</span><span class="arw"></span>';
@@ -784,18 +792,15 @@ document.documentElement.classList.add('js');
   ticks.forEach(function(b,i){
     b.addEventListener('click', function(){ userMoved = true; clearTimeout(idle); goTo(i); });
   });
-  /* IL GIRO (D148) · autoplay e scroll sotto UNA sola verita': la posizione.
-     Da fermi il conto della battuta corre e la barretta si riempie: allo
-     scadere il giro SCORRE DA SE' alla sosta successiva (cosi' scroll e
-     quadri non possono mai divergere). Ogni gesto azzera il conto della
-     battuta corrente: mentre scorri comanda il dito, appena ti fermi il
-     giro riparte DA LI'. In fondo il tondo diventa "ricomincia".
-     PILOTA sulla home: la guardia data-pagina cade quando passa in serie. */
-  var giroVivo = hero && hero.classList.contains('foto') && !reduce &&
-                 slides.length > 1 && !document.body.dataset.pagina;
+  /* IL GIRO (D148, rifatto su direttiva 30/9) · le battute girano DA SOLE
+     sul posto, al ritmo della pillola (6s), e si FERMANO all'ultima: il
+     passaggio lo fa il renderer del motore (dissolvenza, scrittura,
+     pennarello: __fx.quadri.vai). Lo scroll non guida piu' i quadri: la
+     testata e' UNA schermata e scendere porta subito nella pagina; fuori
+     scena la barretta si congela e riprende al rientro. Pausa e Ricomincia
+     dal tondo. PILOTA sulla home. */
   if(giroVivo){
-    hero.classList.add('col-giro');
-    var DUR = 8000;
+    var DUR = 6000;
     var ICONE = {
       pausa: '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 2.4h2.7v11.2H4zM9.3 2.4H12v11.2H9.3z" fill="currentColor"/></svg>',
       play:  '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4.6 2.2 13 8l-8.4 5.8z" fill="currentColor"/></svg>',
@@ -811,25 +816,23 @@ document.documentElement.classList.add('js');
       var b = document.createElement('button');
       b.type = 'button'; b.className = 'giro-p';
       b.setAttribute('aria-label', 'Quadro ' + (k + 1) + ' di ' + slides.length);
-      b.addEventListener('click', function(){ vaiA(k); });
+      b.addEventListener('click', function(){ giraA(k); });
       pill.appendChild(b);
       return b;
     });
     var playB = document.createElement('button');
     playB.type = 'button'; playB.className = 'giro-play';
     giro.appendChild(pill); giro.appendChild(playB);
-    (hero.querySelector('.hero-stage') || hero).appendChild(giro);
 
-    var vis = 0, t0 = performance.now(), inPausa = false, finito = false;
+    var vis = -1, t0 = 0, inPausa = false, finito = false, u = null;
+    var nato = performance.now(), pFermo = null;
 
-    function quale(){ /* la battuta la dice il motore, sulle tacche */
-      for(var k = 0; k < ticks.length; k++)
-        if(ticks[k].getAttribute('aria-current') === 'true') return k;
-      return cur;
-    }
-    function inScena(){
-      var r = hero.getBoundingClientRect();
-      return r.bottom > innerHeight * .6;
+    function unita(){
+      var fx = window.__fx;
+      if(!(fx && fx.scrub && fx.scrub.units && fx.quadri && fx.quadri.vai)) return null;
+      for(var k = 0; k < fx.scrub.units.length; k++)
+        if(fx.scrub.units[k].host && fx.scrub.units[k].host.el === hero) return fx.scrub.units[k];
+      return null;
     }
     function vesteTondo(){
       playB.innerHTML = finito ? ICONE.replay : (inPausa ? ICONE.play : ICONE.pausa);
@@ -843,55 +846,53 @@ document.documentElement.classList.add('js');
       });
       vesteTondo();
     }
-    var soste = null, sosteW = 0;
-    function leSoste(){
-      /* le soste VERE del motore, interrogando sostaVicina a tappeto (funzione
-         pura, non scrolla): una per quadro. Ogni mappa stimata a mano finiva
-         nel quadro sbagliato sul telefono (collaudo 30/9). */
-      var fx = window.__fx;
-      if(!(fx && fx.scrub && fx.scrub.sostaVicina)) return null;
-      if(soste && sosteW === innerWidth) return soste;
-      var viste = [], fine = hero.offsetTop + hero.offsetHeight - innerHeight;
-      for(var y = hero.offsetTop; y <= fine + 40; y += 40){
-        var s = fx.scrub.sostaVicina(y, false);
-        if(s !== null){ s = Math.round(s); if(viste.indexOf(s) < 0) viste.push(s); }
-      }
-      viste.sort(function(a, b){ return a - b; });
-      /* le soste sono una per quadro PIU' il fondo corsa: viste[i] = quadro i */
-      soste = (viste.length === slides.length || viste.length === slides.length + 1) ? viste : null;
-      sosteW = innerWidth;
-      return soste;
+    function giraA(q){
+      q = Math.max(0, Math.min(q, slides.length - 1));
+      if(!u || u.mostrato === q) return;
+      u.mostrato = q; u.atteso = q;         /* il pattern del motore: prima lo stato, poi la scena */
+      window.__fx.quadri.vai(u, q);
+      vis = q; t0 = performance.now(); pFermo = null;
+      if(q < slides.length - 1) finito = false;
+      veste();
     }
-    function vaiA(i){
-      i = Math.max(0, Math.min(i, slides.length - 1));
-      var mappa = leSoste();
-      var y = mappa ? mappa[i]
-            : hero.offsetTop + Math.min((i + .35) * step(), hero.offsetHeight - innerHeight);
-      window.scrollTo({top: y, behavior: 'smooth'});
-    }
+    function inScena(){ return hero.getBoundingClientRect().bottom > innerHeight * .45; }
     function battito(now){
-      var q = quale();
-      if(q !== vis){ vis = q; t0 = now; if(finito && vis < slides.length - 1) finito = false; veste(); }
-      if(!inPausa && !finito && inScena()){
-        var p = Math.min((now - t0) / DUR, 1);
-        punti[vis].style.setProperty('--p', p.toFixed(4));
-        if(p >= 1){
-          if(vis >= slides.length - 1){ finito = true; vesteTondo(); }
-          else { t0 = now; vaiA(vis + 1); }
+      if(!u){
+        u = unita();
+        if(u){
+          hero.classList.add('col-giro', 'giro-solo');
+          u.box.style.height = '';   /* via l'altezza a battute scritta dal motore: comanda il foglio (100svh) */
+          (hero.querySelector('.hero-stage') || hero).appendChild(giro);
+          veste(); giraA(0);
+        } else if(now - nato > 4000){ return; }  /* senza motore niente giro: il palco resta com'e' */
+      } else if(!inPausa && !finito){
+        if(u.box.style.height) u.box.style.height = '';  /* il build al resize la riscrive: via di nuovo */
+        if(inScena()){
+          if(pFermo !== null){ t0 = now - pFermo * DUR; pFermo = null; }
+          var p = Math.min((now - t0) / DUR, 1);
+          if(punti[vis]) punti[vis].style.setProperty('--p', p.toFixed(4));
+          if(p >= 1){
+            if(vis >= slides.length - 1){ finito = true; vesteTondo(); }
+            else giraA(vis + 1);
+          }
+        } else if(pFermo === null){
+          pFermo = Math.min((now - t0) / DUR, 1);  /* fuori scena la barretta si congela */
         }
       }
       requestAnimationFrame(battito);
     }
-    /* ogni gesto azzera il conto: lo scrub comanda, alla quiete si riparte */
-    ['wheel','touchstart','pointerdown','keydown'].forEach(function(ev){
-      addEventListener(ev, function(){ t0 = performance.now(); }, {passive:true});
-    });
     playB.addEventListener('click', function(){
-      if(finito){ finito = false; t0 = performance.now(); vaiA(0); }
-      else { inPausa = !inPausa; if(!inPausa) t0 = performance.now(); }
+      if(finito){ giraA(0); }
+      else if(!inPausa){         /* pausa: la barretta si ferma DOV'E' */
+        inPausa = true;
+        pFermo = Math.min((performance.now() - t0) / DUR, 1);
+      } else {                   /* ripresa: si riparte da quel punto */
+        inPausa = false;
+        t0 = performance.now() - (pFermo || 0) * DUR;
+        pFermo = null;
+      }
       vesteTondo();
     });
-    veste();
     requestAnimationFrame(battito);
   } else {
     /* le testate senza giro tengono il vecchio invito: parte da solo
