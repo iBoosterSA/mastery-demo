@@ -1205,9 +1205,9 @@ document.documentElement.classList.add('js');
   }
   function primoNome(){ return (dati.nome || '').split(' ')[0]; }
 
-  function start(){
+  function start(tema){
     thread.innerHTML = ''; dati = {};
-    var ctx = document.body.dataset.pagina;
+    var ctx = tema || document.body.dataset.pagina;
     if(ctx && TEMI[ctx]){
       dati.tema = ctx;
       say(TEMI[ctx].trans);
@@ -1310,10 +1310,13 @@ document.documentElement.classList.add('js');
     var canale = dati.canale === 'WhatsApp' ? 'WhatsApp' : dati.canale.toLowerCase();
     say('Grazie ' + primoNome() + '! La tua richiesta è stata inviata correttamente al nostro team. Ti ricontatteremo al più presto tramite ' + canale + '. A presto!');
   }
-  function apriDialogo(){
+  function apriDialogo(tema){
     /* la conversazione riprende da dove s'era rimasti: chi chiude per sbaglio
-       (Esc compreso) non perde nulla; solo dopo l'invio si riparte da capo */
-    if(dati.inviato || !thread.children.length) start();
+       (Esc compreso) non perde nulla; solo dopo l'invio si riparte da capo.
+       Un bottone con un TEMA (es. Lavora con noi) rilancia il filo sul suo
+       tema se quello in corso e' diverso (documento Parliamone, routing). */
+    if(dati.inviato || !thread.children.length) start(tema);
+    else if(tema && dati.tema !== tema) start(tema);
     document.documentElement.classList.add('con-dialogo');
     if(dlg.showModal) dlg.showModal(); else dlg.setAttribute('open','');
   }
@@ -1330,7 +1333,7 @@ document.documentElement.classList.add('js');
       ev.preventDefault();
       ev.stopPropagation();   /* ferma anche lo scivolo del velluto verso #contatto:
                                  il form si apre e la pagina resta dov'e' */
-      apriDialogo();
+      apriDialogo(a.dataset.tema || null);
     });
   });
   document.getElementById('chiudi-dialogo').addEventListener('click', function(){
