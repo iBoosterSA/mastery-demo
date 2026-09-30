@@ -46,6 +46,7 @@ p{max-width:64ch}
 /* il contatto chiude la pagina: sotto la CTA meno vuoto, cosi' a fondo corsa
    il titolo della sezione resta sotto la barra, mai decapitato (collaudo 30/9) */
 .section.contact{padding-bottom:clamp(20px,2.2vw,34px)}
+@media(max-width:760px){.section.contact{padding-bottom:40px}}
 section[id]{scroll-margin-top:clamp(60px,8vh,96px)}
 .label{font-size:var(--t-micro);text-transform:uppercase;letter-spacing:.13em;font-weight:500;
   line-height:1.3;color:var(--klein)}
@@ -339,7 +340,9 @@ footer .legal{font-size:var(--t-micro);letter-spacing:.06em;opacity:.75;max-widt
 .dlg .panel{position:absolute;right:0;top:0;bottom:0;width:min(560px,100%);background:var(--paper);
   color:var(--ink);display:flex;flex-direction:column}
 .dlg .head{background:var(--klein);color:var(--paper);display:flex;align-items:center;
-  justify-content:space-between;padding:clamp(16px,2.4vw,26px) clamp(18px,2.6vw,32px)}
+  justify-content:space-between;gap:clamp(16px,2.4vw,26px);
+  padding:clamp(16px,2.4vw,26px) clamp(18px,2.6vw,32px)}
+.dlg .panel:focus{outline:none}
 .dlg .head span{font-family:var(--display);text-transform:uppercase;font-size:var(--t-h4)}
 .dlg .head .titolo{display:flex;flex-direction:column;gap:4px;min-width:0}
 .dlg .head .titolo p{font-size:var(--t-micro);letter-spacing:.06em;opacity:.85}
@@ -462,6 +465,12 @@ html.con-dialogo,html.con-dialogo body{overflow:hidden}
 .voices .voice h3{max-width:28ch}
 .voices .voice p{margin-top:clamp(12px,1.5vw,20px);max-width:52ch}
 
+/* LAVORA CON NOI: stesso respiro del blocco contatto (e' lo stesso gesto:
+   etichetta, titolo, riga evidenziata, Parliamone). Senza queste misure il
+   titolo cadeva a 7px dal testo e il bottone a 11px (collaudo mobile 30/9). */
+#lavora-con-noi .display{margin-block:clamp(14px,2vw,26px) clamp(20px,3vw,36px)}
+#lavora-con-noi .actions{margin-top:clamp(28px,3.6vw,52px)}
+
 @media(prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
   *,*::before,*::after{transition-duration:.01ms!important;transition-delay:0s!important;animation:none!important}
@@ -569,7 +578,7 @@ html.con-dialogo,html.con-dialogo body{overflow:hidden}
      apre la conversazione standard saltando la fase 1 sul tema giusto -->
 <section class="section blue anim" id="lavora-con-noi" data-nav="dark" data-fx="off">
   <div class="wrap">
-    <p class="label">Collaborazione o opportunit&agrave; di lavoro</p>
+    <p class="label">Collaborazione o opportunit&agrave; di&nbsp;lavoro</p>
     <h2 class="display words">Lavora con noi</h2>
     <div class="up">
       <p class="lead fx-evidenziato"><mark class="evid">Siamo sempre alla ricerca di professionisti di valore da inserire nel nostro ecosistema.</mark></p>
@@ -635,7 +644,7 @@ html.con-dialogo,html.con-dialogo body{overflow:hidden}
   </div>
 </section>
 
-<section class="door nero anim" data-nav="dark" data-fx="lettere" data-fx-i="0.5" data-fx-target=".name .mask span">
+<section class="door nero anim" data-nav="light" data-fx="lettere" data-fx-i="0.5" data-fx-target=".name .mask span">
   <div class="wrap">
     <p class="label">Il manager &middot; la persona che guida</p>
     <p class="name display" style="color:var(--klein)"><span class="mask"><span>E‑One</span></span></p>
@@ -670,7 +679,7 @@ html.con-dialogo,html.con-dialogo body{overflow:hidden}
 </footer>
 
 <dialog class="dlg" id="dialogo" aria-label="Parliamone">
-  <div class="panel">
+  <div class="panel" tabindex="-1">
     <div class="head">
       <div class="titolo">
         <span>Parliamone.</span>
@@ -1366,6 +1375,10 @@ document.documentElement.classList.add('js');
     else if(tema && dati.tema !== tema) start(tema);
     document.documentElement.classList.add('con-dialogo');
     if(dlg.showModal) dlg.showModal(); else dlg.setAttribute('open','');
+    /* il fuoco parte dal pannello, non dalla X: Safari accende l'anello
+       sul primo bottone appena il dialogo si apre, dritto sopra il testo */
+    var pan = dlg.querySelector('.panel');
+    if(pan) pan.focus({preventScroll:true});
   }
   /* qualunque strada chiuda il dialogo (Esc, la X), la pagina torna a scorrere */
   dlg.addEventListener('close', function(){
@@ -1389,7 +1402,7 @@ document.documentElement.classList.add('js');
   });
 })();
 </script>
-<link rel="stylesheet" href="mastery-fx.css?v=1790792314">
-<script src="mastery-fx.js?v=1790792314"></script>
+<link rel="stylesheet" href="mastery-fx.css?v=1790797061">
+<script src="mastery-fx.js?v=1790797061"></script>
 </body>
 </html>

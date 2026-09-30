@@ -29,6 +29,11 @@
     var canvas, ctx, W = 0, H = 0, dpr = 1;
     var hosts = [], docH = 0, scrollY = 0, running = true, activeHost = null;
     var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    /* Sui telefoni lo scroll corre su un thread suo: il telo ridipinto in
+       rAF resta indietro e i fondi "ballano" rispetto alle sezioni (strisce
+       blu che sbordano, code scoperte - visto su Safari iOS, 30/9). Con il
+       tocco i fondi restano al foglio e il telo non dipinge nulla. */
+    var tocco = window.matchMedia('(pointer: coarse)').matches;
 
     function rnd(a, b) { return a + Math.random() * (b - a); }
     function clamp(v, a, b) { return v < a ? a : (v > b ? b : v); }
@@ -70,6 +75,7 @@
         canvas.id = 'fx-stage';
         ctx = canvas.getContext('2d');
         document.body.insertBefore(canvas, document.body.firstChild);
+        if (tocco) canvas.style.display = 'none';
 
         var nodes = document.querySelectorAll('section, footer');
         for (var i = 0; i < nodes.length; i++) {
@@ -1506,20 +1512,22 @@
         last = ts;
         scrollY = window.pageYOffset;
 
-        ctx.clearRect(0, 0, W, H);
+        if (!tocco) ctx.clearRect(0, 0, W, H);
 
         // Con "riduci movimento" il telo serve solo a ridipingere i fondi
         // delle sezioni (rese trasparenti dal foglio): nessun effetto.
         if (reduceMotion) {
-            for (var b = 0; b < hosts.length; b++) {
-                var hb = hosts[b];
-                if (!hb.bg) continue;
-                var rb = hb.el.getBoundingClientRect();
-                if (rb.bottom < -60 || rb.top > H + 60) continue;
-                ctx.fillStyle = hb.bg;
-                ctx.fillRect(0, rb.top - 1, W, rb.height + 2);
+            if (!tocco) {
+                for (var b = 0; b < hosts.length; b++) {
+                    var hb = hosts[b];
+                    if (!hb.bg) continue;
+                    var rb = hb.el.getBoundingClientRect();
+                    if (rb.bottom < -60 || rb.top > H + 60) continue;
+                    ctx.fillStyle = hb.bg;
+                    ctx.fillRect(0, rb.top - 1, W, rb.height + 2);
+                }
+                if (!telaViva) { telaViva = true; document.body.classList.add('fx-tela'); }
             }
-            if (!telaViva) { telaViva = true; document.body.classList.add('fx-tela'); }
             if (running) requestAnimationFrame(frame);
             return;
         }
@@ -1540,6 +1548,8 @@
                 var cover = Math.min(rect.bottom, H) - Math.max(rect.top, 0);
                 if (cover > bestCover) { bestCover = cover; best = host; }
             }
+
+            if (tocco) continue;
 
             ctx.save();
             ctx.beginPath();
@@ -1580,7 +1590,8 @@
         if (lettereAttive) lettere.update(dt);
         if (best && best !== activeHost) { activeHost = best; syncUI(); }
         // il primo fotogramma e' stato disegnato: da qui i fondi passano al telo
-        if (!telaViva) { telaViva = true; document.body.classList.add('fx-tela'); }
+        // (mai con il tocco: li' i fondi restano al foglio, vedi sopra)
+        if (!telaViva && !tocco) { telaViva = true; document.body.classList.add('fx-tela'); }
         if (running) requestAnimationFrame(frame);
     }
 
