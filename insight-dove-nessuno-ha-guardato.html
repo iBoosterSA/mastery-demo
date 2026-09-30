@@ -361,7 +361,8 @@ html.con-dialogo,html.con-dialogo body{overflow:hidden}
 .dlg .consenso input:focus-visible{outline:2px solid var(--klein);outline-offset:3px}
 .dlg .head button:focus-visible{outline:2px solid var(--paper);outline-offset:4px}
 .dlg .say{max-width:44ch}
-.dlg .mine{align-self:flex-end;text-align:right;color:var(--klein);font-weight:500}
+.dlg .mine{align-self:flex-end;text-align:right;color:var(--klein);font-weight:500;
+  text-wrap:balance;max-width:40ch}  /* due righe pari: niente parentesi appesa da sola (30/9) */
 .dlg .opts{display:flex;flex-wrap:wrap;gap:10px;margin-top:4px}
 .dlg .opts button,.dlg .send{border:1px solid var(--klein);color:var(--klein);
   padding:9px 14px;font-size:var(--t-micro);letter-spacing:.12em;text-transform:uppercase;
