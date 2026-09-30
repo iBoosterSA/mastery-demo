@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Mastery CLC. &middot; I dati, a chi li genera</title>
+<title>Mastery CLC. &middot; I dati, a chi li genera</title>
 <meta name="description" content="Il manager che sceglie Mastery investe su di sé, in autonomia dalla propria azienda.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -76,6 +76,7 @@ section[id]{scroll-margin-top:clamp(60px,8vh,96px)}
    cambiare l'aspetto; la pillola si estende con un velo invisibile */
 .nav ul a:not(.pill){padding-block:11px;margin-block:-11px;padding-inline:5px;margin-inline:-5px}
 .nav .brand{padding-block:8px;margin-block:-8px}
+.nav ul a[aria-current="page"]{text-decoration:underline;text-underline-offset:7px;text-decoration-thickness:2px}
 .nav .pill{position:relative}
 .nav .pill::after{content:"";position:absolute;inset:-8px -6px}
 .nav[data-theme="light"] .pill:hover{background:var(--ink);color:var(--paper);border-color:var(--ink)}
@@ -104,7 +105,7 @@ section[id]{scroll-margin-top:clamp(60px,8vh,96px)}
 /* ---------- CTA ---------- */
 .cta{display:inline-flex;align-items:center;gap:.5em;font-family:var(--display);
   text-transform:uppercase;font-size:clamp(1.125rem,.9rem + .9vw,1.875rem);letter-spacing:.02em;
-  border-bottom:2px solid currentColor;padding-bottom:4px}
+  border-bottom:2px solid currentColor;padding-bottom:4px;width:fit-content}
 .cta .arw{display:inline-block;width:.44em;height:.44em;flex:none;
   border-top:.085em solid currentColor;border-right:.085em solid currentColor;
   transform:rotate(45deg);position:relative;top:-.03em;
@@ -271,7 +272,7 @@ html:not(.js) .leadtext{position:relative;visibility:visible;transform:none;tran
 .blue .voice h3,.ink .voice h3,.contact .voice h3,.hero .voice h3{color:currentColor}
 .blue .voice,.ink .voice,.contact .voice,.hero .voice{border-color:var(--line-inv)}
 .voice .role{font-size:var(--t-micro);letter-spacing:.13em;text-transform:uppercase;
-  margin-top:14px;opacity:.65}
+  margin-top:14px;opacity:.8}
 .voice blockquote{margin-top:14px;max-width:52ch;opacity:.88}
 
 /* ---------- insights ---------- */
@@ -490,15 +491,15 @@ html.con-dialogo,html.con-dialogo body{overflow:hidden}
   <meta property="og:site_name" content="Mastery CLC.">
   <meta property="og:locale" content="it_IT">
   <meta property="og:url" content="https://mastery-demo.onrender.com/insight-i-dati-a-chi-li-genera.html">
-  <meta property="og:title" content="Mastery CLC. &middot; I dati, a chi li genera">
+  <meta property="og:title" content="Mastery CLC. &middot; I dati, a chi li genera">
   <meta property="og:description" content="Il manager che sceglie Mastery investe su di sé, in autonomia dalla propria azienda.">
   <meta property="og:image" content="https://mastery-demo.onrender.com/assets/social/insight-i-dati-a-chi-li-genera.png">
   <meta property="og:image:type" content="image/png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
-  <meta property="og:image:alt" content="Mastery CLC. · I dati, a chi li genera">
+  <meta property="og:image:alt" content="Mastery CLC. · I dati, a chi li genera">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Mastery CLC. &middot; I dati, a chi li genera">
+  <meta name="twitter:title" content="Mastery CLC. &middot; I dati, a chi li genera">
   <meta name="twitter:description" content="Il manager che sceglie Mastery investe su di sé, in autonomia dalla propria azienda.">
   <meta name="twitter:image" content="https://mastery-demo.onrender.com/assets/social/insight-i-dati-a-chi-li-genera.png">
   <meta name="theme-color" content="#002FA7">
@@ -512,8 +513,8 @@ html.con-dialogo,html.con-dialogo body{overflow:hidden}
   <div class="wrap bar">
     <span class="mark"><a class="brand" href="index.html">MASTERY CLC.</a><span class="targa">· Insights</span></span>
     <ul>
-      <li><a href="c-one.html">C-One</a></li>
-      <li><a href="e-one.html">E-One</a></li>
+      <li><a href="c-one.html">C‑One</a></li>
+      <li><a href="e-one.html">E‑One</a></li>
       <li><a href="chi-siamo.html">Chi siamo</a></li>
       <li><a href="insights.html" aria-current="page">Insights</a></li>
       <li><a class="pill" href="#contatto">Parliamone</a></li>
@@ -526,7 +527,7 @@ html.con-dialogo,html.con-dialogo body{overflow:hidden}
 <section class="section anim" id="inizio" data-nav="light" data-fx="off">
   <div class="wrap">
     <p class="label"><a href="insights.html">Insights</a> &middot; Il punto</p>
-    <h1 class="display words">I dati, a chi li genera</h1>
+    <h1 class="display words">I dati, a chi li genera</h1>
 
     <div class="ins-corpo up">
       <p>Il manager che sceglie Mastery investe su di sé, in autonomia dalla propria azienda. Il percorso produce dati che restano alla persona: nessun report al datore di lavoro, nessuna copia nei sistemi aziendali.</p>
@@ -541,35 +542,37 @@ html.con-dialogo,html.con-dialogo body{overflow:hidden}
     <p class="label">Continua</p>
     <h2 class="display words">Altri insight</h2>
     <div class="ins-griglia">
-      <a class="ins-scheda" href="insight-dove-nessuno-ha-guardato.html">
-        <span class="ins-cop"><img src="assets/social/insight-dove-nessuno-ha-guardato.png" alt="" loading="lazy" width="1200" height="630"></span>
+      <a class="ins-scheda" href="insight-l-ultimo-giorno.html">
+        <span class="ins-cop"><img src="assets/social/insight-l-ultimo-giorno.png?v=1790779619" alt="" loading="lazy" width="1200" height="630"></span>
         <span class="ins-tag">Il punto</span>
-        <span class="ins-titolo">Dove nessuno ha guardato</span>
-        <span class="ins-sommario">Le imprese si fanno misurare dappertutto: bilanci, gestionali, certificazioni.</span>
+        <span class="ins-titolo">L'ultimo giorno</span>
+        <span class="ins-sommario">La consulenza classica vive di rinnovi.</span>
         <span class="ins-vai">Leggi <span class="arw" aria-hidden="true"></span></span>
       </a>
-      <a class="ins-scheda" href="insight-il-lunedi-dopo.html">
-        <span class="ins-cop"><img src="assets/social/insight-il-lunedi-dopo.png" alt="" loading="lazy" width="1200" height="630"></span>
-        <span class="ins-tag">Il punto</span>
-        <span class="ins-titolo">Il lunedì dopo</span>
-        <span class="ins-sommario">I corsi finiscono tutti allo stesso modo: due giorni fuori sede, un raccoglitore di slide, il lunedì ognuno alle vecchie abitudini.</span>
+      <a class="ins-scheda" href="insight-misurare-il-vertice.html">
+        <span class="ins-cop"><img src="assets/social/insight-misurare-il-vertice.png?v=1790779619" alt="" loading="lazy" width="1200" height="630"></span>
+        <span class="ins-tag">La ricerca</span>
+        <span class="ins-titolo">Misurare il vertice</span>
+        <span class="ins-sommario">Cosa esiste, cosa funziona, cosa manca: la ricognizione 2026 su strumenti e mercato della misura di chi guida.</span>
         <span class="ins-vai">Leggi <span class="arw" aria-hidden="true"></span></span>
       </a>
-      <a class="ins-scheda" href="insight-il-costo-dell-esitazione.html">
-        <span class="ins-cop"><img src="assets/social/insight-il-costo-dell-esitazione.png" alt="" loading="lazy" width="1200" height="630"></span>
-        <span class="ins-tag">Il punto</span>
-        <span class="ins-titolo">Il costo dell'esitazione</span>
-        <span class="ins-sommario">Un vertice che esita o si divide rallenta tutta la struttura: le decisioni si fermano ai confini dei reparti, i tempi si allungano lungo la catena.</span>
+      <a class="ins-scheda" href="insight-la-staffetta-generazionale.html">
+        <span class="ins-cop"><img src="assets/social/insight-la-staffetta-generazionale.png?v=1790779619" alt="" loading="lazy" width="1200" height="630"></span>
+        <span class="ins-tag">Il tema</span>
+        <span class="ins-titolo">La staffetta generazionale</span>
+        <span class="ins-sommario">Ogni anno 35.000 passaggi generazionali attraversano le imprese italiane: meno della metà arriva preparata.</span>
         <span class="ins-vai">Leggi <span class="arw" aria-hidden="true"></span></span>
       </a>
     </div>
+
+    <a class="cta ins-tutti" href="insights.html">Tutti gli insight <span class="arw" aria-hidden="true"></span></a>
   </div>
 </section>
 
 <section class="section contact anim" id="contatto" data-nav="dark" data-fx="off">
   <div class="wrap">
     <p class="label">Il primo passo</p>
-    <h2 class="display words">Parliamone. Per anticipare i problemi o per risolverli adesso</h2>
+    <h2 class="display words">Parliamone. Per anticipare i problemi o per risolverli adesso</h2>
     <div class="up">
       <p class="lead fx-evidenziato"><mark class="evid">Apriamo un canale riservato per confrontarci sulle sfide che stai affrontando come singolo manager o le complessit&agrave; strutturali del tuo team di leadership e capire come applicare il metodo Mastery alla tua specifica dimensione di crescita.</mark></p>
       <div class="actions">
@@ -607,7 +610,7 @@ document.documentElement.classList.add('js');
 (function(){
   /* ingresso parola per parola: il testo resta nel suo flusso naturale */
   document.querySelectorAll('.words').forEach(function(el){
-    var words = el.textContent.trim().split(/\s+/);
+    var words = el.textContent.trim().split(/[^\S\u00A0]+/); /* lo spazio unito tiene la coppia in una parola sola */
     el.textContent = '';
     words.forEach(function(w, i){
       var box = document.createElement('span');
@@ -1194,7 +1197,7 @@ document.documentElement.classList.add('js');
   });
 })();
 </script>
-<link rel="stylesheet" href="mastery-fx.css?v=1790777920">
-<script src="mastery-fx.js?v=1790777920"></script>
+<link rel="stylesheet" href="mastery-fx.css?v=1790779619">
+<script src="mastery-fx.js?v=1790779619"></script>
 </body>
 </html>

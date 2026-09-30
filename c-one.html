@@ -76,6 +76,7 @@ section[id]{scroll-margin-top:clamp(60px,8vh,96px)}
    cambiare l'aspetto; la pillola si estende con un velo invisibile */
 .nav ul a:not(.pill){padding-block:11px;margin-block:-11px;padding-inline:5px;margin-inline:-5px}
 .nav .brand{padding-block:8px;margin-block:-8px}
+.nav ul a[aria-current="page"]{text-decoration:underline;text-underline-offset:7px;text-decoration-thickness:2px}
 .nav .pill{position:relative}
 .nav .pill::after{content:"";position:absolute;inset:-8px -6px}
 .nav[data-theme="light"] .pill:hover{background:var(--ink);color:var(--paper);border-color:var(--ink)}
@@ -104,7 +105,7 @@ section[id]{scroll-margin-top:clamp(60px,8vh,96px)}
 /* ---------- CTA ---------- */
 .cta{display:inline-flex;align-items:center;gap:.5em;font-family:var(--display);
   text-transform:uppercase;font-size:clamp(1.125rem,.9rem + .9vw,1.875rem);letter-spacing:.02em;
-  border-bottom:2px solid currentColor;padding-bottom:4px}
+  border-bottom:2px solid currentColor;padding-bottom:4px;width:fit-content}
 .cta .arw{display:inline-block;width:.44em;height:.44em;flex:none;
   border-top:.085em solid currentColor;border-right:.085em solid currentColor;
   transform:rotate(45deg);position:relative;top:-.03em;
@@ -271,7 +272,7 @@ html:not(.js) .leadtext{position:relative;visibility:visible;transform:none;tran
 .blue .voice h3,.ink .voice h3,.contact .voice h3,.hero .voice h3{color:currentColor}
 .blue .voice,.ink .voice,.contact .voice,.hero .voice{border-color:var(--line-inv)}
 .voice .role{font-size:var(--t-micro);letter-spacing:.13em;text-transform:uppercase;
-  margin-top:14px;opacity:.65}
+  margin-top:14px;opacity:.8}
 .voice blockquote{margin-top:14px;max-width:52ch;opacity:.88}
 
 /* ---------- insights ---------- */
@@ -603,10 +604,10 @@ html:not(.js) .hero.interna{height:auto}
 
 <header class="nav" data-theme="light">
   <div class="wrap bar">
-    <span class="mark"><a class="brand" href="index.html">MASTERY CLC.</a><span class="targa">· C-One</span></span>
+    <span class="mark"><a class="brand" href="index.html">MASTERY CLC.</a><span class="targa">· C‑One</span></span>
     <ul>
-      <li><a href="c-one.html" aria-current="page">C-One</a></li>
-      <li><a href="e-one.html">E-One</a></li>
+      <li><a href="c-one.html" aria-current="page">C‑One</a></li>
+      <li><a href="e-one.html">E‑One</a></li>
       <li><a href="chi-siamo.html">Chi siamo</a></li>
       <li><a href="insights.html">Insights</a></li>
       <li><a class="pill" href="#contatto">Parliamone</a></li>
@@ -619,7 +620,7 @@ html:not(.js) .hero.interna{height:auto}
 <section class="hero foto" id="inizio" data-nav="dark" data-fx="off" data-fx-i="0.55" data-fx-scrub data-fx-foto>
  <div class="hero-stage">
   <div class="wrap top">
-    <p class="label">C-One · perché decidere non basta</p>
+    <p class="label">C‑One · perché decidere non basta</p>
     <div class="ticks" aria-label="Le quattro domande dell'apertura">
       <button type="button" aria-current="true" aria-label="Domanda 1 di 4"></button>
       <button type="button" aria-current="false" aria-label="Domanda 2 di 4"></button>
@@ -641,16 +642,16 @@ html:not(.js) .hero.interna{height:auto}
       </div>
       <span class="fx-velo"></span>
         <div class="slide on" data-i="0" data-foto="assets/foto/c-one-0.webp?v=1790749553" data-foto-tel="assets/foto/c-one-0-tel.webp?v=1790749553">
-          <h1 class="claim domanda display words">Il vostro vertice è una squadra o una somma di singoli?</h1>
+          <h1 class="claim domanda display words">Il vostro vertice è una squadra o una somma di singoli?</h1>
         </div>
         <div class="slide" data-i="1" aria-hidden="true" data-foto="assets/foto/c-one-1.webp?v=1790749553" data-foto-tel="assets/foto/c-one-1-tel.webp?v=1790749553">
           <p class="claim domanda display words">Quanto di ciò che decidete viene effettivamente realizzato?</p>
         </div>
         <div class="slide" data-i="2" aria-hidden="true" data-foto="assets/foto/c-one-2.webp?v=1790749553" data-foto-tel="assets/foto/c-one-2-tel.webp?v=1790749553">
-          <p class="claim domanda display words">Riuscite a misurare i progressi del vostro gruppo dirigente?</p>
+          <p class="claim domanda display words">Riuscite a misurare i progressi del vostro gruppo dirigente?</p>
         </div>
         <div class="slide" data-i="3" aria-hidden="true" data-foto="assets/foto/c-one-3.webp?v=1790749553" data-foto-tel="assets/foto/c-one-3-tel.webp?v=1790749553">
-          <p class="claim domanda display words">Su quante persone si regge il futuro della vostra azienda?</p>
+          <p class="claim domanda display words">Su quante persone si regge il futuro della vostra azienda?</p>
         </div>
     </div>
   </div>
@@ -660,8 +661,8 @@ html:not(.js) .hero.interna{height:auto}
       <div class="leads">
         <p class="leadtext on" data-i="0"><mark class="evid">È la differenza tra un gruppo di dirigenti e un gruppo dirigente. L'assessment M-11D legge il gruppo dirigente come sistema, e il percorso lo allena a giocare la stessa partita: priorità comuni, dati condivisi, una sola direzione.</mark></p>
         <p class="leadtext" data-i="1"><mark class="evid">È la domanda a cui gli strumenti esistenti rispondono solo in parte. Noi ci abbiamo costruito un metodo: misurare il gruppo dirigente, leggerlo come sistema e allenarlo, passo dopo passo, a trasformare le decisioni in esecuzione.</mark></p>
-        <p class="leadtext" data-i="2"><mark class="evid">Corsi e coaching si comprano spesso a sensazione, e a sensazione si valutano. Nel percorso C-One i progressi si misurano: verifiche trimestrali, riscontri strutturati del C-Team, numeri che mostrano cosa si muove e cosa no.</mark></p>
-        <p class="leadtext" data-i="3"><mark class="evid">Quando la crescita dipende solo da poche figure chiave, il vertice non è una squadra: è un equilibrio fragile. Il percorso C-One mappa i colli di bottiglia del vertice, allena la delega e la responsabilità condivisa, e lascia in azienda un metodo che non dipende dai singoli.</mark></p>
+        <p class="leadtext" data-i="2"><mark class="evid">Corsi e coaching si comprano spesso a sensazione, e a sensazione si valutano. Nel percorso C‑One i progressi si misurano: verifiche trimestrali, riscontri strutturati del C-Team, numeri che mostrano cosa si muove e cosa no.</mark></p>
+        <p class="leadtext" data-i="3"><mark class="evid">Quando la crescita dipende solo da poche figure chiave, il vertice non è una squadra: è un equilibrio fragile. Il percorso C‑One mappa i colli di bottiglia del vertice, allena la delega e la responsabilità condivisa, e lascia in azienda un metodo che non dipende dai singoli.</mark></p>
       </div>
       <a class="cta" href="#contatto">Parliamone <span class="arw" aria-hidden="true"></span></a>
     </div>
@@ -673,7 +674,7 @@ html:not(.js) .hero.interna{height:auto}
   <div class="wrap">
     <p class="label">Il punto di partenza</p>
 
-    <h2 class="display words">In quale scenario vi riconoscete?</h2>
+    <h2 class="display words">In quale scenario vi riconoscete?</h2>
 
     <p class="fx-istruzione">Scegli lo scenario</p>
 
@@ -693,7 +694,7 @@ html:not(.js) .hero.interna{height:auto}
             <span class="ha-cifra">18%</span>
             <div class="ha-dato-t">
               <p>I dirigenti che considerano molto efficace il proprio team di vertice. E chi risponde ne fa parte.</p>
-              <p class="ha-src">Center for Creative Leadership, 2020</p>
+              <p class="ha-src">Center for Creative Leadership, 2020</p>
             </div>
           </div>
 
@@ -798,12 +799,12 @@ html:not(.js) .hero.interna{height:auto}
   <div class="wrap">
     <p class="label">La causa</p>
 
-    <h2 class="display words fx-accenti">Il vero nodo è il modo in cui il vertice lavora come sistema</h2>
+    <h2 class="display words fx-accenti">Il vero nodo è il modo in cui il vertice lavora come sistema</h2>
 
     <p class="lead up">Se vi siete riconosciuti in questi scenari, la diagnosi è una sola: non mancano le competenze, non manca l'impegno, non mancano i dati e non è colpa dei singoli.</p>
     <div class="tesi up">
       <p>Esistono ottimi strumenti per valutare le prestazioni del singolo dirigente e analisi valide per misurare l'andamento aziendale. Ma fino a oggi mancava un metodo capace di connettere queste due dimensioni, mettendo in relazione i comportamenti di chi guida e i risultati dell'azienda.</p>
-      <p class="forte">Il percorso C-One colma questo vuoto. Allena il gruppo dirigente a lavorare come un sistema sincronizzato, allinea le azioni individuali agli obiettivi strategici e misura i progressi in modo continuo, lungo l'intero percorso.</p>
+      <p class="forte">Il percorso C‑One colma questo vuoto. Allena il gruppo dirigente a lavorare come un sistema sincronizzato, allinea le azioni individuali agli obiettivi strategici e misura i progressi in modo continuo, lungo l'intero percorso.</p>
     </div>
   </div>
 </section>
@@ -811,7 +812,7 @@ html:not(.js) .hero.interna{height:auto}
 <section class="section white anim" id="metodo" data-nav="light" data-fx="off">
   <div class="wrap">
     <p class="label">Scenari diversi. Un solo percorso integrato.</p>
-    <h2 class="display words">Il percorso C-One</h2>
+    <h2 class="display words">Il percorso C‑One</h2>
     <p class="lead up">Un anno di lavoro col gruppo dirigente, su tre livelli, per trasformare le decisioni in esecuzione e costruire un vertice coeso, capace di guidare l'impresa a una sola voce.</p>
 
   <div class="mirrors livelli">
@@ -835,7 +836,7 @@ html:not(.js) .hero.interna{height:auto}
   <div class="wrap">
     <p class="label">Le risorse</p>
 
-    <h2 class="display words">Gli strumenti C-One</h2>
+    <h2 class="display words">Gli strumenti C‑One</h2>
     <p class="lead up">Le risorse operative a disposizione del gruppo dirigente, progettate per supportare il lavoro del vertice dal primo giorno all'ultimo.</p>
 
     <div class="strum-griglia up">
@@ -881,7 +882,7 @@ html:not(.js) .hero.interna{height:auto}
           <span class="bollo">27</span>
         </span>
         <span class="testo">
-          <span class="h">La C-One Library</span>
+          <span class="h">La C‑One Library</span>
           <span class="p">27 e-book proprietari, uno per ogni tema del metodo: si studiano tra una sessione e l'altra e restano all'azienda, anche dopo la chiusura.</span>
           <span class="guarda">Guarda <span class="arw" aria-hidden="true"></span></span>
         </span>
@@ -916,7 +917,7 @@ html:not(.js) .hero.interna{height:auto}
   <div class="wrap chiusura">
     <p class="label">Il risultato</p>
 
-    <h2 class="domandona words display">Al termine dell'anno insieme, quale valore si consolida in azienda?</h2>
+    <h2 class="domandona words display">Al termine dell'anno insieme, quale valore si consolida in azienda?</h2>
     <p class="fx-evidenziato up"><mark class="evid">Il percorso è progettato per garantire la piena autosufficienza dell'impresa. Al termine l'azienda ha assimilato un metodo di governance strutturato e metriche di controllo chiare, ma ha soprattutto costruito un vertice coeso, capace di guidare lo sviluppo in totale autonomia.</mark></p>
   </div>
 </section>
@@ -924,7 +925,7 @@ html:not(.js) .hero.interna{height:auto}
 <section class="section white anim" id="vantaggi" data-nav="light" data-fx="off">
   <div class="wrap">
     <p class="label">I vantaggi</p>
-    <h2 class="display words">Un percorso. Molti beneficiari</h2>
+    <h2 class="display words">Un percorso. Molti beneficiari</h2>
 
     <p class="fx-istruzione">Scegli il punto di vista</p>
 
@@ -1036,7 +1037,7 @@ html:not(.js) .hero.interna{height:auto}
 <section class="section contact anim" id="contatto" data-nav="dark">
   <div class="wrap">
     <p class="label">Il primo passo</p>
-    <h2 class="display words">Parliamone. Per anticipare i problemi o per risolverli adesso</h2>
+    <h2 class="display words">Parliamone. Per anticipare i problemi o per risolverli adesso</h2>
     <div class="up">
       <p class="lead fx-evidenziato"><mark class="evid">Apriamo un canale riservato per confrontarci sulle sfide che stai affrontando come singolo manager o le complessit&agrave; strutturali del tuo team di leadership e capire come applicare il metodo Mastery alla tua specifica dimensione di crescita.</mark></p>
       <div class="actions">
@@ -1050,7 +1051,7 @@ html:not(.js) .hero.interna{height:auto}
 <footer data-fx="lettere" data-fx-i="0.5">
   <div class="wrap inner">
     <span class="mark">MASTERY CLC.</span>
-    <span class="legal">C-One è il percorso Mastery per i gruppi dirigenti. · Dati societari in via di pubblicazione.</span>
+    <span class="legal">C‑One è il percorso Mastery per i gruppi dirigenti. · Dati societari in via di pubblicazione.</span>
   </div>
 </footer>
 
@@ -1219,7 +1220,7 @@ document.documentElement.classList.add('js');
 (function(){
   /* ingresso parola per parola: il testo resta nel suo flusso naturale */
   document.querySelectorAll('.words').forEach(function(el){
-    var words = el.textContent.trim().split(/\s+/);
+    var words = el.textContent.trim().split(/[^\S\u00A0]+/); /* lo spazio unito tiene la coppia in una parola sola */
     el.textContent = '';
     words.forEach(function(w, i){
       var box = document.createElement('span');
@@ -1711,7 +1712,7 @@ document.documentElement.classList.add('js');
   });
 })();
 </script>
-<link rel="stylesheet" href="mastery-fx.css?v=1790777920">
-<script src="mastery-fx.js?v=1790777920"></script>
+<link rel="stylesheet" href="mastery-fx.css?v=1790779619">
+<script src="mastery-fx.js?v=1790779619"></script>
 </body>
 </html>

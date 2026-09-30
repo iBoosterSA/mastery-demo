@@ -76,6 +76,7 @@ section[id]{scroll-margin-top:clamp(60px,8vh,96px)}
    cambiare l'aspetto; la pillola si estende con un velo invisibile */
 .nav ul a:not(.pill){padding-block:11px;margin-block:-11px;padding-inline:5px;margin-inline:-5px}
 .nav .brand{padding-block:8px;margin-block:-8px}
+.nav ul a[aria-current="page"]{text-decoration:underline;text-underline-offset:7px;text-decoration-thickness:2px}
 .nav .pill{position:relative}
 .nav .pill::after{content:"";position:absolute;inset:-8px -6px}
 .nav[data-theme="light"] .pill:hover{background:var(--ink);color:var(--paper);border-color:var(--ink)}
@@ -104,7 +105,7 @@ section[id]{scroll-margin-top:clamp(60px,8vh,96px)}
 /* ---------- CTA ---------- */
 .cta{display:inline-flex;align-items:center;gap:.5em;font-family:var(--display);
   text-transform:uppercase;font-size:clamp(1.125rem,.9rem + .9vw,1.875rem);letter-spacing:.02em;
-  border-bottom:2px solid currentColor;padding-bottom:4px}
+  border-bottom:2px solid currentColor;padding-bottom:4px;width:fit-content}
 .cta .arw{display:inline-block;width:.44em;height:.44em;flex:none;
   border-top:.085em solid currentColor;border-right:.085em solid currentColor;
   transform:rotate(45deg);position:relative;top:-.03em;
@@ -271,7 +272,7 @@ html:not(.js) .leadtext{position:relative;visibility:visible;transform:none;tran
 .blue .voice h3,.ink .voice h3,.contact .voice h3,.hero .voice h3{color:currentColor}
 .blue .voice,.ink .voice,.contact .voice,.hero .voice{border-color:var(--line-inv)}
 .voice .role{font-size:var(--t-micro);letter-spacing:.13em;text-transform:uppercase;
-  margin-top:14px;opacity:.65}
+  margin-top:14px;opacity:.8}
 .voice blockquote{margin-top:14px;max-width:52ch;opacity:.88}
 
 /* ---------- insights ---------- */
@@ -512,8 +513,8 @@ html.con-dialogo,html.con-dialogo body{overflow:hidden}
   <div class="wrap bar">
     <span class="mark"><a class="brand" href="index.html">MASTERY CLC.</a><span class="targa">· Chi siamo</span></span>
     <ul>
-      <li><a href="c-one.html">C-One</a></li>
-      <li><a href="e-one.html">E-One</a></li>
+      <li><a href="c-one.html">C‑One</a></li>
+      <li><a href="e-one.html">E‑One</a></li>
       <li><a href="chi-siamo.html" aria-current="page">Chi siamo</a></li>
       <li><a href="insights.html">Insights</a></li>
       <li><a class="pill" href="#contatto">Parliamone</a></li>
@@ -526,12 +527,12 @@ html.con-dialogo,html.con-dialogo body{overflow:hidden}
 <section class="section anim" id="inizio" data-nav="light" data-fx="off">
   <div class="wrap">
     <p class="label">Mastery in C-Level Consulting</p>
-    <h1 class="display words">Mastery affianca i leader nel trasformare le decisioni in risultati</h1>
-    <p class="fx-evidenziato lead up"><mark class="evid">C-One lavora sul vertice dell'impresa, preso come squadra. E-One lavora sul manager, preso come persona. La disciplina è la stessa: misurare, allenare, rimisurare nel tempo.</mark></p>
+    <h1 class="display words">Mastery affianca i leader nel trasformare le decisioni in risultati</h1>
+    <p class="fx-evidenziato lead up"><mark class="evid">C‑One lavora sul vertice dell'impresa, preso come squadra. E‑One lavora sul manager, preso come persona. La disciplina è la stessa: misurare, allenare, rimisurare nel tempo.</mark></p>
   </div>
 </section>
 
-<section class="section white anim" id="da-dove-veniamo" data-nav="light" data-fx="off">
+<section class="section anim" id="da-dove-veniamo" data-nav="light" data-fx="off">
   <div class="wrap">
     <p class="label">Da dove veniamo</p>
     <h2 class="display words">Prima le imprese vere. Poi il metodo</h2>
@@ -576,12 +577,12 @@ html.con-dialogo,html.con-dialogo body{overflow:hidden}
 <section class="door klein anim" data-nav="dark" data-fx="lettere" data-fx-i="0.5" data-fx-target=".name .mask span">
   <div class="wrap">
     <p class="label">L&apos;impresa &middot; il vertice come squadra</p>
-    <p class="name display"><span class="mask"><span>C-One</span></span></p>
+    <p class="name display"><span class="mask"><span>C‑One</span></span></p>
   </div>
   <div class="wrap">
     <div class="under up">
       <p>Il vertice preso come squadra: l&apos;assessment M-11D lo misura, il percorso lo legge come sistema e lo allena, trimestre dopo trimestre, a decidere prima e a eseguire meglio.</p>
-      <a class="cta" href="c-one.html">Scopri C-One <span class="arw" aria-hidden="true"></span></a>
+      <a class="cta" href="c-one.html">Scopri C‑One <span class="arw" aria-hidden="true"></span></a>
     </div>
   </div>
 </section>
@@ -589,12 +590,12 @@ html.con-dialogo,html.con-dialogo body{overflow:hidden}
 <section class="door nero anim" data-nav="dark" data-fx="lettere" data-fx-i="0.5" data-fx-target=".name .mask span">
   <div class="wrap">
     <p class="label">Il manager &middot; la persona che guida</p>
-    <p class="name display" style="color:var(--klein)"><span class="mask"><span>E-One</span></span></p>
+    <p class="name display" style="color:var(--klein)"><span class="mask"><span>E‑One</span></span></p>
   </div>
   <div class="wrap">
     <div class="under up">
       <p>Il manager preso come persona: la stessa misura applicata a chi guida, e ripetuta nel tempo. Riservato per architettura: i dati appartengono a chi li genera, e a nessun altro.</p>
-      <a class="cta" href="e-one.html">Scopri E-One <span class="arw" aria-hidden="true"></span></a>
+      <a class="cta" href="e-one.html">Scopri E‑One <span class="arw" aria-hidden="true"></span></a>
     </div>
   </div>
 </section>
@@ -602,9 +603,9 @@ html.con-dialogo,html.con-dialogo body{overflow:hidden}
 <section class="section contact anim" id="contatto" data-nav="dark">
   <div class="wrap">
     <p class="label">Il primo passo</p>
-    <h2 class="display words">Parliamone. Per anticipare i problemi o per risolverli adesso</h2>
+    <h2 class="display words">Parliamone. Per anticipare i problemi o per risolverli adesso</h2>
     <div class="up">
-      <p class="lead fx-evidenziato"><mark class="evid">Apriamo un canale riservato per confrontarci sulle sfide che stai affrontando come singolo manager o le complessit&agrave; strutturali del tuo team di leadership e capire come applicare il metodo Mastery alla tua specifica dimensione di crescita.</mark></p>
+      <p class="lead fx-evidenziato"><mark class="evid">Apriamo un canale riservato per confrontarci sulle sfide che stai affrontando come singolo manager o le complessit&agrave; strutturali del tuo team di leadership e capire come applicare il metodo Mastery alla tua specifica dimensione di crescita.</mark></p>
       <div class="actions">
         <button class="cta" type="button" id="apri-dialogo">Parliamone <span class="arw" aria-hidden="true"></span></button>
       </div>
@@ -639,7 +640,7 @@ document.documentElement.classList.add('js');
 (function(){
   /* ingresso parola per parola: il testo resta nel suo flusso naturale */
   document.querySelectorAll('.words').forEach(function(el){
-    var words = el.textContent.trim().split(/\s+/);
+    var words = el.textContent.trim().split(/[^\S\u00A0]+/); /* lo spazio unito tiene la coppia in una parola sola */
     el.textContent = '';
     words.forEach(function(w, i){
       var box = document.createElement('span');
@@ -1226,7 +1227,7 @@ document.documentElement.classList.add('js');
   });
 })();
 </script>
-<link rel="stylesheet" href="mastery-fx.css?v=1790777920">
-<script src="mastery-fx.js?v=1790777920"></script>
+<link rel="stylesheet" href="mastery-fx.css?v=1790779619">
+<script src="mastery-fx.js?v=1790779619"></script>
 </body>
 </html>

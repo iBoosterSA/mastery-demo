@@ -76,6 +76,7 @@ section[id]{scroll-margin-top:clamp(60px,8vh,96px)}
    cambiare l'aspetto; la pillola si estende con un velo invisibile */
 .nav ul a:not(.pill){padding-block:11px;margin-block:-11px;padding-inline:5px;margin-inline:-5px}
 .nav .brand{padding-block:8px;margin-block:-8px}
+.nav ul a[aria-current="page"]{text-decoration:underline;text-underline-offset:7px;text-decoration-thickness:2px}
 .nav .pill{position:relative}
 .nav .pill::after{content:"";position:absolute;inset:-8px -6px}
 .nav[data-theme="light"] .pill:hover{background:var(--ink);color:var(--paper);border-color:var(--ink)}
@@ -104,7 +105,7 @@ section[id]{scroll-margin-top:clamp(60px,8vh,96px)}
 /* ---------- CTA ---------- */
 .cta{display:inline-flex;align-items:center;gap:.5em;font-family:var(--display);
   text-transform:uppercase;font-size:clamp(1.125rem,.9rem + .9vw,1.875rem);letter-spacing:.02em;
-  border-bottom:2px solid currentColor;padding-bottom:4px}
+  border-bottom:2px solid currentColor;padding-bottom:4px;width:fit-content}
 .cta .arw{display:inline-block;width:.44em;height:.44em;flex:none;
   border-top:.085em solid currentColor;border-right:.085em solid currentColor;
   transform:rotate(45deg);position:relative;top:-.03em;
@@ -271,7 +272,7 @@ html:not(.js) .leadtext{position:relative;visibility:visible;transform:none;tran
 .blue .voice h3,.ink .voice h3,.contact .voice h3,.hero .voice h3{color:currentColor}
 .blue .voice,.ink .voice,.contact .voice,.hero .voice{border-color:var(--line-inv)}
 .voice .role{font-size:var(--t-micro);letter-spacing:.13em;text-transform:uppercase;
-  margin-top:14px;opacity:.65}
+  margin-top:14px;opacity:.8}
 .voice blockquote{margin-top:14px;max-width:52ch;opacity:.88}
 
 /* ---------- insights ---------- */
@@ -564,10 +565,10 @@ html:not(.js) .hero.interna{height:auto}
 
 <header class="nav" data-theme="light">
   <div class="wrap bar">
-    <span class="mark"><a class="brand" href="index.html">MASTERY CLC.</a><span class="targa">· E-One</span></span>
+    <span class="mark"><a class="brand" href="index.html">MASTERY CLC.</a><span class="targa">· E‑One</span></span>
     <ul>
-      <li><a href="c-one.html">C-One</a></li>
-      <li><a href="e-one.html" aria-current="page">E-One</a></li>
+      <li><a href="c-one.html">C‑One</a></li>
+      <li><a href="e-one.html" aria-current="page">E‑One</a></li>
       <li><a href="chi-siamo.html">Chi siamo</a></li>
       <li><a href="insights.html">Insights</a></li>
       <li><a class="pill" href="#contatto">Parliamone</a></li>
@@ -580,7 +581,7 @@ html:not(.js) .hero.interna{height:auto}
 <section class="hero foto" id="inizio" data-nav="dark" data-fx="off" data-fx-i="0.55" data-fx-scrub data-fx-foto>
  <div class="hero-stage">
   <div class="wrap top">
-    <p class="label">E-One · il manager come persona</p>
+    <p class="label">E‑One · il manager come persona</p>
     <div class="ticks" aria-label="Le tre aperture">
       <button type="button" aria-current="true" aria-label="Apertura 1 di 3"></button>
       <button type="button" aria-current="false" aria-label="Apertura 2 di 3"></button>
@@ -604,7 +605,7 @@ html:not(.js) .hero.interna{height:auto}
           <h1 class="claim domanda display words">Le responsabilità crescono. E tu?</h1>
         </div>
         <div class="slide" data-i="1" aria-hidden="true" data-foto="assets/foto/e-one-1.webp?v=1790749553" data-foto-tel="assets/foto/e-one-1-tel.webp?v=1790749553">
-          <p class="claim domanda display words">Chi guida tutti, chi lo allena?</p>
+          <p class="claim domanda display words">Chi guida tutti, chi lo allena?</p>
         </div>
         <div class="slide" data-i="2" aria-hidden="true" data-foto="assets/foto/e-one-2.webp?v=1790749553" data-foto-tel="assets/foto/e-one-2-tel.webp?v=1790749553">
           <p class="claim domanda display words">Investire su di sé è una decisione da leader</p>
@@ -615,9 +616,9 @@ html:not(.js) .hero.interna{height:auto}
   <div class="wrap">
     <div class="hero-foot">
       <div class="leads">
-        <p class="leadtext on" data-i="0"><mark class="evid">Più le responsabilità crescono, più aumenta la solitudine di chi decide. E-One parte da qui: un percorso personale per chi guida, costruito sulla misura e non sulle sensazioni.</mark></p>
+        <p class="leadtext on" data-i="0"><mark class="evid">Più le responsabilità crescono, più aumenta la solitudine di chi decide. E‑One parte da qui: un percorso personale per chi guida, costruito sulla misura e non sulle sensazioni.</mark></p>
         <p class="leadtext" data-i="1"><mark class="evid">Un percorso costruito sulla misura: la fotografia di come guidi, il coaching sulle tue leve di crescita, le ri-misure che mostrano i progressi nel tempo.</mark></p>
-        <p class="leadtext" data-i="2"><mark class="evid">E-One è il percorso di chi investe su di sé, anche indipendentemente dalla propria azienda. E per questo è riservato per architettura: i dati appartengono a chi li genera, e a nessun altro.</mark></p>
+        <p class="leadtext" data-i="2"><mark class="evid">E‑One è il percorso di chi investe su di sé, anche indipendentemente dalla propria azienda. E per questo è riservato per architettura: i dati appartengono a chi li genera, e a nessun altro.</mark></p>
       </div>
       <a class="cta" href="#contatto">Parliamone <span class="arw" aria-hidden="true"></span></a>
     </div>
@@ -627,8 +628,8 @@ html:not(.js) .hero.interna{height:auto}
 
 <section class="section blue anim" id="percorso" data-nav="dark" data-fx="off">
   <div class="wrap">
-    <p class="label">Il percorso E-One</p>
-    <h2 class="display words">Un inizio, un ritmo, una fine</h2>
+    <p class="label">Il percorso E‑One</p>
+    <h2 class="display words">Un inizio, un ritmo, una fine</h2>
     <p class="lead up">Il percorso si dichiara in anticipo: sai come si parte, come si lavora e cosa ti resta quando finisce.</p>
 
     <ol class="tappe up">
@@ -668,7 +669,7 @@ html:not(.js) .hero.interna{height:auto}
 <section class="section contact anim" id="contatto" data-nav="dark">
   <div class="wrap">
     <p class="label">Il primo passo</p>
-    <h2 class="display words">Parliamone. Per anticipare i problemi o per risolverli adesso</h2>
+    <h2 class="display words">Parliamone. Per anticipare i problemi o per risolverli adesso</h2>
     <div class="up">
       <p class="lead fx-evidenziato"><mark class="evid">Apriamo un canale riservato per confrontarci sulle sfide che stai affrontando come singolo manager o le complessit&agrave; strutturali del tuo team di leadership e capire come applicare il metodo Mastery alla tua specifica dimensione di crescita.</mark></p>
       <div class="actions">
@@ -682,7 +683,7 @@ html:not(.js) .hero.interna{height:auto}
 <footer data-fx="lettere" data-fx-i="0.5">
   <div class="wrap inner">
     <span class="mark">MASTERY CLC.</span>
-    <span class="legal">E-One è il percorso Mastery per il manager come persona. · Dati societari in via di pubblicazione.</span>
+    <span class="legal">E‑One è il percorso Mastery per il manager come persona. · Dati societari in via di pubblicazione.</span>
   </div>
 </footer>
 
@@ -705,7 +706,7 @@ document.documentElement.classList.add('js');
 (function(){
   /* ingresso parola per parola: il testo resta nel suo flusso naturale */
   document.querySelectorAll('.words').forEach(function(el){
-    var words = el.textContent.trim().split(/\s+/);
+    var words = el.textContent.trim().split(/[^\S\u00A0]+/); /* lo spazio unito tiene la coppia in una parola sola */
     el.textContent = '';
     words.forEach(function(w, i){
       var box = document.createElement('span');
@@ -1511,7 +1512,7 @@ document.documentElement.classList.add('js');
   mostra();
 })();
 </script>
-<link rel="stylesheet" href="mastery-fx.css?v=1790777920">
-<script src="mastery-fx.js?v=1790777920"></script>
+<link rel="stylesheet" href="mastery-fx.css?v=1790779619">
+<script src="mastery-fx.js?v=1790779619"></script>
 </body>
 </html>

@@ -659,7 +659,7 @@ body.fx-on .section .wrap h2.display {
 /* --- la pagina del pezzo --- */
 
 .ins-corpo { margin-top: clamp(26px, 3.4vw, 48px); max-width: 62ch; }
-.ins-corpo p { font-size: var(--t-lead); line-height: 1.55; }
+.ins-corpo p { font-size: var(--t-lead); line-height: 1.55; text-wrap: pretty; }
 .ins-corpo p + p { margin-top: clamp(16px, 2vw, 26px); }
 
 .ins-avviso {
@@ -679,13 +679,14 @@ body.fx-on .section .wrap h2.display {
     font-family: var(--display);
     text-transform: uppercase;
     font-size: clamp(1.6rem, 1.1rem + 2.4vw, 3.4rem);
-    line-height: .98;
-    max-width: 18ch;
+    line-height: 1.16;   /* la regola degli accenti (30/9) */
+    max-width: 26ch;
+    text-wrap: balance;   /* le frasi a due tempi si spezzano al punto, non a caso */
     color: var(--klein);
 }
 
 .ins-cta { margin-top: clamp(28px, 3.4vw, 48px); }
-.ins-tutti { margin-top: clamp(30px, 3.6vw, 52px); }
+.ins-tutti { margin-top: clamp(30px, 3.6vw, 52px); color: var(--klein); }
 
 .section .label a { color: inherit; text-decoration: none; border-bottom: 1px solid currentColor; }
 
@@ -752,7 +753,7 @@ body.fx-on .section .wrap h2.display:first-child { margin-top: 0; }
     letter-spacing: .28em;
     text-transform: uppercase;
     color: var(--klein);
-    opacity: .6;
+    opacity: .82;   /* al 60% scendeva sotto la soglia di lettura dei corpi piccoli (30/9) */
 }
 
 /* dentro una sezione blu l'inchiostro Klein non si leggerebbe */
@@ -847,7 +848,7 @@ body.fx-on #perche { border-top: 1px solid var(--line); }
     font-family: var(--display);
     font-size: clamp(1.1rem, .9rem + .5vw, 1.5rem);
     line-height: 1;
-    opacity: .5;
+    opacity: .72;   /* a .5 il numero della linguetta chiusa spariva (30/9) */
 }
 
 .ha-v {
@@ -1494,12 +1495,13 @@ body.fx-quadri .hero.foto .scrollhint.via { opacity: .85; }
        della chevron e il margine delle virgolette sforano la colonna */
     box-sizing: border-box; width: calc(100% - .46em);
     font-family: var(--display); text-transform: uppercase; color: var(--klein);
-    font-size: clamp(1.7rem, .9rem + 2.4vw, 3rem); line-height: 1.02;
+    font-size: clamp(1.7rem, .9rem + 2.4vw, 3rem);
+    line-height: 1.16;   /* la regola degli accenti: sotto, PIU' e VERITA' bucavano la riga sopra (30/9) */
     letter-spacing: -.01em; position: relative; padding-right: 44px;
     /* la virgoletta d'apertura resta appesa fuori dal filo: tutte le
        righe del testo partono allineate (.46em = la sua larghezza in Anton) */
     text-indent: -.46em; margin-left: .46em; }
-#risultati .js-fuoco .v2-tit button { opacity: .2; }  /* il fuoco comanda */
+#risultati .js-fuoco .v2-tit button { opacity: .55; }  /* il fuoco comanda (pavimento leggibile) */
 #risultati .v2-tit button:focus-visible { outline: 2px solid var(--klein); outline-offset: 4px; opacity: 1; }
 #risultati .v2-chev { position: absolute; right: 6px; top: .42em; width: 13px; height: 13px;
     border-right: 2px solid currentColor; border-bottom: 2px solid currentColor;
@@ -1522,3 +1524,8 @@ body.fx-quadri .hero.foto .scrollhint.via { opacity: .85; }
     #risultati .js-fuoco .v2-tit button { opacity: 1 !important; }
     #risultati .v2-corpo, #risultati .v2-chev { transition: none; }
 }
+
+/* ALTRI INSIGHT: titolo di servizio, non protagonista: mezza scala e aria
+   prima delle schede (riesame 30/9) */
+#altri .display { font-size: clamp(1.7rem, 1.2rem + 2vw, 2.9rem); }
+#altri .ins-griglia { margin-top: clamp(22px, 2.8vw, 42px); }
