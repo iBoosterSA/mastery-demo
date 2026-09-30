@@ -1800,3 +1800,45 @@
     window.addEventListener('resize', fuoco);
     fuoco();
 })();
+
+
+/* =====================================================================
+   IL PENNARELLO (30/9) - le frasi evidenziate si disegnano allo scroll.
+
+   Vive fuori dall'IIFE del motore, come LE VOCI: se il motore sopra
+   inciampa, html.fx-penna non arriva e i pennarelli restano pieni e
+   fermi (il fallback e' l'evidenza statica, mai una frase spenta).
+   Con riduci-movimento non si arma: statico anche li'.
+   La testata a fotografie e' esclusa: il suo pennarello lo dirige la
+   coreografia del quadro, non l'ingresso nello schermo.
+   ===================================================================== */
+(function () {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    if (!('IntersectionObserver' in window)) return;
+    var marks = [].slice.call(document.querySelectorAll('mark.evid')).filter(function (m) {
+        return !m.closest('.hero.foto');
+    });
+    if (!marks.length) return;
+    /* La regola e' meccanica, non redazionale: dove c'e' un pennarello,
+       copre TUTTO il paragrafo. Se nei documenti resta (o rientra, un
+       domani) un pennarello parziale, il motore lo estende da solo:
+       nessun censimento a occhio, per costruzione. */
+    marks.forEach(function (m) {
+        var blocco = m.closest('p, li');
+        if (!blocco) return;
+        if (blocco.querySelectorAll('mark.evid').length !== 1) return;
+        if (blocco.textContent.trim() === m.textContent.trim()) return;
+        var primo = m.firstChild;
+        while (blocco.firstChild !== m) m.insertBefore(blocco.firstChild, primo);
+        while (m.nextSibling) m.appendChild(m.nextSibling);
+    });
+    document.documentElement.classList.add('fx-penna');
+    var io = new IntersectionObserver(function (voci) {
+        voci.forEach(function (v) {
+            if (!v.isIntersecting) return;
+            v.target.classList.add('segnato');
+            io.unobserve(v.target);
+        });
+    }, { threshold: .5, rootMargin: '0px 0px -12% 0px' });
+    marks.forEach(function (m) { io.observe(m); });
+})();

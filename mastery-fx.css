@@ -163,6 +163,7 @@ body.fx-tela footer {
    =========================================================== */
 
 .evid {
+    font-weight: 700;
     background: var(--klein);
     color: var(--paper);
     padding: .03em .2em;
@@ -187,6 +188,47 @@ body.fx-tela footer {
    altrimenti i rettangoli di due righe consecutive si sfiorano. */
 .hero .leadtext { line-height: 1.8; }
 .fx-evidenziato { line-height: 1.8; }
+
+/* ============================================================
+   IL PENNARELLO SI DISEGNA ALLO SCROLL (30/9, regola di Davide)
+   ------------------------------------------------------------
+   Ovunque nel sito il pennarello copre la frase intera, il testo
+   sotto e' in grassetto, e il nastro si disegna da sinistra quando
+   la frase entra nello schermo: stesso gesto della testata (.62s
+   sul velluto), stessa grammatica nei due versi (klein su carta,
+   carta sui fondi pieni).
+
+   Il nastro parte arrotolato SOLO quando il motore lo arma
+   (html.fx-penna, messa dal modulo in coda al motore): senza
+   script, con riduci-movimento o se il motore inciampa, il
+   pennarello resta pieno e fermo: la pagina non perde mai
+   l'evidenza. La testata a fotografie ha la sua coreografia e
+   il modulo la lascia stare (le sue regole vincono comunque
+   per specificita').
+   ============================================================ */
+html.fx-penna .evid {
+    background-color: transparent;
+    background-image: linear-gradient(var(--klein), var(--klein));
+    background-repeat: no-repeat;
+    background-size: 0% 100%;
+    color: inherit;
+    transition: background-size .62s var(--velluto), color .26s ease .16s;
+}
+html.fx-penna .hero:not(.interna) .evid,
+html.fx-penna .contact .evid,
+html.fx-penna .door.klein .evid,
+html.fx-penna .section.blue .evid {
+    background-image: linear-gradient(var(--paper), var(--paper));
+}
+html.fx-penna .evid.segnato { background-size: 100% 100%; color: var(--paper); }
+html.fx-penna .hero:not(.interna) .evid.segnato,
+html.fx-penna .contact .evid.segnato,
+html.fx-penna .door.klein .evid.segnato,
+html.fx-penna .section.blue .evid.segnato { color: var(--klein); }
+
+@media (prefers-reduced-motion: reduce) {
+    html.fx-penna .evid { transition: none; }
+}
 
 /* ===========================================================
    VELLUTO · una sola curva e una sola scala di tempi
