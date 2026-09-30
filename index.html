@@ -811,7 +811,7 @@ document.documentElement.classList.add('js');
   /* col giro vivo niente invito a scorrere: le battute girano da sole
      e la pillola racconta il ritmo (direttiva 30/9) */
   var giroVivo = hero && hero.classList.contains('foto') && !reduce &&
-                 slides.length > 1 && !document.body.dataset.pagina;
+                 slides.length > 1;   /* in serie dal 30/9: ovunque ci sia una testata a quadri */
   var conta = null, hint = null;
   if(hero && ticks.length){
     conta = document.createElement('span');
@@ -935,7 +935,8 @@ document.documentElement.classList.add('js');
     var punti = slides.map(function(_, k){
       var b = document.createElement('button');
       b.type = 'button'; b.className = 'giro-p';
-      b.setAttribute('aria-label', 'Quadro ' + (k + 1) + ' di ' + slides.length);
+      b.setAttribute('aria-label', (ticks[k] && ticks[k].getAttribute('aria-label')) ||
+                                   ('Quadro ' + (k + 1) + ' di ' + slides.length));
       b.addEventListener('click', function(){ giraA(k); });
       pill.appendChild(b);
       return b;

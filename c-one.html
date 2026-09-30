@@ -690,10 +690,10 @@ html:not(.js) .hero.interna{height:auto}
   <div class="wrap">
     <div class="hero-foot">
       <div class="leads">
-        <p class="leadtext on" data-i="0"><mark class="evid">È la differenza tra un gruppo di dirigenti e un gruppo dirigente. L'assessment M-11D legge il gruppo dirigente come sistema, e il percorso lo allena a giocare la stessa partita: priorità comuni, dati condivisi, una sola direzione.</mark></p>
-        <p class="leadtext" data-i="1"><mark class="evid">È la domanda a cui gli strumenti esistenti rispondono solo in parte. Noi ci abbiamo costruito un metodo: misurare il gruppo dirigente, leggerlo come sistema e allenarlo, passo dopo passo, a trasformare le decisioni in esecuzione.</mark></p>
-        <p class="leadtext" data-i="2"><mark class="evid">Corsi e coaching si comprano spesso a sensazione, e a sensazione si valutano. Nel percorso C‑One i progressi si misurano: verifiche trimestrali, riscontri strutturati del C-Team, numeri che mostrano cosa si muove e cosa no.</mark></p>
-        <p class="leadtext" data-i="3"><mark class="evid">Quando la crescita dipende solo da poche figure chiave, il vertice non è una squadra: è un equilibrio fragile. Il percorso C‑One mappa i colli di bottiglia del vertice, allena la delega e la responsabilità condivisa, e lascia in azienda un metodo che non dipende dai singoli.</mark></p>
+        <p class="leadtext on" data-i="0"><mark class="evid">“La forza della squadra è ogni singolo Manager. La forza di ogni Manager è la squadra.”</mark></p>
+        <p class="leadtext" data-i="1"><mark class="evid">“La vera leadership si manifesta nell'esecuzione delle decisioni, non nei verbali delle riunioni.”</mark></p>
+        <p class="leadtext" data-i="2"><mark class="evid">“Ciò che non si può misurare non si può governare, e ciò che non si governa non genera valore competitivo.”</mark></p>
+        <p class="leadtext" data-i="3"><mark class="evid">“Un'impresa solida non si poggia sull'equilibrio fragile di poche figure chiave, ma sulla forza di un vertice allineato.”</mark></p>
       </div>
       <a class="cta" href="#contatto">Parliamone <span class="arw" aria-hidden="true"></span></a>
     </div>
@@ -1301,7 +1301,7 @@ document.documentElement.classList.add('js');
   /* col giro vivo niente invito a scorrere: le battute girano da sole
      e la pillola racconta il ritmo (direttiva 30/9) */
   var giroVivo = hero && hero.classList.contains('foto') && !reduce &&
-                 slides.length > 1 && !document.body.dataset.pagina;
+                 slides.length > 1;   /* in serie dal 30/9: ovunque ci sia una testata a quadri */
   var conta = null, hint = null;
   if(hero && ticks.length){
     conta = document.createElement('span');
@@ -1425,7 +1425,8 @@ document.documentElement.classList.add('js');
     var punti = slides.map(function(_, k){
       var b = document.createElement('button');
       b.type = 'button'; b.className = 'giro-p';
-      b.setAttribute('aria-label', 'Quadro ' + (k + 1) + ' di ' + slides.length);
+      b.setAttribute('aria-label', (ticks[k] && ticks[k].getAttribute('aria-label')) ||
+                                   ('Quadro ' + (k + 1) + ' di ' + slides.length));
       b.addEventListener('click', function(){ giraA(k); });
       pill.appendChild(b);
       return b;

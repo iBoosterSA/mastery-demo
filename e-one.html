@@ -647,9 +647,9 @@ html:not(.js) .hero.interna{height:auto}
   <div class="wrap">
     <div class="hero-foot">
       <div class="leads">
-        <p class="leadtext on" data-i="0"><mark class="evid">Più le responsabilità crescono, più aumenta la solitudine di chi decide. E‑One parte da qui: un percorso personale per chi guida, costruito sulla misura e non sulle sensazioni.</mark></p>
-        <p class="leadtext" data-i="1"><mark class="evid">Un percorso costruito sulla misura: la fotografia di come guidi, il coaching sulle tue leve di crescita, le ri-misure che mostrano i progressi nel tempo.</mark></p>
-        <p class="leadtext" data-i="2"><mark class="evid">E‑One è il percorso di chi investe su di sé, anche indipendentemente dalla propria azienda. E per questo è riservato per architettura: i dati appartengono a chi li genera, e a nessun altro.</mark></p>
+        <p class="leadtext on" data-i="0"><mark class="evid">“Al crescere della complessità aumenta l'isolamento del leader; l'unica risposta è l'evoluzione costante del proprio potenziale.”</mark></p>
+        <p class="leadtext" data-i="1"><mark class="evid">“Anche il miglior atleta ha bisogno di uno specchio e di una guida per tracciare i propri limiti e superare i propri risultati.”</mark></p>
+        <p class="leadtext" data-i="2"><mark class="evid">“L'investimento sul proprio potenziale è l'unico asset strategico che non subisce svalutazioni e appartiene interamente a chi lo genera.”</mark></p>
       </div>
       <a class="cta" href="#contatto">Parliamone <span class="arw" aria-hidden="true"></span></a>
     </div>
@@ -787,7 +787,7 @@ document.documentElement.classList.add('js');
   /* col giro vivo niente invito a scorrere: le battute girano da sole
      e la pillola racconta il ritmo (direttiva 30/9) */
   var giroVivo = hero && hero.classList.contains('foto') && !reduce &&
-                 slides.length > 1 && !document.body.dataset.pagina;
+                 slides.length > 1;   /* in serie dal 30/9: ovunque ci sia una testata a quadri */
   var conta = null, hint = null;
   if(hero && ticks.length){
     conta = document.createElement('span');
@@ -911,7 +911,8 @@ document.documentElement.classList.add('js');
     var punti = slides.map(function(_, k){
       var b = document.createElement('button');
       b.type = 'button'; b.className = 'giro-p';
-      b.setAttribute('aria-label', 'Quadro ' + (k + 1) + ' di ' + slides.length);
+      b.setAttribute('aria-label', (ticks[k] && ticks[k].getAttribute('aria-label')) ||
+                                   ('Quadro ' + (k + 1) + ' di ' + slides.length));
       b.addEventListener('click', function(){ giraA(k); });
       pill.appendChild(b);
       return b;
