@@ -212,7 +212,7 @@ html.fx-penna .evid {
     background-repeat: no-repeat;
     background-size: 0% 100%;
     color: inherit;
-    transition: background-size .62s var(--velluto), color .26s ease .16s;
+    transition: background-size .62s var(--velluto), color .3s ease .08s;
 }
 html.fx-penna .hero:not(.interna) .evid,
 html.fx-penna .contact .evid,
@@ -1362,7 +1362,7 @@ body.fx-quadri .hero.foto .leadtext .evid {
     background-repeat: no-repeat;
     background-size: 0% 100%;
     color: var(--paper);
-    transition: background-size .62s var(--velluto), color .26s ease .16s;
+    transition: background-size .62s var(--velluto), color .3s ease .08s;
 }
 body.fx-quadri .hero.foto.segnato .leadtext.fx-ora .evid { background-size: 100% 100%; color: var(--klein); }
 

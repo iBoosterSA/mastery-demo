@@ -43,6 +43,9 @@ h1,h2,h3,h4,.display{font-family:var(--display);font-weight:400;text-transform:u
 p{max-width:64ch}
 .wrap{width:100%;max-width:var(--max);margin-inline:auto;padding-inline:var(--gutter)}
 .section{padding-block:clamp(68px,10vw,150px)}
+/* il contatto chiude la pagina: sotto la CTA meno vuoto, cosi' a fondo corsa
+   il titolo della sezione resta sotto la barra, mai decapitato (collaudo 30/9) */
+.section.contact{padding-bottom:clamp(20px,2.2vw,34px)}
 section[id]{scroll-margin-top:clamp(60px,8vh,96px)}
 .label{font-size:var(--t-micro);text-transform:uppercase;letter-spacing:.13em;font-weight:500;
   line-height:1.3;color:var(--klein)}
@@ -116,7 +119,7 @@ section[id]{scroll-margin-top:clamp(60px,8vh,96px)}
 .conta i{font-style:normal;opacity:.45;margin-inline:.3em}
 .conta b{font-weight:600}
 .scrollhint{position:absolute;left:50%;bottom:clamp(10px,1.8vh,22px);transform:translateX(-50%);
-  display:grid;justify-items:center;gap:7px;font-size:var(--t-micro);letter-spacing:.16em;
+  display:flex;flex-direction:column;align-items:center;gap:7px;font-size:var(--t-micro);letter-spacing:.16em;
   text-transform:uppercase;opacity:.85;transition:opacity .5s ease;pointer-events:none}
 .scrollhint .arw{display:block;width:11px;height:11px;border-right:2px solid currentColor;
   border-bottom:2px solid currentColor;transform:rotate(45deg);animation:hintnudge 2.6s ease-in-out infinite}
@@ -304,8 +307,18 @@ footer .legal{font-size:var(--t-micro);letter-spacing:.06em;opacity:.75;max-widt
   height:2px;background:currentColor}
 .dlg .head button::before{transform:rotate(45deg)}
 .dlg .head button::after{transform:rotate(-45deg)}
-.dlg .thread{flex:1;overflow-y:auto;padding:clamp(20px,3vw,34px) clamp(18px,2.6vw,32px);
-  display:flex;flex-direction:column;gap:18px}
+.dlg .thread{flex:1;overflow-y:auto;overscroll-behavior:contain;
+  padding:clamp(20px,3vw,34px) clamp(18px,2.6vw,32px);
+  display:flex;flex-direction:column;gap:18px;
+  /* la riga che esce in alto sfuma invece di tagliarsi a meta' sotto la banda */
+  -webkit-mask-image:linear-gradient(180deg,transparent 0,#000 24px);
+  mask-image:linear-gradient(180deg,transparent 0,#000 24px)}
+/* col dialogo aperto la pagina dietro sta ferma: scorre solo la conversazione */
+html.con-dialogo,html.con-dialogo body{overflow:hidden}
+/* il fuoco della tastiera si vede: anello sui comandi, chiaro sulla banda blu */
+.dlg .opts button:focus-visible,.dlg .send:focus-visible,
+.dlg .consenso input:focus-visible{outline:2px solid var(--klein);outline-offset:3px}
+.dlg .head button:focus-visible{outline:2px solid var(--paper);outline-offset:4px}
 .dlg .say{max-width:44ch}
 .dlg .mine{align-self:flex-end;text-align:right;color:var(--klein);font-weight:500}
 .dlg .opts{display:flex;flex-wrap:wrap;gap:10px;margin-top:4px}
@@ -317,7 +330,9 @@ footer .legal{font-size:var(--t-micro);letter-spacing:.06em;opacity:.75;max-widt
 .dlg .field input{flex:1;border:0;border-bottom:1px solid var(--line);background:none;
   padding:9px 2px;font:inherit;font-size:var(--t-body)}
 .dlg .field input:focus{outline:0;border-bottom-color:var(--klein)}
-.dlg .err{color:var(--klein);font-size:var(--t-micro);letter-spacing:.06em}
+/* l'errore e' un pennarello inverso: si stacca da tutto il resto del filo */
+.dlg .err{background:var(--klein);color:var(--paper);padding:9px 13px;
+  font-size:var(--t-micro);letter-spacing:.06em;font-weight:700}
 .dlg .note{font-size:var(--t-micro);letter-spacing:.06em;opacity:.6;max-width:46ch}
 .dlg .passi{font-size:var(--t-micro);letter-spacing:.12em;text-transform:uppercase;opacity:.7}
 .dlg .field.colonna{flex-direction:column}
@@ -678,6 +693,10 @@ document.documentElement.classList.add('js');
     hint = document.createElement('div');
     hint.className = 'scrollhint'; hint.setAttribute('aria-hidden','true');
     hint.innerHTML = '<span class="parola">Scorri</span><span class="arw"></span>';
+    /* la disposizione sta scritta ADDOSSO all'elemento: a meta' testata un
+       intruso nella cascata riportava il contenitore a griglia e sparpagliava
+       parola e freccia (collaudo 30/9); lo stile inline nessun foglio lo tocca */
+    hint.style.display = 'flex'; hint.style.flexDirection = 'column'; hint.style.alignItems = 'center';
     (hero.querySelector('.hero-stage') || hero).appendChild(hint);
   }
   if(hero) setTimeout(function(){ hero.classList.add('rodato'); }, 1600); /* a sipario finito i testi restano di scena */
@@ -704,7 +723,10 @@ document.documentElement.classList.add('js');
     }
     cur = i;
     hero.classList.add('rodato'); /* dal primo cambio in poi si muove il nastro, non le righe */
-    if(hint){ hint.classList.add('via'); hint = null; }
+    /* sulla testata a foto lo Scorri resta di scena per tutti i quadri
+       (il foglio del palco lo terrebbe comunque acceso): senza lo stato
+       "via" niente rimescolii di cascata a meta' battuta (collaudo 30/9) */
+    if(hint && !hero.classList.contains('foto')){ hint.classList.add('via'); hint = null; }
     slides.forEach(function(sl,k){ sl.classList.toggle('on', k === i); sl.classList.toggle('past', k < i); sl.setAttribute('aria-hidden', k === i ? 'false' : 'true'); });
     leads.forEach(function(l,k){ l.classList.toggle('on', k === i); l.classList.toggle('past', k < i); });
     if(!hero.classList.contains('foto')){ /* sulla testata a foto contatore e
@@ -715,7 +737,7 @@ document.documentElement.classList.add('js');
     }
   }
   addEventListener('scroll', function(){
-    if(hint && scrollY > 60){ hint.classList.add('via'); hint = null; }
+    if(hint && scrollY > 60 && !hero.classList.contains('foto')){ hint.classList.add('via'); hint = null; }
     if(!ticking){ ticking = true; requestAnimationFrame(paint); }
   },{passive:true});
   addEventListener('resize', paint);
@@ -950,10 +972,11 @@ document.documentElement.classList.add('js');
   var dlg = document.getElementById('dialogo'), thread = document.getElementById('thread');
   var passiEl = document.getElementById('dlg-passi');
   var dati = {};
+  /* ‑ e' il trattino che non spezza: il nome del percorso resta intero a fine riga */
   var TEMI = {
-    'c-one': {label: 'Sviluppo strategico del vertice aziendale (C-One)',
+    'c-one': {label: 'Sviluppo strategico del vertice aziendale (C‑One)',
               trans: 'Ottimo. Ottimizzeremo l\'incontro per capire come scalare il potenziale della tua impresa.'},
-    'e-one': {label: 'Percorso di crescita personale e manageriale (E-One)',
+    'e-one': {label: 'Percorso di crescita personale e manageriale (E‑One)',
               trans: 'Benvenuto. Qui la riservatezza è totale: un percorso focalizzato sui tuoi obiettivi personali.'},
     'lavora-con-noi': {label: 'Collaborazione o opportunità di lavoro (Lavora con noi)',
               trans: 'Splendido. Siamo sempre alla ricerca di professionisti di valore da inserire nel nostro ecosistema. Conosciamoci meglio.'},
@@ -971,7 +994,7 @@ document.documentElement.classList.add('js');
   function erroreUnaVolta(msg){
     var ultimo = thread.lastElementChild;
     if(ultimo && ultimo.classList.contains('err') && ultimo.textContent === msg) return;
-    say(msg, 'err');
+    say(msg, 'err').setAttribute('role', 'alert');
   }
   function options(list, cb){
     var box = document.createElement('div'); box.className = 'opts';
@@ -1166,12 +1189,21 @@ document.documentElement.classList.add('js');
   }
   function fase6(){
     passiEl.hidden = true;
+    dati.inviato = true;   /* da qui in poi una riapertura riparte pulita */
     var canale = dati.canale === 'WhatsApp' ? 'WhatsApp' : dati.canale.toLowerCase();
     say('Grazie ' + primoNome() + '! La tua richiesta è stata inviata correttamente al nostro team. Ti ricontatteremo al più presto tramite ' + canale + '. A presto!');
   }
   function apriDialogo(){
-    start(); if(dlg.showModal) dlg.showModal(); else dlg.setAttribute('open','');
+    /* la conversazione riprende da dove s'era rimasti: chi chiude per sbaglio
+       (Esc compreso) non perde nulla; solo dopo l'invio si riparte da capo */
+    if(dati.inviato || !thread.children.length) start();
+    document.documentElement.classList.add('con-dialogo');
+    if(dlg.showModal) dlg.showModal(); else dlg.setAttribute('open','');
   }
+  /* qualunque strada chiuda il dialogo (Esc, la X), la pagina torna a scorrere */
+  dlg.addEventListener('close', function(){
+    document.documentElement.classList.remove('con-dialogo');
+  });
   document.getElementById('apri-dialogo').addEventListener('click', apriDialogo);
   /* ogni "Parliamone" apre il form, ovunque sia: testata, barra, piede.
      Il link resta un link (#contatto): senza script porta comunque al contatto. */
@@ -1185,11 +1217,12 @@ document.documentElement.classList.add('js');
     });
   });
   document.getElementById('chiudi-dialogo').addEventListener('click', function(){
-    if(dlg.close) dlg.close(); else dlg.removeAttribute('open');
+    if(dlg.close) dlg.close();
+    else { dlg.removeAttribute('open'); document.documentElement.classList.remove('con-dialogo'); }
   });
 })();
 </script>
-<link rel="stylesheet" href="mastery-fx.css?v=1790765461">
-<script src="mastery-fx.js?v=1790765461"></script>
+<link rel="stylesheet" href="mastery-fx.css?v=1790771651">
+<script src="mastery-fx.js?v=1790771651"></script>
 </body>
 </html>

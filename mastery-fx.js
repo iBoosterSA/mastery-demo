@@ -916,6 +916,7 @@
 
             window.addEventListener('wheel', function (e) {
                 if (e.ctrlKey) return;                    // zoom del browser
+                if (self.dialogoAperto()) return;         // la rotella e' del dialogo: scorre la conversazione
                 e.preventDefault();
                 var d = e.deltaY * (e.deltaMode === 1 ? 16 : (e.deltaMode === 2 ? H : 1));
                 self.mira(d);
@@ -923,6 +924,7 @@
 
             window.addEventListener('keydown', function (e) {
                 if (e.metaKey || e.ctrlKey || e.altKey) return;
+                if (self.dialogoAperto()) return;         // spazio e frecce restano ai comandi del dialogo
                 var t = e.target, tag = t && t.tagName;
                 if (tag === 'INPUT' || tag === 'TEXTAREA' || (t && t.isContentEditable)) return;
 
@@ -956,6 +958,13 @@
             return Math.max(document.documentElement.scrollHeight - H, 0);
         },
 
+        /* Col dialogo di contatto aperto il velluto dorme: niente
+           preventDefault (il browser scorre la conversazione), niente
+           inerzia residua che muove la pagina sotto il modale. */
+        dialogoAperto: function () {
+            return !!document.querySelector('dialog[open]');
+        },
+
         /* Un gesto di scroll - la raffica di eventi senza pause - dentro
            una testata a battute avanza al massimo fino alla PROSSIMA SOSTA:
            la rivelazione e il cambio non possono accadere nello stesso
@@ -974,6 +983,14 @@
 
         tick: function (dt) {
             if (!this.attivo || this.sospeso) return;
+
+            // dialogo aperto: il velluto si ferma DOV'E', senza code di
+            // inerzia; alla chiusura riparte dalla posizione vera
+            if (this.dialogoAperto()) {
+                this.corrente = this.target = window.pageYOffset;
+                this.ultimoScritto = null;
+                return;
+            }
 
             // Riallineamento solo se la pagina si e' mossa per mano d'altri
             // (barra laterale, ancora del browser). Il confronto e' con
@@ -1790,7 +1807,10 @@
             var r = b.getBoundingClientRect();
             if (r.bottom < -80 || r.top > window.innerHeight + 80) return;
             var d = Math.abs((r.top + r.height / 2) - meta) / meta;  /* 0 al centro, 1 al bordo */
-            var op = Math.max(.2, Math.min(1, 1.08 - d * 1.15));
+            /* pavimento a .55: su uno schermo alto tutto il blocco sta in una
+               schermata e le voci lontane dal centro non arrivano MAI al fuoco:
+               spente del tutto diventavano illeggibili (rilievo del 30/9) */
+            var op = Math.max(.55, Math.min(1, 1.08 - d * .9));
             b.style.opacity = op.toFixed(3);
         });
     }
