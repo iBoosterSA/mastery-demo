@@ -1608,6 +1608,26 @@ document.documentElement.classList.add('js');
     });
   });
 
+  /* finestre di metodo e strumenti (le anteprime di C-One): Guarda apre
+     il pannello, la X e Esc lo chiudono. Questo blocco viveva accanto al
+     vecchio dialogo di contatto ed e' stato travolto dalla sua
+     sostituzione (30/9): da allora Guarda non apriva piu' nulla.
+     Reinserito qui, prima del dialogo, per tutte le pagine (1/10). */
+  document.querySelectorAll('[data-finestra]').forEach(function(apri){
+    if(apri.closest('.mirror')) return;   /* gli specchi hanno gia' il loro aggancio */
+    apri.addEventListener('click', function(){
+      var f = document.getElementById(apri.dataset.finestra);
+      if(!f) return;
+      if(f.showModal) f.showModal(); else f.setAttribute('open','');
+    });
+  });
+  document.querySelectorAll('.dlg [data-chiudi]').forEach(function(b){
+    b.addEventListener('click', function(){
+      var f = b.closest('dialog');
+      if(f.close) f.close(); else f.removeAttribute('open');
+    });
+  });
+
   /* dialogo di contatto: il modulo conversazionale a tappe (mockup:
      l'invio e' simulato, le funzioni vere arrivano con il servizio) */
   var dlg = document.getElementById('dialogo'), thread = document.getElementById('thread');
