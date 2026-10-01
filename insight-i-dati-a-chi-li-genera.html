@@ -387,6 +387,11 @@ html.con-dialogo,html.con-dialogo body{overflow:hidden}
 .dlg .field .fila{display:flex;gap:10px;justify-content:flex-end}
 .dlg .riep{border:1px solid var(--line);padding:16px 18px;display:grid;gap:10px}
 .dlg .riep p{margin:0}
+.dlg .riep p.conmod{position:relative;padding-right:76px}
+.dlg .riep .mod{position:absolute;right:0;top:0;border:0;background:none;color:var(--klein);
+  font-size:var(--t-micro);letter-spacing:.08em;text-transform:uppercase;cursor:pointer;
+  text-decoration:underline;text-underline-offset:3px;padding:6px;margin:-6px}
+.dlg .riep .mod:focus-visible{outline:2px solid var(--klein);outline-offset:3px}
 .dlg .riep b{display:block;font-family:var(--display);text-transform:uppercase;
   font-size:var(--t-micro);letter-spacing:.14em;color:var(--klein);font-weight:600;margin-bottom:2px}
 .dlg .consenso{display:flex;gap:10px;align-items:flex-start;font-size:var(--t-micro);
@@ -1125,8 +1130,11 @@ document.documentElement.classList.add('js');
     'altro': {label: 'Altre esigenze o partnership',
               trans: 'Perfetto, definiremo i dettagli direttamente a voce.'}
   };
-  var ERR_VUOTO = 'Questo passaggio è necessario per configurare l\'incontro.';
-  function passo(n){ passiEl.hidden = false; passiEl.textContent = 'Passo ' + n + ' di 5'; }
+  var ERR_VUOTO = 'Questo passaggio è necessario per completare la richiesta.';
+  /* il totale dei passi dipende dal flusso: il candidato ne ha meno del
+     cliente, e la scelta del tema conta solo se l'utente l'ha vista */
+  function totPassi(){ return (dati.base || 0) + (dati.tema === 'lavora-con-noi' ? 3 : 4); }
+  function passo(n){ passiEl.hidden = false; passiEl.textContent = 'Passo ' + n + ' di ' + totPassi(); }
   function say(txt, cls){
     var p = document.createElement('p');
     p.className = 'say' + (cls ? ' ' + cls : '');
@@ -1148,13 +1156,26 @@ document.documentElement.classList.add('js');
     thread.appendChild(box); thread.scrollTop = thread.scrollHeight;
   }
   /* un campo, un pulsante Avanti, una regola: se la regola non passa,
-     l'errore compare e il campo resta dov'e', col testo scritto */
-  function ask(ph, valida, errore, cb){
-    var box = document.createElement('div'); box.className = 'field';
+     l'errore compare e il campo resta dov'e', col testo scritto.
+     Con "salta" il campo e' dichiaratamente facoltativo: il bottone
+     passa oltre a mani vuote, l'Avanti pretende comunque un valore valido */
+  function ask(ph, valida, errore, cb, salta){
+    var box = document.createElement('div'); box.className = salta ? 'field colonna' : 'field';
     var inp = document.createElement('input'); inp.type = 'text'; inp.placeholder = ph;
     inp.setAttribute('aria-label', ph);
     var b = document.createElement('button'); b.type = 'button'; b.className = 'send'; b.textContent = 'Avanti';
-    box.appendChild(inp); box.appendChild(b);
+    box.appendChild(inp);
+    if(salta){
+      /* campo dichiaratamente facoltativo: input sopra, comandi sotto,
+         come le aree di testo (in riga i tre pezzi non starebbero sul telefono) */
+      var fila = document.createElement('div'); fila.className = 'fila';
+      var sb = document.createElement('button'); sb.type = 'button'; sb.className = 'send'; sb.textContent = salta;
+      sb.addEventListener('click', function(){ box.remove(); say(salta, 'mine'); cb(''); });
+      fila.appendChild(sb); fila.appendChild(b);
+      box.appendChild(fila);
+    } else {
+      box.appendChild(b);
+    }
     thread.appendChild(box); inp.focus(); thread.scrollTop = thread.scrollHeight;
     function go(){
       var v = inp.value.trim();
@@ -1164,8 +1185,9 @@ document.documentElement.classList.add('js');
     b.addEventListener('click', go);
     inp.addEventListener('keydown', function(e){ if(e.key === 'Enter') go(); });
   }
-  /* il campo ampio, con eventuale via d'uscita */
-  function askArea(ph, salta, cb){
+  /* il campo ampio, con eventuale via d'uscita; con "obbligo" il vuoto
+     non passa e l'errore spiega perche' il passaggio serve */
+  function askArea(ph, salta, cb, obbligo){
     var box = document.createElement('div'); box.className = 'field colonna';
     var ta = document.createElement('textarea'); ta.placeholder = ph; ta.setAttribute('aria-label', ph);
     var fila = document.createElement('div'); fila.className = 'fila';
@@ -1177,6 +1199,7 @@ document.documentElement.classList.add('js');
     var b = document.createElement('button'); b.type = 'button'; b.className = 'send'; b.textContent = 'Avanti';
     b.addEventListener('click', function(){
       var v = ta.value.trim();
+      if(!v && obbligo){ erroreUnaVolta(obbligo); return; }
       box.remove(); if(v) say(v, 'mine'); cb(v);
     });
     fila.appendChild(b);
@@ -1230,15 +1253,22 @@ document.documentElement.classList.add('js');
   }
   function primoNome(){ return (dati.nome || '').split(' ')[0]; }
 
+  /* ============ IL FILO, A BLOCCHI ============
+     Ogni blocco chiede il suo e passa la mano a "poi": in prima corsa i
+     blocchi si concatenano fino al riepilogo, in correzione il riepilogo
+     rilancia UN blocco e "poi" riporta dritti al riepilogo aggiornato
+     (riesame del modulo, 1/10). Il candidato ha un filo suo: niente
+     canale ne' finestre, nessun appuntamento da fissare. */
   function start(tema){
     thread.innerHTML = ''; dati = {};
     var ctx = tema || document.body.dataset.pagina;
     if(ctx && TEMI[ctx]){
-      dati.tema = ctx;
+      dati.tema = ctx; dati.base = 0;
       say(TEMI[ctx].trans);
-      fase2();
+      filo();
       return;
     }
+    dati.base = 1;
     passo(1);
     say('Ciao! Prepariamo il terreno per il nostro incontro. Di cosa vorresti parlare?');
     options([
@@ -1249,91 +1279,143 @@ document.documentElement.classList.add('js');
     ], function(o){
       dati.tema = o.val;
       say(TEMI[o.val].trans);
-      fase2();
+      filo();
     });
   }
-  function fase2(){
-    passo(2);
+  function filo(){
+    chiediContatto(function(){
+      if(dati.tema === 'lavora-con-noi'){
+        chiediProfilo(riepilogo);
+      } else {
+        chiediCanale(function(){ chiediContesto(riepilogo); });
+      }
+    });
+  }
+  function chiediContatto(poi){
+    passo(dati.base + 1);
     say('Per iniziare, come ti chiami?');
     ask('Nome e cognome', function(v){ return v.length >= 2; }, ERR_VUOTO, function(nome){
       dati.nome = nome;
       say('Grazie, ' + primoNome() + '. A quale indirizzo email possiamo scriverti?');
       ask('nome@azienda.com', function(v){ return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v); },
           'Manca qualcosa in questo indirizzo: ci dai un\'occhiata?', function(mail){
-        dati.email = mail;
-        say('E un numero di telefono per i dettagli operativi?');
-        ask('Numero di telefono (es. +39...)',
-            function(v){ return /^[0-9+\s-]+$/.test(v) && v.replace(/[^0-9]/g, '').length >= 8; },
-            'Inserisci un numero di telefono valido per poterti ricontattare.', function(tel){
-          dati.tel = tel; fase3();
+        dati.email = mail; poi();
+      });
+    });
+  }
+  /* clienti: prima il canale, e solo chi vuole essere chiamato o scritto
+     su WhatsApp lascia il numero e le finestre in cui e' comodo.
+     Chi sceglie l'email ha gia' detto tutto. */
+  function chiediCanale(poi){
+    passo(dati.base + 2);
+    say('Come preferisci essere ricontattato?');
+    options([{label: 'Telefonata'}, {label: 'WhatsApp'}, {label: 'Email'}], function(o){
+      dati.canale = o.label;
+      if(o.label === 'Email'){ dati.tel = ''; dati.d1 = ''; dati.d2 = ''; poi(); return; }
+      say(o.label === 'WhatsApp' ? 'Su quale numero possiamo scriverti?' : 'A quale numero possiamo chiamarti?');
+      ask('Numero di telefono (es. +39...)',
+          function(v){ return /^[0-9+\s-]+$/.test(v) && v.replace(/[^0-9]/g, '').length >= 8; },
+          'Inserisci un numero di telefono valido per poterti ricontattare.', function(tel){
+        dati.tel = tel;
+        say('Quando è meglio contattarti? Indicaci due finestre comode per te (es. martedì mattina, giovedì dopo le 17):');
+        askDoppio('Prima finestra (giorno e fascia oraria)', 'Seconda finestra (un\'alternativa)', function(a, b){
+          dati.d1 = a; dati.d2 = b; poi();
         });
       });
     });
   }
-  function fase3(){
-    passo(3);
-    say('Come preferisci essere ricontattato per fissare la data?');
-    options([{label: 'Telefonata'}, {label: 'WhatsApp'}, {label: 'Email'}], function(o){
-      dati.canale = o.label;
-      say('Indicaci due opzioni di giorni e orari in cui saresti più libero (es. Lunedì pomeriggio, Martedì mattina):');
-      askDoppio('Opzione 1 (Giorno e fascia oraria)', 'Opzione 2 (Alternativa secondaria)', function(a, b){
-        dati.d1 = a; dati.d2 = b; fase4();
-      });
+  function chiediContesto(poi){
+    passo(dati.base + 3);
+    say('Un\'ultima cosa (facoltativa): vuoi anticiparci in due righe la tua sfida attuale o cosa sta succedendo?');
+    askArea('Scrivi qui un breve contesto...', 'Salta questo passaggio', function(txt){
+      dati.note = txt; poi();
     });
   }
-  function fase4(){
-    passo(4);
-    if(dati.tema === 'lavora-con-noi'){
+  /* candidato: telefono facoltativo, un riferimento professionale vero, il CV */
+  function chiediProfilo(poi){
+    passo(dati.base + 2);
+    say('Un numero di telefono, se vuoi lasciarcelo (facoltativo):');
+    ask('Numero di telefono (es. +39...)',
+        function(v){ return /^[0-9+\s-]+$/.test(v) && v.replace(/[^0-9]/g, '').length >= 8; },
+        'Il numero non sembra completo: controllalo, oppure salta il passaggio.', function(tel){
+      dati.tel = tel;
       say('Per valutare al meglio il tuo profilo, lasciaci il link a LinkedIn o descrivi brevemente le tue competenze:');
       askArea('Link LinkedIn o sintesi competenze...', null, function(txt){
         dati.note = txt;
         say('Carica qui il tuo CV aggiornato (formato PDF, max 5MB):');
-        askFile(function(nome){ dati.cv = nome; fase5(); });
-      });
-      return;
-    }
-    say('Un\'ultima cosa (facoltativa): vuoi anticiparci in due righe la tua sfida attuale o cosa sta succedendo?');
-    askArea('Scrivi qui un breve contesto...', 'Salta questo passaggio', function(txt){
-      dati.note = txt; fase5();
-    });
+        askFile(function(nome){ dati.cv = nome; poi(); });
+      }, 'Ci serve un riferimento professionale: il link a LinkedIn oppure due righe sulle tue competenze.');
+    }, 'Preferisco non lasciarlo');
   }
-  function fase5(){
-    passo(5);
-    say('Ci siamo! Ecco il riepilogo dei tuoi dati prima dell\'invio:');
+  function riepilogo(){
+    passo(totPassi());
+    say('Ci siamo! Controlla il riepilogo: puoi correggere ogni voce prima dell\'invio.');
     var r = document.createElement('div'); r.className = 'riep';
-    function voce(tit, txt){
+    var lab, box;
+    function voce(tit, txt, correggi){
       var p = document.createElement('p');
       var b = document.createElement('b'); b.textContent = tit;
       p.appendChild(b); p.appendChild(document.createTextNode(txt));
+      if(correggi){
+        p.className = 'conmod';
+        var m = document.createElement('button'); m.type = 'button'; m.className = 'mod';
+        m.textContent = 'Modifica';
+        m.setAttribute('aria-label', 'Modifica la voce ' + tit);
+        m.addEventListener('click', function(){
+          r.remove(); lab.remove(); box.remove();
+          correggi(riepilogo);
+        });
+        p.appendChild(m);
+      }
       r.appendChild(p);
     }
-    voce('Contatto', dati.nome + ' · ' + dati.email + ' · ' + dati.tel + ' (Canale preferito: ' + dati.canale + ')');
-    voce('Focus', TEMI[dati.tema].label);
-    voce('Disponibilità', dati.d1 + ' / ' + dati.d2);
+    voce('Contatto', dati.nome + ' · ' + dati.email, chiediContatto);
+    voce('Focus', TEMI[dati.tema].label, null);
     if(dati.tema === 'lavora-con-noi'){
-      voce('Profilo', (dati.note ? dati.note + ' · ' : '') + 'CV: ' + dati.cv);
-    } else if(dati.note){
-      voce('Note', dati.note);
+      voce('Profilo', (dati.tel ? dati.tel + ' · ' : '') + (dati.note ? dati.note + ' · ' : '') + 'CV: ' + dati.cv, chiediProfilo);
+    } else {
+      voce('Canale', dati.canale === 'Email' ? 'Email'
+           : dati.canale + ' · ' + dati.tel + ' · ' + dati.d1 + ' / ' + dati.d2, chiediCanale);
+      voce('Note', dati.note || 'Nessuna nota.', chiediContesto);
     }
     thread.appendChild(r);
-    var lab = document.createElement('label'); lab.className = 'consenso';
+    lab = document.createElement('label'); lab.className = 'consenso';
     var ck = document.createElement('input'); ck.type = 'checkbox';
     lab.appendChild(ck);
     lab.appendChild(document.createTextNode('Accetto il trattamento dei dati secondo la Privacy Policy.'));
     thread.appendChild(lab);
-    var box = document.createElement('div'); box.className = 'opts';
-    var b = document.createElement('button'); b.type = 'button'; b.textContent = 'Invia la richiesta';
+    box = document.createElement('div'); box.className = 'opts';
+    var b = document.createElement('button'); b.type = 'button';
+    b.textContent = dati.tema === 'lavora-con-noi' ? 'Invia la candidatura' : 'Invia la richiesta';
     b.addEventListener('click', function(){
-      if(!ck.checked){ erroreUnaVolta(ERR_VUOTO); return; }
-      box.remove(); fase6();
+      if(!ck.checked){ erroreUnaVolta('Per inviare serve il consenso al trattamento dei dati.'); return; }
+      /* il consenso resta agli atti nel riepilogo, i comandi se ne vanno:
+         anche i Modifica, perche' a dati partiti non c'e' piu' nulla da correggere */
+      lab.remove(); box.remove();
+      [].forEach.call(r.querySelectorAll('.mod'), function(m){ m.closest('p').classList.remove('conmod'); m.remove(); });
+      var p = document.createElement('p');
+      var bb = document.createElement('b'); bb.textContent = 'Consenso';
+      p.appendChild(bb); p.appendChild(document.createTextNode('Trattamento dei dati accettato secondo la Privacy Policy.'));
+      r.appendChild(p);
+      conferma();
     });
     box.appendChild(b); thread.appendChild(box); thread.scrollTop = thread.scrollHeight;
   }
-  function fase6(){
+  /* la promessa finale dice solo cio' che accadra' davvero, nel canale giusto */
+  function conferma(){
     passiEl.hidden = true;
     dati.inviato = true;   /* da qui in poi una riapertura riparte pulita */
-    var canale = dati.canale === 'WhatsApp' ? 'WhatsApp' : dati.canale.toLowerCase();
-    say('Grazie ' + primoNome() + '! La tua richiesta è stata inviata correttamente al nostro team. Ti ricontatteremo al più presto tramite ' + canale + '. A presto!');
+    var msg;
+    if(dati.tema === 'lavora-con-noi'){
+      msg = 'Grazie ' + primoNome() + '. La tua candidatura è arrivata al team: la valuteremo con attenzione e, se il tuo profilo è in linea con le nostre ricerche, ti risponderemo a ' + dati.email + '.';
+    } else if(dati.canale === 'WhatsApp'){
+      msg = 'Grazie ' + primoNome() + '. La tua richiesta è arrivata al team: ti scriveremo su WhatsApp in una delle finestre che hai indicato.';
+    } else if(dati.canale === 'Telefonata'){
+      msg = 'Grazie ' + primoNome() + '. La tua richiesta è arrivata al team: ti chiameremo in una delle finestre che hai indicato.';
+    } else {
+      msg = 'Grazie ' + primoNome() + '. La tua richiesta è arrivata al team: ti risponderemo a ' + dati.email + '.';
+    }
+    say(msg);
   }
   function apriDialogo(tema){
     /* la conversazione riprende da dove s'era rimasti: chi chiude per sbaglio
