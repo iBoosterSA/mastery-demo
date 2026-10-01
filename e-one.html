@@ -494,7 +494,9 @@ html:not(.js) .hero.interna{height:auto}
 .voce-s .v{font-size:var(--t-body)}
 .promessa{margin-top:clamp(22px,3vw,38px);font-size:var(--t-lead);max-width:56ch}
 .recapiti{display:grid;gap:clamp(16px,2.4vw,30px);margin-top:clamp(26px,3.4vw,48px)}
-@media(min-width:860px){.recapiti{grid-template-columns:repeat(3,1fr)}}
+/* quattro campi dal 1/10 (c'e' anche LinkedIn): in due colonne stanno
+   in coppie ordinate, in tre restava un orfano a mezza riga */
+@media(min-width:860px){.recapiti{grid-template-columns:repeat(2,1fr)}}
 .recapiti label{display:block;font-size:var(--t-micro);text-transform:uppercase;
   letter-spacing:.14em;font-weight:500;color:var(--klein);margin-bottom:8px}
 .recapiti input{width:100%;border:0;border-bottom:1px solid var(--line);background:none;
@@ -692,8 +694,8 @@ html:not(.js) .hero.interna{height:auto}
     <div class="insegna">
       <p class="label">Il configuratore</p>
 
-      <h2 class="display words">Costruisci il tuo percorso</h2>
-      <p class="lead up">Sette scelte, due minuti. Alla fine hai la scheda del tuo percorso, e un consulente Mastery che ti chiama per presentartelo. Qui scegli tu: la misura comincia col percorso.</p>
+      <h2 class="display words">Prepara il tuo percorso</h2>
+      <p class="lead up">Sette scelte, due minuti: ne esce una scheda che dice da dove parti e cosa cerchi. Un consulente Mastery la legge prima di chiamarti: niente domande gi&agrave; fatte, una telefonata che va dritta al merito. Il percorso vero si definisce l&igrave;, insieme.</p>
     </div>
 
     <div class="telaio up" id="telaio">
@@ -1538,9 +1540,9 @@ document.documentElement.classList.add('js');
   var riduci = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   var ROSE = {
-    ruolo:['Imprenditore o AD','Direttore generale','Direttore di funzione','Responsabile di un team','Da poco in un ruolo di guida'],
-    anni:['Primo incarico di guida','Qualche anno di guida','Guido da molti anni'],
-    team:['Ho un team diretto','Guido una struttura articolata','Non ho ancora collaboratori'],
+    ruolo:['Imprenditore o AD','Direttore generale','Direttore di funzione','Responsabile di un team','Da poco in un ruolo direttivo'],
+    anni:['Primo incarico direttivo','Alcuni anni di responsabilità','Lunga esperienza al vertice'],
+    team:['Gestisco un team diretto','Dirigo una struttura articolata','Non ho collaboratori diretti'],
     formati:['Leadership e gestione dei collaboratori','Comunicazione e public speaking','Vendita e negoziazione','Coaching individuale','Executive Master o MBA','Corsi brevi di formazione manageriale','Gestione dei progetti','Formazione interna in azienda','Percorsi online in autonomia','Eventi e convegni di formazione','Finora, poca formazione strutturata'],
     livello:['Corsi brevi o eventi singoli','Percorsi su più incontri','Master o programmi executive','Formazione ripresa più volte negli anni'],
     obiettivi:['Delegare senza perdere il controllo','Affrontare un passaggio di carriera','Uscire dalla solitudine di chi decide','Gestire i conflitti al vertice','Far crescere i collaboratori','Ritrovare tempo ed energia','Farmi ascoltare dalla proprietà','Prepararmi a guidare un’impresa'],
@@ -1550,23 +1552,23 @@ document.documentElement.classList.add('js');
   };
 
   var PASSI = [
-    {id:'chi',titolo:'Chi sei, oggi?',aiuto:'Tre scelte secche: servono al consulente per parlarti nella tua lingua.',
-     gruppi:[['Il tuo ruolo','ruolo',1],['Da quanto guidi','anni',1],['I collaboratori','team',1]],obbl:true},
-    {id:'formazione',titolo:'Cosa hai già fatto, finora?',aiuto:'La formazione che hai alle spalle conta: il percorso parte da dove sei, senza ripartire da zero.',
+    {id:'chi',titolo:'Chi sei, oggi?',aiuto:'Tre risposte rapide: inquadrano il tuo contesto per il consulente che ti chiamerà.',
+     gruppi:[['Il tuo ruolo','ruolo',1],['L’esperienza maturata','anni',1],['I collaboratori','team',1]],obbl:true},
+    {id:'formazione',titolo:'Cosa hai già fatto, finora?',aiuto:'La formazione che hai alle spalle conta: così in telefonata non si riparte da zero.',
      gruppi:[['La formazione già fatta (anche più di una)','formati',11],['Il livello a cui sei arrivato','livello',1]],obbl:true},
-    {id:'obiettivi',titolo:'Dove vuoi arrivare?',aiuto:'Scegli fino a 3 obiettivi: diventano la spina dorsale del percorso.',
+    {id:'obiettivi',titolo:'Dove vuoi arrivare?',aiuto:'Indica fino a 3 obiettivi: saranno il primo tema della telefonata.',
      gruppi:[['Gli obiettivi (fino a 3)','obiettivi',3]],obbl:true},
-    {id:'temi',titolo:'Su cosa vuoi lavorare?',aiuto:'I temi di formazione e coaching tra cui costruire le tue tappe: fino a 3.',
+    {id:'temi',titolo:'Su cosa vuoi lavorare?',aiuto:'Le aree su cui orientare il lavoro: indicane fino a 3, si approfondiscono a voce.',
      gruppi:[['I temi (fino a 3)','temi',3]],obbl:true},
-    {id:'tempo',titolo:'Quanto tempo hai davvero?',aiuto:'Facoltativo: il percorso si adatta, non il contrario.',
+    {id:'tempo',titolo:'Quanto tempo hai davvero?',aiuto:'Facoltativo: il percorso si adatta alla tua agenda, non il contrario.',
      gruppi:[['Il tempo che puoi investire','tempo',1]],obbl:false},
-    {id:'budget',titolo:'E l’investimento?',aiuto:'Facoltativo: serve solo a preparare una proposta onesta, senza giri.',
+    {id:'budget',titolo:'E l’investimento?',aiuto:'Facoltativo: aiuta il consulente a prepararti una proposta realistica.',
      gruppi:[['L’investimento','budget',1]],obbl:false},
     {id:'scheda',obbl:true}
   ];
 
   var DATI = {ruolo:null,anni:null,team:null,formati:[],livello:null,obiettivi:[],temi:[],
-              tempo:null,budget:null,nome:'',email:'',telefono:''};
+              tempo:null,budget:null,nome:'',email:'',telefono:'',linkedin:''};
   var passo = 0, primo = true;
 
   PASSI.forEach(function(){ tacche.appendChild(document.createElement('span')); });
@@ -1671,22 +1673,23 @@ document.documentElement.classList.add('js');
   }
 
   function mail(){
-    var corpo = 'Il mio percorso E-One, costruito sul sito:\n\n' +
+    var corpo = 'La mia scheda E-One, preparata sul sito:\n\n' +
       'Ruolo: ' + DATI.ruolo + ' · ' + DATI.anni + ' · ' + DATI.team + '\n' +
       'Formazione già fatta: ' + DATI.formati.join(' · ') + ' (livello: ' + DATI.livello + ')\n' +
       'Obiettivi: ' + DATI.obiettivi.join(' · ') + '\n' +
       'Temi: ' + DATI.temi.join(' · ') + '\n' +
       (DATI.tempo ? 'Tempo: ' + DATI.tempo + '\n' : '') +
       (DATI.budget ? 'Investimento: ' + DATI.budget + '\n' : '') +
-      '\nNome: ' + DATI.nome + '\nTelefono: ' + DATI.telefono + '\n\n' +
-      'Richiesta preparata dal costruttore E-One del sito Mastery CLC.';
-    return 'mailto:info@masteryclc.it?subject=' + encodeURIComponent('E-One · il mio percorso') +
+      '\nNome: ' + DATI.nome + '\nTelefono: ' + DATI.telefono + '\n' +
+      (DATI.linkedin ? 'LinkedIn: ' + DATI.linkedin + '\n' : '') + '\n' +
+      'Scheda preparata col configuratore E-One del sito Mastery CLC.';
+    return 'mailto:info@masteryclc.it?subject=' + encodeURIComponent('E-One · la mia scheda') +
       '&body=' + encodeURIComponent(corpo);
   }
 
   function scheda(){
     var h = document.createElement('h3');
-    h.className = 'titolo-scheda'; h.textContent = 'La scheda del tuo percorso.';
+    h.className = 'titolo-scheda'; h.textContent = 'La tua scheda di partenza.';
     quadro.appendChild(h);
 
     var box = document.createElement('div'); box.className = 'voci-scheda';
@@ -1699,13 +1702,14 @@ document.documentElement.classList.add('js');
     quadro.appendChild(box);
 
     var pr = document.createElement('p'); pr.className = 'promessa';
-    pr.textContent = 'Su queste scelte un consulente Mastery costruisce il tuo percorso e ti chiama per presentartelo. Riservato per architettura: i tuoi dati restano tuoi.';
+    pr.textContent = 'Questa scheda arriva al consulente Mastery prima della telefonata: ti chiama già preparato, senza farti ripetere nulla, e il percorso si definisce insieme, a voce. Riservato per architettura: i tuoi dati restano tuoi.';
     quadro.appendChild(pr);
 
     var rec = document.createElement('div'); rec.className = 'recapiti';
     [['Il tuo nome','nome','text','Nome e cognome'],
      ['La tua email','email','email','nome@azienda.it'],
-     ['Il telefono per la chiamata','telefono','tel','+39 ...']].forEach(function(c){
+     ['Il telefono per la chiamata','telefono','tel','+39 ...'],
+     ['Il tuo profilo LinkedIn (facoltativo)','linkedin','url','linkedin.com/in/...']].forEach(function(c){
       var w = document.createElement('div');
       var l = document.createElement('label'); l.textContent = c[0]; l.setAttribute('for','in-' + c[1]);
       var i = document.createElement('input');
