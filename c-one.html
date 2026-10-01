@@ -548,7 +548,8 @@ html:not(.js) .hero.interna{height:auto}
 .dlg .head .tit{display:grid;gap:4px}
 .dlg .head .occhiello{font-size:var(--t-micro);text-transform:uppercase;letter-spacing:.14em;opacity:.8}
 .dlg .head h3{font-family:var(--display);text-transform:uppercase;font-size:var(--t-h4);line-height:1}
-.dlg .corpo{flex:1;overflow-y:auto;padding:clamp(22px,3vw,44px) clamp(18px,2.6vw,42px) clamp(34px,4vw,64px);
+.dlg .corpo{flex:1;overflow-y:auto;overscroll-behavior:contain;
+  padding:clamp(22px,3vw,44px) clamp(18px,2.6vw,42px) clamp(34px,4vw,64px);
   display:grid;gap:clamp(18px,2.4vw,32px)}
 .dlg .corpo p{max-width:64ch}
 .dlg .blocco{display:grid;gap:clamp(8px,1vw,14px);padding-top:clamp(14px,2vw,24px);
@@ -1589,7 +1590,10 @@ document.documentElement.classList.add('js');
     btn.addEventListener('click', function(){
       if(btn.dataset.finestra){
         var f = document.getElementById(btn.dataset.finestra);
-        if(f){ if(f.showModal) f.showModal(); else f.setAttribute('open',''); }
+        if(f){
+          document.documentElement.classList.add('con-dialogo');
+          if(f.showModal) f.showModal(); else f.setAttribute('open','');
+        }
         return;
       }
       var m = btn.parentElement, open = m.classList.contains('open');
@@ -1618,13 +1622,24 @@ document.documentElement.classList.add('js');
     apri.addEventListener('click', function(){
       var f = document.getElementById(apri.dataset.finestra);
       if(!f) return;
+      /* stessa regola del Parliamone: finestra aperta, pagina ferma */
+      document.documentElement.classList.add('con-dialogo');
       if(f.showModal) f.showModal(); else f.setAttribute('open','');
     });
   });
   document.querySelectorAll('.dlg [data-chiudi]').forEach(function(b){
     b.addEventListener('click', function(){
       var f = b.closest('dialog');
-      if(f.close) f.close(); else f.removeAttribute('open');
+      if(f.close) f.close();
+      else { f.removeAttribute('open'); document.documentElement.classList.remove('con-dialogo'); }
+    });
+  });
+  /* qualunque strada chiuda una finestra (X, Esc), la pagina torna a scorrere;
+     il dialogo del contatto ha gia' il suo congedo identico */
+  document.querySelectorAll('dialog.dlg').forEach(function(d){
+    if(d.id === 'dialogo') return;
+    d.addEventListener('close', function(){
+      document.documentElement.classList.remove('con-dialogo');
     });
   });
 

@@ -1130,13 +1130,24 @@ document.documentElement.classList.add('js');
     apri.addEventListener('click', function(){
       var f = document.getElementById(apri.dataset.finestra);
       if(!f) return;
+      /* stessa regola del Parliamone: finestra aperta, pagina ferma */
+      document.documentElement.classList.add('con-dialogo');
       if(f.showModal) f.showModal(); else f.setAttribute('open','');
     });
   });
   document.querySelectorAll('.dlg [data-chiudi]').forEach(function(b){
     b.addEventListener('click', function(){
       var f = b.closest('dialog');
-      if(f.close) f.close(); else f.removeAttribute('open');
+      if(f.close) f.close();
+      else { f.removeAttribute('open'); document.documentElement.classList.remove('con-dialogo'); }
+    });
+  });
+  /* qualunque strada chiuda una finestra (X, Esc), la pagina torna a scorrere;
+     il dialogo del contatto ha gia' il suo congedo identico */
+  document.querySelectorAll('dialog.dlg').forEach(function(d){
+    if(d.id === 'dialogo') return;
+    d.addEventListener('close', function(){
+      document.documentElement.classList.remove('con-dialogo');
     });
   });
 
