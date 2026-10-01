@@ -1384,20 +1384,22 @@ body.fx-quadri .hero.foto .wrap.top .ticks {
     position: absolute; left: 50%; transform: translateX(-50%);
     bottom: 72px; z-index: 5; }
 
-/* TELEFONI, selettore dei percorsi: coi pannelli impilati la linguetta
-   chiusa finiva sotto tutto il contenuto dell'aperto (800px piu' in
-   basso, invisibile). La scelta sta in testa: la linguetta chiusa
-   SEMPRE sopra il pannello aperto. */
+/* TELEFONI, selettori dei pannelli: coi pannelli impilati le linguette
+   chiuse finivano sotto tutto il contenuto dell'aperto (800px piu' in
+   basso, invisibili). La scelta sta in testa: le linguette chiuse
+   SEMPRE sopra il pannello aperto. Vale per ogni .ha: la grande della
+   home e le molti di C-One (scenari e vantaggi), stesso componente
+   stessa regola (direttiva di Davide, 1/10). */
 @media (max-width: 760px) {
-    .ha.grande { display: flex; flex-direction: column; }
-    .ha.grande .ha-p:not(.aperto) { order: 0; }
-    .ha.grande .ha-p.aperto { order: 1; }
+    .ha { display: flex; flex-direction: column; }
+    .ha .ha-p:not(.aperto) { order: 0; }
+    .ha .ha-p.aperto { order: 1; }
     /* la linguetta chiusa e' una porta e si vede: chevron a destra, e niente
        vuoto sotto la scritta: il flex-basis 86px e' la LARGHEZZA della striscia
        sul grande, ma impilato in colonna diventava un'altezza fissa (30/9) */
-    .ha.grande .ha-p:not(.aperto) { flex-basis: auto; }
-    .ha.grande .ha-p:not(.aperto) .ha-tab { position: relative; padding-right: 52px; }
-    .ha.grande .ha-p:not(.aperto) .ha-tab::after {
+    .ha .ha-p:not(.aperto) { flex-basis: auto; }
+    .ha .ha-p:not(.aperto) .ha-tab { position: relative; padding-right: 52px; }
+    .ha .ha-p:not(.aperto) .ha-tab::after {
         content: ""; position: absolute; right: 24px; top: 50%;
         width: 9px; height: 9px;
         border-right: 2px solid currentColor; border-bottom: 2px solid currentColor;
